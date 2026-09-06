@@ -83,6 +83,7 @@ pub fn message_loop(mut buffer: VecDeque<String>) {
             // Non-UCI commands
             ["compiler"] => compiler(),
             ["eval"] => eval(threads.main_thread(), &board),
+            ["staticeval"] => static_eval(threads.main_thread(), &board),
             ["d"] => println!("{board}"),
             ["bench", args @ ..] => match mode {
                 Mode::Uci => tools::bench::<true>(args),
@@ -385,6 +386,16 @@ fn eval(td: &mut ThreadData, board: &Board) {
     let final_eval = td.nnue.evaluate(board);
     let final_total = (if side == Color::White { final_eval } else { -final_eval }) as f32 / 100.0;
     println!("\nNNUE evaluation        {final_total:+.2} (White's POV)");
+}
+
+/// Print only the frozen NNUE score, from the side-to-move perspective.
+///
+/// This command is intentionally search-free.  It exists for controlled
+/// experiments that use Reckless solely as a leaf evaluator without exposing
+/// or imitating the engine's native search and move-ordering machinery.
+fn static_eval(td: &mut ThreadData, board: &Board) {
+    td.nnue.full_refresh(board);
+    println!("staticeval {}", td.nnue.evaluate(board));
 }
 
 fn parse_limits(color: Color, tokens: &[&str]) -> Limits {
