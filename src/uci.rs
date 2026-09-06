@@ -85,6 +85,7 @@ pub fn message_loop(mut buffer: VecDeque<String>) {
             ["eval"] => eval(threads.main_thread(), &board),
             ["staticeval"] => static_eval(threads.main_thread(), &board),
             ["legalmoves"] => legal_moves(&board),
+            ["fen"] => println!("fen {}", board.to_fen()),
             ["d"] => println!("{board}"),
             ["bench", args @ ..] => match mode {
                 Mode::Uci => tools::bench::<true>(args),
@@ -523,6 +524,13 @@ mod tests {
         assert_eq!(moves.len(), 20);
         assert!(moves.iter().any(|mv| mv == "e2e4"));
         assert!(moves.windows(2).all(|pair| pair[0] <= pair[1]));
+    }
+
+    #[test]
+    fn test_native_fen_after_move() {
+        let mut board = Board::starting_position();
+        make_uci_move(&mut board, "e2e4");
+        assert_eq!(board.to_fen(), "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
     }
 
     #[test]
