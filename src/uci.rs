@@ -84,6 +84,7 @@ pub fn message_loop(mut buffer: VecDeque<String>) {
             ["compiler"] => compiler(),
             ["eval"] => eval(threads.main_thread(), &board),
             ["staticeval"] => static_eval(threads.main_thread(), &board),
+            ["legalmoves"] => legal_moves(&board),
             ["d"] => println!("{board}"),
             ["bench", args @ ..] => match mode {
                 Mode::Uci => tools::bench::<true>(args),
@@ -398,6 +399,21 @@ fn static_eval(td: &mut ThreadData, board: &Board) {
     println!("staticeval {}", td.nnue.evaluate(board));
 }
 
+/// Enumerate legal moves with Reckless's native move generator.
+///
+/// Keeping this command search-free lets computation-allocation experiments
+/// discover their legal root actions without maintaining a second chess move
+/// generator outside the engine.
+fn legal_moves(board: &Board) {
+    println!("legalmoves {}", legal_move_strings(board).join(" "));
+}
+
+fn legal_move_strings(board: &Board) -> Vec<String> {
+    let mut moves = board.generate_all_moves().iter().map(|entry| entry.mv.to_uci(board)).collect::<Vec<_>>();
+    moves.sort_unstable();
+    moves
+}
+
 fn parse_limits(color: Color, tokens: &[&str]) -> Limits {
     if let ["infinite"] = tokens {
         return Limits::Infinite;
@@ -498,6 +514,15 @@ mod tests {
     fn test_position_invalid_move_ignored() {
         let board = test_position_helper(&["moves", "e2e4", "invalid", "e7e5"]);
         assert_eq!(board.side_to_move(), Color::White);
+    }
+
+    #[test]
+    fn test_legal_move_strings_uses_native_generator() {
+        let board = Board::starting_position();
+        let moves = legal_move_strings(&board);
+        assert_eq!(moves.len(), 20);
+        assert!(moves.iter().any(|mv| mv == "e2e4"));
+        assert!(moves.windows(2).all(|pair| pair[0] <= pair[1]));
     }
 
     #[test]
