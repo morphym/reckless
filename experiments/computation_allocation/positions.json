@@ -1,0 +1,14 @@
+[
+  {
+    "name": "tactical-attack",
+    "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9"
+  },
+  {
+    "name": "quiet-middlegame",
+    "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13"
+  },
+  {
+    "name": "endgame",
+    "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27"
+  }
+]

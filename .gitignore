@@ -4,3 +4,7 @@ target
 *.pdb
 reckless*
 bindings.rs
+.venv/
+outputs/
+__pycache__/
+*.py[cod]

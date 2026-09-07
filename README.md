@@ -107,6 +107,23 @@ Reckless is not a standalone chess program but a chess engine designed for use w
 such as [Cute Chess](https://github.com/cutechess/cutechess), [En Croissant](https://encroissant.org),
 or [Nibbler](https://github.com/rooklift/nibbler).
 
+### CS computation-allocation experiment
+
+The corpus-free PPO experiment that learns where to allocate bounded search is
+kept in [`experiments/computation_allocation`](experiments/computation_allocation/README.md).
+On an NVIDIA Linux host, install all training dependencies and compile the
+engine with:
+
+```bash
+./experiments/computation_allocation/install.sh
+```
+
+Then launch the large-scale run with:
+
+```bash
+./experiments/computation_allocation/train_nvidia.sh
+```
+
 ### UCI options
 
 Reckless supports the following UCI options:
