@@ -1,0 +1,13 @@
+{
+  "runtime": "rust-burn-flex-f32",
+  "burn_version": "0.21.0",
+  "resident_weights": true,
+  "critic_excluded": true,
+  "candidates_per_decision": 32,
+  "iterations": 10000,
+  "seconds": 1.035643708,
+  "decisions_per_second": 9655.830400699928,
+  "microseconds_per_decision": 103.5643708,
+  "candidate_logits_per_second": 308986.5728223977,
+  "host_note": "Apple host CPU result; benchmark again on the deployment host"
+}

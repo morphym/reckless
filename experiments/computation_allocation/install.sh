@@ -183,6 +183,7 @@ PY
 cd "$REPO_ROOT"
 cargo test --release
 cargo build --release
+cargo build --release --manifest-path experiments/computation_allocation/burn_inference/Cargo.toml
 "$PYTHON" -m unittest discover -s experiments/computation_allocation/tests -v
 
 echo

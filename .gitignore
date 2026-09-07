@@ -3,6 +3,7 @@ target
 *.exe
 *.pdb
 /reckless*
+local/
 bindings.rs
 .venv/
 outputs/

@@ -68,6 +68,11 @@ lower-cap search.
   persistent native Reckless process.
 - `online_train.py`: generates roots and rewards online, batches controller
   inference on CUDA/MPS, and runs live Reckless search workers concurrently.
+- `burn_inference`: resident inference-only Rust/Burn actor. It encodes all
+  branches in one batch, pools their context once, and emits masked branch plus
+  `STOP` logits without loading the training critic.
+- `export_burn.py` and `verify_burn.py`: export actor weights and require action
+  parity between PyTorch and Burn before deployment.
 
 ## Native Reckless boundary
 
@@ -228,6 +233,41 @@ generation is native alpha-beta work on the CPU. The small controller runs on
 CUDA only after roots become ready, so low or bursty GPU utilization during the
 reference phase is expected. Change the heartbeat interval with
 `--progress-seconds`.
+
+### Amortized Rust inference
+
+The committed actor was exported from `controller-d8.pt` at update 181. It was
+selected as the latest valid critic-v2 checkpoint in the synced bucket; the
+bucket did not contain held-out evaluation scores or a series of best-checkpoint
+snapshots. The older `controller.pt` had only three updates and predates the
+critic-v2 marker. Selection details are recorded in
+`artifacts/checkpoint-selection.json`.
+
+Build and verify the resident Burn actor from the repository root:
+
+```sh
+cargo build --release \
+  --manifest-path experiments/computation_allocation/burn_inference/Cargo.toml
+
+python experiments/computation_allocation/verify_burn.py \
+  --binary experiments/computation_allocation/burn_inference/target/release/reckless-cs-burn \
+  --weights experiments/computation_allocation/artifacts/controller-d8-u181.safetensors \
+  --checkpoint local/cs_online/controller-d8.pt
+```
+
+Benchmark one resident inference decision across 32 root branches:
+
+```sh
+experiments/computation_allocation/burn_inference/target/release/reckless-cs-burn \
+  benchmark \
+  experiments/computation_allocation/artifacts/controller-d8-u181.safetensors \
+  32 10000
+```
+
+The binary also has a persistent `serve` protocol used by `burn_client.py`.
+Model loading is therefore paid once per engine/controller process, not once per
+decision. The runtime returns logits only; the controller's selected computation
+must still be charged for its native search nodes/time by the CS environment.
 
 A single pathological depth-12 root cannot hold an update indefinitely. Each
 reference search has a 120-second deadline; a timed-out engine process is
