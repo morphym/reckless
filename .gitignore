@@ -2,7 +2,7 @@ target
 /networks
 *.exe
 *.pdb
-reckless*
+/reckless*
 bindings.rs
 .venv/
 outputs/

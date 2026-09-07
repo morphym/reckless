@@ -19,6 +19,20 @@ if [[ "$REQUIRE_CUDA" != "0" && "$REQUIRE_CUDA" != "1" ]]; then
     exit 1
 fi
 
+for required_file in \
+    online_train.py \
+    reckless_uci.py \
+    live_env.py \
+    controller_model.py \
+    controller_state.py \
+    ppo.py; do
+    if [[ ! -f "$SCRIPT_DIR/$required_file" ]]; then
+        echo "Required experiment file is missing: $SCRIPT_DIR/$required_file" >&2
+        echo "Pull the latest experiment/cs-online-training branch and rerun." >&2
+        exit 1
+    fi
+done
+
 torch_is_runnable() {
     local candidate="$1"
     local result
