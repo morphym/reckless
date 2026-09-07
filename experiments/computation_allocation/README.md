@@ -201,8 +201,8 @@ be changed through environment variables, for example
 
 TensorBoard events are written to `outputs/cs_online/tensorboard`. They include
 PPO losses and entropy, initial and terminal reference regret, regret reduction,
-node use, temperatures, throughput, reward-identity checks, and per-episode
-histograms. View them from the repository root with:
+node use, per-phase timings, temperatures, throughput, reward-identity checks,
+and per-episode histograms. View them from the repository root with:
 
 ```sh
 .venv/bin/tensorboard --logdir outputs/cs_online/tensorboard --port 6006
@@ -211,6 +211,14 @@ histograms. View them from the repository root with:
 On a remote trainer, forward port 6006 over SSH rather than exposing it
 publicly. Set `TENSORBOARD_DIR` to relocate the logs, or pass
 `--no-tensorboard` to disable them.
+
+The runner prints a startup record immediately, then heartbeats every 30 seconds
+while high-depth references are being built. It reports completed roots and the
+time spent in reference generation, CS rollouts, and PPO separately. Reference
+generation is native alpha-beta work on the CPU. The small controller runs on
+CUDA only after roots become ready, so low or bursty GPU utilization during the
+reference phase is expected. Change the heartbeat interval with
+`--progress-seconds`.
 
 ## Current boundary
 

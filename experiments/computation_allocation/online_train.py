@@ -11,10 +11,11 @@ from __future__ import annotations
 
 import argparse
 import atexit
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import asdict
 import json
 import math
+import os
 from pathlib import Path
 import random
 import time
@@ -30,6 +31,11 @@ from train_controller import choose_device
 
 START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def emit_event(event: str, **fields: object) -> None:
+    """Emit one immediately visible, machine-readable progress event."""
+    print(json.dumps({"event": event, **fields}), flush=True)
 
 
 def run_signature(args: argparse.Namespace) -> dict[str, object]:
@@ -231,6 +237,10 @@ def write_tensorboard_update(
         "schedule/root_temperature_cp": "root_temperature_cp",
         "schedule/controller_temperature": "controller_temperature",
         "performance/update_seconds": "update_seconds",
+        "performance/reference_seconds": "reference_seconds",
+        "performance/reference_roots_per_second": "reference_roots_per_second",
+        "performance/rollout_seconds": "rollout_seconds",
+        "performance/ppo_seconds": "ppo_seconds",
         "performance/episodes_per_second": "episodes_per_second",
         "invariants/rewards_telescope": "all_rewards_telescope",
     }
@@ -269,6 +279,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--controller-temperature-start", type=float, default=3.0)
     parser.add_argument("--controller-temperature-end", type=float, default=0.8)
     parser.add_argument("--timeout", type=float, default=600.0)
+    parser.add_argument("--progress-seconds", type=float, default=30.0)
     parser.add_argument("--seed", type=int, default=91)
     parser.add_argument("--device", default="auto")
     parser.add_argument("--resume", action="store_true")
@@ -283,6 +294,8 @@ def main() -> None:
         raise ValueError("root reference depth must exceed the branch CS depth cap plus the root move")
     if args.minimum_budget <= 0 or args.maximum_budget < args.minimum_budget:
         raise ValueError("invalid budget range")
+    if args.progress_seconds <= 0:
+        raise ValueError("progress-seconds must be positive")
 
     device = choose_device(args.device)
     rng = random.Random(args.seed)
@@ -331,6 +344,22 @@ def main() -> None:
             )
             writer.flush()
     started = time.perf_counter()
+    cpu_count = os.cpu_count()
+    gpu_name = torch.cuda.get_device_name(device) if device.type == "cuda" else None
+    emit_event(
+        "training_started",
+        device=str(device),
+        gpu=gpu_name,
+        cpu_count=cpu_count,
+        workers=args.workers,
+        episodes_per_update=args.episodes_per_update,
+        reference_depth=args.reference_depth,
+        cs_depths=list(args.cs_depths),
+        parameters=sum(parameter.numel() for parameter in model.parameters()),
+        starting_update=start_update + 1,
+        target_updates=args.updates,
+        note="Reckless reference generation is CPU-bound; CUDA runs after roots are ready.",
+    )
 
     for update in range(start_update + 1, args.updates + 1):
         update_started = time.perf_counter()
@@ -343,8 +372,20 @@ def main() -> None:
         )
         budgets = [rng.randint(args.minimum_budget, args.maximum_budget) for _ in range(args.episodes_per_update)]
         seeds = [rng.randrange(2**63) for _ in range(args.episodes_per_update)]
+        emit_event(
+            "update_started",
+            update=update,
+            target_updates=args.updates,
+            phase="reference_generation",
+            roots=args.episodes_per_update,
+            workers=args.workers,
+            root_temperature_cp=root_temperature,
+            controller_temperature=controller_temperature,
+        )
+        reference_started = time.perf_counter()
+        created_by_index = [None] * args.episodes_per_update
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
-            futures = [
+            future_to_index = {
                 executor.submit(
                     create_online_environment,
                     args.engine,
@@ -356,14 +397,68 @@ def main() -> None:
                     budget,
                     args.cs_depths,
                     args.timeout,
-                )
-                for seed, budget in zip(seeds, budgets, strict=True)
-            ]
-            created = [future.result() for future in futures]
+                ): index
+                for index, (seed, budget) in enumerate(zip(seeds, budgets, strict=True))
+            }
+            pending = set(future_to_index)
+            completed = 0
+            last_reported = 0
+            report_every = max(1, args.episodes_per_update // 8)
+            try:
+                while pending:
+                    done, pending = wait(
+                        pending,
+                        timeout=args.progress_seconds,
+                        return_when=FIRST_COMPLETED,
+                    )
+                    elapsed = time.perf_counter() - reference_started
+                    if not done:
+                        emit_event(
+                            "reference_heartbeat",
+                            update=update,
+                            completed=completed,
+                            total=args.episodes_per_update,
+                            elapsed_seconds=elapsed,
+                        )
+                        continue
+                    for future in done:
+                        index = future_to_index[future]
+                        created_by_index[index] = future.result()
+                        completed += 1
+                    if completed == args.episodes_per_update or completed - last_reported >= report_every:
+                        emit_event(
+                            "reference_progress",
+                            update=update,
+                            completed=completed,
+                            total=args.episodes_per_update,
+                            elapsed_seconds=elapsed,
+                            roots_per_second=completed / elapsed,
+                        )
+                        last_reported = completed
+            except BaseException:
+                for future in pending:
+                    future.cancel()
+                for item in created_by_index:
+                    if item is not None:
+                        item[0].close()
+                raise
+        created = [item for item in created_by_index if item is not None]
+        if len(created) != args.episodes_per_update:
+            raise RuntimeError("environment creation completed with missing results")
+        reference_seconds = time.perf_counter() - reference_started
+        emit_event(
+            "phase_completed",
+            update=update,
+            phase="reference_generation",
+            elapsed_seconds=reference_seconds,
+            roots_per_second=len(created) / reference_seconds,
+        )
         envs = [item[0] for item in created]
         metadata = [item[1] for item in created]
         initial_losses = [env.loss for env in envs]
         try:
+            emit_event("phase_started", update=update, phase="cs_rollout", episodes=len(envs))
+            rollout_started = time.perf_counter()
             trajectories = collect_live_episodes(
                 model,
                 envs,
@@ -371,11 +466,21 @@ def main() -> None:
                 controller_temperature,
                 args.workers,
             )
+            rollout_seconds = time.perf_counter() - rollout_started
             transitions = []
             for trajectory in trajectories:
                 assign_gae(trajectory, ppo_config.gae_lambda)
                 transitions.extend(trajectory)
+            emit_event(
+                "phase_completed",
+                update=update,
+                phase="cs_rollout",
+                elapsed_seconds=rollout_seconds,
+                transitions=len(transitions),
+            )
+            ppo_started = time.perf_counter()
             metrics = ppo_update(model, optimizer, transitions, ppo_config, device, rng)
+            ppo_seconds = time.perf_counter() - ppo_started
             returns = [sum(item.reward for item in trajectory) for trajectory in trajectories]
             terminal_losses = [env.loss for env in envs]
             node_counts = [env.total_nodes for env in envs]
@@ -391,6 +496,10 @@ def main() -> None:
                 "mean_return": sum(returns) / len(returns),
                 "mean_nodes": sum(node_counts) / len(node_counts),
                 "update_seconds": update_seconds,
+                "reference_seconds": reference_seconds,
+                "reference_roots_per_second": len(created) / reference_seconds,
+                "rollout_seconds": rollout_seconds,
+                "ppo_seconds": ppo_seconds,
                 "episodes_per_second": len(envs) / update_seconds,
                 "all_rewards_telescope": all(
                     math.isclose(return_, initial_loss - env.loss)

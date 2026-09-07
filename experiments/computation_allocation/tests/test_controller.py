@@ -79,12 +79,16 @@ class ControllerModelTests(unittest.TestCase):
             "root_temperature_cp": 300.0,
             "controller_temperature": 2.0,
             "update_seconds": 4.0,
+            "reference_seconds": 2.0,
+            "reference_roots_per_second": 1.0,
+            "rollout_seconds": 1.5,
+            "ppo_seconds": 0.5,
             "episodes_per_second": 0.5,
             "all_rewards_telescope": True,
         }
         write_tensorboard_update(writer, row, [10, 14], [5, 9], [5.0, 5.0], [80, 120])
 
-        self.assertEqual(len(writer.scalars), 14)
+        self.assertEqual(len(writer.scalars), 18)
         self.assertEqual(len(writer.histograms), 4)
         self.assertTrue(all(item[2] == 7 for item in writer.scalars + writer.histograms))
         self.assertEqual(writer.flushes, 1)
