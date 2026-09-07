@@ -109,9 +109,10 @@ nonlinearly transformed.
 
 ### One-command NVIDIA setup
 
-On an Ubuntu/Debian NVIDIA host, the installer creates an isolated Python
-environment, installs the Python and system dependencies, compiles Reckless in
-release mode, and runs both Rust and Python tests:
+On an Ubuntu/Debian NVIDIA host, the installer first reuses a ready active
+Python environment when possible, otherwise creates an isolated environment.
+It installs only missing dependencies, compiles Reckless in release mode, and
+runs both Rust and Python tests:
 
 ```sh
 ./experiments/computation_allocation/install.sh
@@ -123,7 +124,18 @@ script is portable. Set `REQUIRE_CUDA=0` only when intentionally preparing a
 CPU-only development machine. If the host requires a particular PyTorch CUDA
 wheel channel, set `TORCH_INDEX_URL` to that channel before running the
 installer. An existing PyTorch installation is preserved when it successfully
-executes a tensor operation on the requested device.
+executes a tensor operation on the requested device. This check happens before
+any system package installation. When the active Python already runs CUDA,
+`apt-get`, virtual-environment creation, and PyTorch installation are skipped
+unless a compiler dependency is genuinely missing. The launcher can reuse that
+environment with `TRAIN_PYTHON`, for example:
+
+```sh
+TRAIN_PYTHON=python3 ./experiments/computation_allocation/train_nvidia.sh
+```
+
+`pyarrow` is needed only by the optional cached-corpus builder and is therefore
+listed in `requirements.txt` but not installed by the online-training setup.
 
 Build and test Reckless from the repository root:
 
