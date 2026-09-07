@@ -66,6 +66,7 @@ impl ThreadPool {
         self.vector.len()
     }
 
+    #[cfg(not(feature = "cs-search"))]
     pub fn iter(&self) -> impl Iterator<Item = &ThreadData> {
         self.vector.iter()
     }

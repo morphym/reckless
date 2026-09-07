@@ -1,16 +1,24 @@
+#[cfg(not(feature = "cs-search"))]
 use std::collections::HashMap;
 use std::collections::VecDeque;
 use std::sync::Arc;
+use std::sync::atomic::Ordering;
 
 use crate::{
     board::{Board, NullBoardObserver},
     search::Report,
     thread::{SharedContext, Status, ThreadData},
     threadpool::ThreadPool,
-    time::{Limits, TimeManager},
+    time::Limits,
     tools,
     transposition::DEFAULT_TT_SIZE,
-    types::{Color, MAX_MOVES, Move, Piece, Score, Square, is_decisive, is_loss, is_win},
+    types::{Color, MAX_MOVES, Piece, Square},
+};
+
+#[cfg(not(feature = "cs-search"))]
+use crate::{
+    time::TimeManager,
+    types::{Move, Score, is_decisive, is_loss, is_win},
 };
 
 #[derive(Copy, Clone, PartialEq, Eq)]
@@ -24,6 +32,8 @@ struct Settings {
     multi_pv: usize,
     move_overhead: u64,
     report: Report,
+    #[cfg(feature = "cs-search")]
+    cs: crate::cs_search::Runtime,
 }
 
 impl Default for Settings {
@@ -33,6 +43,8 @@ impl Default for Settings {
             multi_pv: 1,
             move_overhead: 100,
             report: Report::Full,
+            #[cfg(feature = "cs-search")]
+            cs: crate::cs_search::Runtime::default(),
         }
     }
 }
@@ -123,6 +135,7 @@ fn spawn_listener(shared: Arc<SharedContext>) -> std::sync::mpsc::Receiver<Strin
 
             if std::io::stdin().read_line(&mut message).unwrap() == 0 {
                 // EOF received
+                shared.externally_stopped.store(true, Ordering::Release);
                 shared.status.set(Status::STOPPED);
                 let _ = tx.send("quit".to_string());
                 break;
@@ -130,8 +143,12 @@ fn spawn_listener(shared: Arc<SharedContext>) -> std::sync::mpsc::Receiver<Strin
 
             match message.trim_end() {
                 "isready" => println!("readyok"),
-                "stop" => shared.status.set(Status::STOPPED),
+                "stop" => {
+                    shared.externally_stopped.store(true, Ordering::Release);
+                    shared.status.set(Status::STOPPED);
+                }
                 "quit" => {
+                    shared.externally_stopped.store(true, Ordering::Release);
                     shared.status.set(Status::STOPPED);
                     let _ = tx.send("quit".to_string());
                     break;
@@ -162,6 +179,12 @@ fn uci() {
     println!("option name UCI_Chess960 type check default false");
     println!("option name MultiPV type spin default 1 min 1 max {MAX_MOVES}");
 
+    #[cfg(feature = "cs-search")]
+    {
+        println!("option name CSBudget type spin default 32 min 1 max 64");
+        println!("option name CSMaxDepth type spin default 5 min 1 max 5");
+    }
+
     #[cfg(feature = "syzygy")]
     println!("option name SyzygyPath type string default");
 
@@ -189,7 +212,22 @@ fn reset(threads: &mut ThreadPool, shared: &Arc<SharedContext>) {
 }
 
 fn go(threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc<SharedContext>, tokens: &[&str]) {
+    shared.externally_stopped.store(false, Ordering::Release);
     let limits = parse_limits(board.side_to_move(), tokens);
+
+    #[cfg(feature = "cs-search")]
+    {
+        crate::cs_search::go(&settings.cs, threads, board, shared, limits, settings.move_overhead);
+    }
+
+    #[cfg(not(feature = "cs-search"))]
+    native_go(threads, settings, board, shared, limits);
+}
+
+#[cfg(not(feature = "cs-search"))]
+fn native_go(
+    threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
+) {
     let time_manager = TimeManager::new(limits, board.fullmove_number(), settings.move_overhead);
 
     threads.execute_searches(time_manager, settings.report, settings.multi_pv, board, shared);
@@ -321,6 +359,16 @@ fn set_option(threads: &mut ThreadPool, settings: &mut Settings, shared: &Arc<Sh
         ["name", "MultiPV", "value", v] => {
             settings.multi_pv = v.parse().unwrap_or_default();
             println!("info string set MultiPV to {v}");
+        }
+        #[cfg(feature = "cs-search")]
+        ["name", "CSBudget", "value", v] => {
+            settings.cs.set_budget(v);
+            println!("info string set CSBudget to {}", settings.cs.budget);
+        }
+        #[cfg(feature = "cs-search")]
+        ["name", "CSMaxDepth", "value", v] => {
+            settings.cs.set_maximum_depth(v);
+            println!("info string set CSMaxDepth to {}", settings.cs.maximum_depth);
         }
         #[cfg(feature = "spsa")]
         ["name", name, "value", v] => {

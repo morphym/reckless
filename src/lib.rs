@@ -5,6 +5,8 @@
 #![cfg_attr(target_arch = "wasm32", allow(dead_code, unused_imports))]
 
 mod board;
+#[cfg(all(feature = "cs-search", not(target_arch = "wasm32")))]
+mod cs_search;
 mod evaluation;
 mod history;
 mod lookup;

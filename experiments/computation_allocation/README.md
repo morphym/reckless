@@ -269,6 +269,34 @@ Model loading is therefore paid once per engine/controller process, not once per
 decision. The runtime returns logits only; the controller's selected computation
 must still be charged for its native search nodes/time by the CS environment.
 
+### CS-enabled UCI engine
+
+The normal Reckless build remains unchanged. Compile with `cs-search` to embed
+the selected actor weights and replace native root iterative deepening with the
+CS branch-allocation loop:
+
+```sh
+cargo build --release --features cs-search
+```
+
+The resulting `target/release/reckless` remains a normal UCI executable. In this
+build, every `go` starts with native child NNUE values; the controller repeatedly
+chooses a root child and depth increment, and Reckless performs that computation
+with its existing board, move generator, MovePicker, alpha-beta, TT, and history.
+The actor can also choose `STOP`. It never supplies a score, bound, PV move, or
+cutoff to alpha-beta.
+
+Two UCI options control the trained envelope:
+
+- `CSBudget`, default 32, selects 1–64 allocation actions.
+- `CSMaxDepth`, default 5, caps native child searches at the model's trained
+  depth limit.
+
+For one-command setup, `ENABLE_CS_SEARCH=1` makes `install.sh` test and build
+the CS-enabled engine. Without that variable, installation builds ordinary
+Reckless. The feature build emits `info string CS search enabled ...` on each
+`go`, making the active search path visible in GUI and test logs.
+
 A single pathological depth-12 root cannot hold an update indefinitely. Each
 reference search has a 120-second deadline; a timed-out engine process is
 terminated and that batch slot is regenerated from a new deterministic seed,

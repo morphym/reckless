@@ -156,6 +156,7 @@ impl NumaReplicable for SharedCorrectionHistory {
 pub struct SharedContext {
     pub tt: TranspositionTable,
     pub status: Status,
+    pub externally_stopped: AtomicBool,
     pub nodes: Counter,
     pub tb_hits: Counter,
     pub stop_probing_tb: AtomicBool,
@@ -174,6 +175,7 @@ impl Default for SharedContext {
         Self {
             tt: TranspositionTable::default(),
             status: Status::default(),
+            externally_stopped: AtomicBool::new(false),
             nodes: Counter::default(),
             tb_hits: Counter::default(),
             stop_probing_tb: AtomicBool::new(false),

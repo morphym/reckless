@@ -100,4 +100,13 @@ impl TimeManager {
     pub fn use_time_management(&self) -> bool {
         matches!(self.limits, Limits::Fischer(..) | Limits::Cyclic(..) | Limits::Time(_))
     }
+
+    #[cfg(feature = "cs-search")]
+    pub fn hard_limit_reached(&self, nodes: u64) -> bool {
+        match self.limits {
+            Limits::Nodes(maximum) => nodes >= maximum,
+            Limits::Time(_) | Limits::Fischer(..) | Limits::Cyclic(..) => self.start_time.elapsed() >= self.hard_bound,
+            Limits::Infinite | Limits::Depth(_) | Limits::Mate(_) => false,
+        }
+    }
 }

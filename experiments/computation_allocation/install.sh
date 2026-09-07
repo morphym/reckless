@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 VENV_DIR="${VENV_DIR:-$REPO_ROOT/.venv}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+ENABLE_CS_SEARCH="${ENABLE_CS_SEARCH:-0}"
 REQUESTED_PYTHON="${TRAIN_PYTHON:-}"
 if [[ -n "$REQUESTED_PYTHON" ]]; then
     ACTIVE_PYTHON="$(command -v "$REQUESTED_PYTHON" 2>/dev/null || true)"
@@ -16,6 +17,10 @@ PYTHON=""
 
 if [[ "$REQUIRE_CUDA" != "0" && "$REQUIRE_CUDA" != "1" ]]; then
     echo "REQUIRE_CUDA must be 0 or 1." >&2
+    exit 1
+fi
+if [[ "$ENABLE_CS_SEARCH" != "0" && "$ENABLE_CS_SEARCH" != "1" ]]; then
+    echo "ENABLE_CS_SEARCH must be 0 or 1." >&2
     exit 1
 fi
 
@@ -181,8 +186,12 @@ else:
 PY
 
 cd "$REPO_ROOT"
-cargo test --release
-cargo build --release
+ENGINE_FEATURES=()
+if [[ "$ENABLE_CS_SEARCH" == "1" ]]; then
+    ENGINE_FEATURES=(--features cs-search)
+fi
+cargo test --release "${ENGINE_FEATURES[@]}"
+cargo build --release "${ENGINE_FEATURES[@]}"
 cargo build --release --manifest-path experiments/computation_allocation/burn_inference/Cargo.toml
 "$PYTHON" -m unittest discover -s experiments/computation_allocation/tests -v
 

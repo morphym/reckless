@@ -1,11 +1,11 @@
 use std::path::Path;
 
 use burn::{
-    backend::Flex,
     module::Module,
-    nn::{LayerNorm, LayerNormConfig, Linear, LinearConfig},
     tensor::{Device, Tensor, TensorData, activation::silu, backend::Backend},
 };
+use burn_flex::Flex;
+use burn_nn::{LayerNorm, LayerNormConfig, Linear, LinearConfig};
 use burn_store::{ModuleSnapshot, PyTorchToBurnAdapter, SafetensorsStore};
 
 pub const CANDIDATE_FEATURES: usize = 18;
@@ -82,6 +82,14 @@ impl Inference {
         let device = Default::default();
         let mut model = CsActor::<CpuBackend>::init(&device);
         let mut store = SafetensorsStore::from_file(path).with_from_adapter(PyTorchToBurnAdapter);
+        model.load_from(&mut store)?;
+        Ok(Self { model, device })
+    }
+
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, Box<dyn std::error::Error>> {
+        let device = Default::default();
+        let mut model = CsActor::<CpuBackend>::init(&device);
+        let mut store = SafetensorsStore::from_bytes(Some(bytes.to_vec())).with_from_adapter(PyTorchToBurnAdapter);
         model.load_from(&mut store)?;
         Ok(Self { model, device })
     }

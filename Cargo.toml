@@ -12,6 +12,7 @@ crate-type = ["cdylib", "rlib"]
 default = ["syzygy"]
 syzygy = []
 spsa = []
+cs-search = ["dep:reckless-cs-burn"]
 
 [profile.dev]
 opt-level = 3
@@ -29,6 +30,7 @@ bindgen = "0.71.1"
 
 [dependencies]
 libc = "0.2.175"
+reckless-cs-burn = { path = "experiments/computation_allocation/burn_inference", optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 web-time = "1"
