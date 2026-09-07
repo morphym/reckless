@@ -122,7 +122,8 @@ systems, install Python 3, Clang, and Rust 1.88+ first; the remainder of the
 script is portable. Set `REQUIRE_CUDA=0` only when intentionally preparing a
 CPU-only development machine. If the host requires a particular PyTorch CUDA
 wheel channel, set `TORCH_INDEX_URL` to that channel before running the
-installer.
+installer. An existing PyTorch installation is preserved when it successfully
+executes a tensor operation on the requested device.
 
 Build and test Reckless from the repository root:
 

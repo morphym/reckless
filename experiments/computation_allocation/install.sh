@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 VENV_DIR="${VENV_DIR:-$REPO_ROOT/.venv}"
 REQUIRE_CUDA="${REQUIRE_CUDA:-1}"
+PYTHON="$VENV_DIR/bin/python"
 
 install_system_packages() {
     if [[ "$(uname -s)" != "Linux" ]]; then
@@ -57,34 +58,68 @@ PY
     source "$HOME/.cargo/env"
 }
 
+torch_is_runnable() {
+    "$PYTHON" - "$REQUIRE_CUDA" <<'PY' >/dev/null 2>&1
+import sys
+
+try:
+    import torch
+
+    require_cuda = sys.argv[1] == "1"
+    if require_cuda and not torch.cuda.is_available():
+        raise RuntimeError("CUDA is unavailable")
+    device = "cuda" if require_cuda else "cpu"
+    result = (torch.ones(4, device=device) * 2).sum().item()
+    if result != 8:
+        raise RuntimeError("tensor operation returned an unexpected result")
+    if require_cuda:
+        torch.cuda.synchronize()
+except Exception:
+    raise SystemExit(1)
+PY
+}
+
 install_system_packages
 install_rust
 
 python3 -m venv "$VENV_DIR"
-"$VENV_DIR/bin/python" -m pip install --upgrade pip setuptools wheel
-if [[ -n "${TORCH_INDEX_URL:-}" ]]; then
-    "$VENV_DIR/bin/python" -m pip install torch --index-url "$TORCH_INDEX_URL"
-fi
-"$VENV_DIR/bin/python" -m pip install -r "$SCRIPT_DIR/requirements.txt"
+"$PYTHON" -m pip install --upgrade pip setuptools wheel
+"$PYTHON" -m pip install -r "$SCRIPT_DIR/requirements-base.txt"
 
-if [[ "$REQUIRE_CUDA" == "1" ]]; then
-    "$VENV_DIR/bin/python" - <<'PY'
+if torch_is_runnable; then
+    echo "Existing PyTorch is runnable; skipping PyTorch installation."
+else
+    echo "Installing PyTorch."
+    if [[ -n "${TORCH_INDEX_URL:-}" ]]; then
+        "$PYTHON" -m pip install --upgrade --force-reinstall 'torch>=2.5' --index-url "$TORCH_INDEX_URL"
+    else
+        "$PYTHON" -m pip install --upgrade --force-reinstall 'torch>=2.5'
+    fi
+fi
+
+if ! torch_is_runnable; then
+    if [[ "$REQUIRE_CUDA" == "1" ]]; then
+        echo "PyTorch cannot execute on the NVIDIA GPU. Confirm the driver and CUDA wheel are compatible." >&2
+    else
+        echo "PyTorch was installed but cannot execute a CPU tensor operation." >&2
+    fi
+    exit 1
+fi
+
+"$PYTHON" - "$REQUIRE_CUDA" <<'PY'
 import sys
 import torch
 
-if not torch.cuda.is_available():
-    sys.exit(
-        "PyTorch cannot see an NVIDIA GPU. Confirm the NVIDIA driver is installed, "
-        "or rerun with REQUIRE_CUDA=0 for a CPU-only setup."
-    )
-print(f"CUDA ready: {torch.cuda.get_device_name(0)} (PyTorch {torch.__version__})")
+if sys.argv[1] == "1":
+    print(f"CUDA ready: {torch.cuda.get_device_name(0)} (PyTorch {torch.__version__})")
+else:
+    print(f"CPU PyTorch ready: {torch.__version__}")
 PY
-fi
 
 cd "$REPO_ROOT"
 cargo test --release
 cargo build --release
-"$VENV_DIR/bin/python" -m unittest discover -s experiments/computation_allocation/tests -v
+"$PYTHON" -m unittest discover -s experiments/computation_allocation/tests -v
 
 echo
 echo "Installation and compilation completed."
