@@ -59,6 +59,8 @@ exec "$PYTHON" "$SCRIPT_DIR/online_train.py" \
     --episodes-per-update "${EPISODES_PER_UPDATE:-32}" \
     --workers "${WORKERS:-32}" \
     --reference-depth "${REFERENCE_DEPTH:-12}" \
+    --reference-timeout "${REFERENCE_TIMEOUT:-120}" \
+    --reference-attempts "${REFERENCE_ATTEMPTS:-3}" \
     --cs-depths "${CS_DEPTHS:-1,2,3,4,5,6}" \
     --minimum-budget "${MINIMUM_BUDGET:-8}" \
     --maximum-budget "${MAXIMUM_BUDGET:-64}" \

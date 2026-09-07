@@ -48,6 +48,8 @@ def run_signature(args: argparse.Namespace) -> dict[str, object]:
         "root_temperature": [args.root_temperature_start, args.root_temperature_end],
         "controller_temperature": [args.controller_temperature_start, args.controller_temperature_end],
         "episodes_per_update": args.episodes_per_update,
+        "reference_timeout": args.reference_timeout,
+        "reference_attempts": args.reference_attempts,
     }
 
 
@@ -126,10 +128,11 @@ def create_online_environment(
     reference_depth: int,
     budget: int,
     cs_depths: tuple[int, ...],
-    timeout: float,
+    reference_timeout: float,
+    cs_timeout: float,
 ) -> tuple[LiveCsEnv, dict[str, object]]:
     rng = random.Random(seed)
-    with RecklessUci(engine_path, timeout_seconds=timeout) as reference_engine:
+    with RecklessUci(engine_path, timeout_seconds=reference_timeout) as reference_engine:
         fen, move_history = generate_online_root(
             reference_engine,
             root_minimum_plies,
@@ -139,7 +142,7 @@ def create_online_environment(
         )
         reference = high_depth_reference(reference_engine, fen, reference_depth)
 
-    cs_engine = RecklessUci(engine_path, timeout_seconds=timeout)
+    cs_engine = RecklessUci(engine_path, timeout_seconds=cs_timeout)
     try:
         env = LiveCsEnv(cs_engine, fen, reference, budget, cs_depths)
     except BaseException:
@@ -242,6 +245,7 @@ def write_tensorboard_update(
         "performance/rollout_seconds": "rollout_seconds",
         "performance/ppo_seconds": "ppo_seconds",
         "performance/episodes_per_second": "episodes_per_second",
+        "reference/timeouts_retried": "reference_failures",
         "invariants/rewards_telescope": "all_rewards_telescope",
     }
     for tag, field in scalar_fields.items():
@@ -279,6 +283,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--controller-temperature-start", type=float, default=3.0)
     parser.add_argument("--controller-temperature-end", type=float, default=0.8)
     parser.add_argument("--timeout", type=float, default=600.0)
+    parser.add_argument("--reference-timeout", type=float, default=120.0)
+    parser.add_argument("--reference-attempts", type=int, default=3)
     parser.add_argument("--progress-seconds", type=float, default=30.0)
     parser.add_argument("--seed", type=int, default=91)
     parser.add_argument("--device", default="auto")
@@ -296,6 +302,10 @@ def main() -> None:
         raise ValueError("invalid budget range")
     if args.progress_seconds <= 0:
         raise ValueError("progress-seconds must be positive")
+    if args.reference_timeout <= 0 or args.timeout <= 0:
+        raise ValueError("engine timeouts must be positive")
+    if args.reference_attempts <= 0:
+        raise ValueError("reference-attempts must be positive")
 
     device = choose_device(args.device)
     rng = random.Random(args.seed)
@@ -354,6 +364,8 @@ def main() -> None:
         workers=args.workers,
         episodes_per_update=args.episodes_per_update,
         reference_depth=args.reference_depth,
+        reference_timeout_seconds=args.reference_timeout,
+        reference_attempts=args.reference_attempts,
         cs_depths=list(args.cs_depths),
         parameters=sum(parameter.numel() for parameter in model.parameters()),
         starting_update=start_update + 1,
@@ -371,7 +383,10 @@ def main() -> None:
             progress,
         )
         budgets = [rng.randint(args.minimum_budget, args.maximum_budget) for _ in range(args.episodes_per_update)]
-        seeds = [rng.randrange(2**63) for _ in range(args.episodes_per_update)]
+        attempt_seeds = [
+            [rng.randrange(2**63) for _ in range(args.reference_attempts)]
+            for _ in range(args.episodes_per_update)
+        ]
         emit_event(
             "update_started",
             update=update,
@@ -384,23 +399,28 @@ def main() -> None:
         )
         reference_started = time.perf_counter()
         created_by_index = [None] * args.episodes_per_update
+        reference_failures = 0
         with ThreadPoolExecutor(max_workers=args.workers) as executor:
-            future_to_index = {
-                executor.submit(
+            def submit_environment(index: int, attempt: int):
+                return executor.submit(
                     create_online_environment,
                     args.engine,
-                    seed,
+                    attempt_seeds[index][attempt],
                     args.root_minimum_plies,
                     args.root_maximum_plies,
                     root_temperature,
                     args.reference_depth,
-                    budget,
+                    budgets[index],
                     args.cs_depths,
+                    args.reference_timeout,
                     args.timeout,
-                ): index
-                for index, (seed, budget) in enumerate(zip(seeds, budgets, strict=True))
+                )
+
+            future_to_slot = {
+                submit_environment(index, 0): (index, 0)
+                for index in range(args.episodes_per_update)
             }
-            pending = set(future_to_index)
+            pending = set(future_to_slot)
             completed = 0
             last_reported = 0
             report_every = max(1, args.episodes_per_update // 8)
@@ -422,8 +442,40 @@ def main() -> None:
                         )
                         continue
                     for future in done:
-                        index = future_to_index[future]
-                        created_by_index[index] = future.result()
+                        index, attempt = future_to_slot.pop(future)
+                        try:
+                            item = future.result()
+                        except TimeoutError as error:
+                            reference_failures += 1
+                            next_attempt = attempt + 1
+                            if next_attempt >= args.reference_attempts:
+                                emit_event(
+                                    "reference_failed",
+                                    update=update,
+                                    slot=index,
+                                    attempts=args.reference_attempts,
+                                    error=str(error)[-500:],
+                                )
+                                raise RuntimeError(
+                                    f"reference slot {index} timed out after "
+                                    f"{args.reference_attempts} attempts"
+                                ) from error
+                            replacement = submit_environment(index, next_attempt)
+                            future_to_slot[replacement] = (index, next_attempt)
+                            pending.add(replacement)
+                            emit_event(
+                                "reference_retry",
+                                update=update,
+                                slot=index,
+                                completed=completed,
+                                total=args.episodes_per_update,
+                                failed_attempt=attempt + 1,
+                                next_attempt=next_attempt + 1,
+                                timeout_seconds=args.reference_timeout,
+                            )
+                            continue
+                        item[1]["reference_attempt"] = attempt + 1
+                        created_by_index[index] = item
                         completed += 1
                     if completed == args.episodes_per_update or completed - last_reported >= report_every:
                         emit_event(
@@ -452,6 +504,7 @@ def main() -> None:
             phase="reference_generation",
             elapsed_seconds=reference_seconds,
             roots_per_second=len(created) / reference_seconds,
+            retries=reference_failures,
         )
         envs = [item[0] for item in created]
         metadata = [item[1] for item in created]
@@ -498,6 +551,7 @@ def main() -> None:
                 "update_seconds": update_seconds,
                 "reference_seconds": reference_seconds,
                 "reference_roots_per_second": len(created) / reference_seconds,
+                "reference_failures": reference_failures,
                 "rollout_seconds": rollout_seconds,
                 "ppo_seconds": ppo_seconds,
                 "episodes_per_second": len(envs) / update_seconds,
@@ -571,6 +625,8 @@ def main() -> None:
             "episodes_per_update": args.episodes_per_update,
             "workers": args.workers,
             "reference_depth": args.reference_depth,
+            "reference_timeout": args.reference_timeout,
+            "reference_attempts": args.reference_attempts,
             "cs_depths": list(args.cs_depths),
             "budget_range": [args.minimum_budget, args.maximum_budget],
             "root_ply_range": [args.root_minimum_plies, args.root_maximum_plies],

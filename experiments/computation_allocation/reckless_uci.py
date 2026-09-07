@@ -101,11 +101,15 @@ class RecklessUci:
 
         self._reader = threading.Thread(target=read_lines, name="reckless-uci-reader", daemon=True)
         self._reader.start()
-        self._send("uci")
-        self._read_until(lambda line: line == "uciok")
-        self._send("setoption name Threads value 1")
-        self._send("setoption name Hash value 32")
-        self._ready()
+        try:
+            self._send("uci")
+            self._read_until(lambda line: line == "uciok")
+            self._send("setoption name Threads value 1")
+            self._send("setoption name Hash value 32")
+            self._ready()
+        except BaseException:
+            self.close()
+            raise
 
     def _send(self, command: str) -> None:
         if self.process.poll() is not None:
@@ -241,9 +245,14 @@ class RecklessUci:
             try:
                 self._send("quit")
                 self.process.wait(timeout=5)
-            except (BrokenPipeError, subprocess.TimeoutExpired):
-                self.process.terminate()
-                self.process.wait(timeout=5)
+            except (BrokenPipeError, OSError, subprocess.TimeoutExpired):
+                if self.process.poll() is None:
+                    self.process.terminate()
+                try:
+                    self.process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    self.process.kill()
+                    self.process.wait(timeout=5)
         self._reader.join(timeout=1)
 
     def __enter__(self) -> "RecklessUci":

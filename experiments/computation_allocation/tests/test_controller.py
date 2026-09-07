@@ -84,11 +84,12 @@ class ControllerModelTests(unittest.TestCase):
             "rollout_seconds": 1.5,
             "ppo_seconds": 0.5,
             "episodes_per_second": 0.5,
+            "reference_failures": 1,
             "all_rewards_telescope": True,
         }
         write_tensorboard_update(writer, row, [10, 14], [5, 9], [5.0, 5.0], [80, 120])
 
-        self.assertEqual(len(writer.scalars), 18)
+        self.assertEqual(len(writer.scalars), 19)
         self.assertEqual(len(writer.histograms), 4)
         self.assertTrue(all(item[2] == 7 for item in writer.scalars + writer.histograms))
         self.assertEqual(writer.flushes, 1)

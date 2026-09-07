@@ -220,6 +220,12 @@ CUDA only after roots become ready, so low or bursty GPU utilization during the
 reference phase is expected. Change the heartbeat interval with
 `--progress-seconds`.
 
+A single pathological depth-12 root cannot hold an update indefinitely. Each
+reference search has a 120-second deadline; a timed-out engine process is
+terminated and that batch slot is regenerated from a new deterministic seed,
+up to three attempts. Retry counts are printed and recorded in TensorBoard.
+Tune this with `--reference-timeout` and `--reference-attempts`.
+
 ## Current boundary
 
 The 1,000-root run demonstrates that the complete RL path works and that a
