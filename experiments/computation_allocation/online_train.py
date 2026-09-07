@@ -10,6 +10,7 @@ its own epistemic state and learns from telescoping reference-regret rewards.
 from __future__ import annotations
 
 import argparse
+import atexit
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
 import json
@@ -207,11 +208,53 @@ def collect_live_episodes(
     return trajectories
 
 
+def write_tensorboard_update(
+    writer,
+    row: dict[str, object],
+    initial_losses: list[int],
+    terminal_losses: list[int],
+    returns: list[float],
+    node_counts: list[int],
+) -> None:
+    """Write one complete update without exposing privileged reference values."""
+    step = int(row["update"])
+    scalar_fields = {
+        "ppo/policy_loss": "policy_loss",
+        "ppo/value_loss": "value_loss",
+        "ppo/entropy": "entropy",
+        "quality/mean_initial_regret_cp": "mean_initial_loss",
+        "quality/mean_terminal_regret_cp": "mean_terminal_loss",
+        "quality/mean_regret_reduction_cp": "mean_return",
+        "search/mean_nodes": "mean_nodes",
+        "rollout/episodes": "episodes",
+        "rollout/transitions": "transitions",
+        "schedule/root_temperature_cp": "root_temperature_cp",
+        "schedule/controller_temperature": "controller_temperature",
+        "performance/update_seconds": "update_seconds",
+        "performance/episodes_per_second": "episodes_per_second",
+        "invariants/rewards_telescope": "all_rewards_telescope",
+    }
+    for tag, field in scalar_fields.items():
+        writer.add_scalar(tag, float(row[field]), step)
+
+    distributions = {
+        "episode/initial_regret_cp": initial_losses,
+        "episode/terminal_regret_cp": terminal_losses,
+        "episode/regret_reduction_cp": returns,
+        "episode/nodes": node_counts,
+    }
+    for tag, values in distributions.items():
+        writer.add_histogram(tag, torch.tensor(values, dtype=torch.float32), step)
+    writer.flush()
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--engine", type=Path, default=REPO_ROOT / "target/release/reckless")
     parser.add_argument("--checkpoint", type=Path, default=REPO_ROOT / "outputs/cs_online/controller.pt")
     parser.add_argument("--summary", type=Path, default=REPO_ROOT / "outputs/cs_online/training.json")
+    parser.add_argument("--tensorboard-dir", type=Path, default=REPO_ROOT / "outputs/cs_online/tensorboard")
+    parser.add_argument("--no-tensorboard", action="store_true")
     parser.add_argument("--updates", type=int, default=1_000)
     parser.add_argument("--episodes-per-update", type=int, default=16)
     parser.add_argument("--workers", type=int, default=16)
@@ -269,9 +312,28 @@ def main() -> None:
             previous_summary = json.loads(args.summary.read_text())
             history = previous_summary.get("history", [])
             prior_elapsed = float(previous_summary.get("elapsed_seconds", 0.0))
+
+    writer = None
+    close_writer = None
+    if not args.no_tensorboard:
+        from torch.utils.tensorboard import SummaryWriter
+
+        args.tensorboard_dir.mkdir(parents=True, exist_ok=True)
+        purge_step = start_update + 1 if args.resume and start_update > 0 else None
+        writer = SummaryWriter(log_dir=str(args.tensorboard_dir), purge_step=purge_step)
+        close_writer = writer.close
+        atexit.register(close_writer)
+        if start_update == 0:
+            writer.add_text(
+                "run/configuration",
+                "```json\n" + json.dumps(run_signature(args), indent=2) + "\n```",
+                global_step=0,
+            )
+            writer.flush()
     started = time.perf_counter()
 
     for update in range(start_update + 1, args.updates + 1):
+        update_started = time.perf_counter()
         progress = (update - 1) / max(args.updates - 1, 1)
         root_temperature = anneal(args.root_temperature_start, args.root_temperature_end, progress)
         controller_temperature = anneal(
@@ -315,6 +377,9 @@ def main() -> None:
                 transitions.extend(trajectory)
             metrics = ppo_update(model, optimizer, transitions, ppo_config, device, rng)
             returns = [sum(item.reward for item in trajectory) for trajectory in trajectories]
+            terminal_losses = [env.loss for env in envs]
+            node_counts = [env.total_nodes for env in envs]
+            update_seconds = time.perf_counter() - update_started
             row = {
                 "update": update,
                 "episodes": len(envs),
@@ -322,9 +387,11 @@ def main() -> None:
                 "root_temperature_cp": root_temperature,
                 "controller_temperature": controller_temperature,
                 "mean_initial_loss": sum(initial_losses) / len(initial_losses),
-                "mean_terminal_loss": sum(env.loss for env in envs) / len(envs),
+                "mean_terminal_loss": sum(terminal_losses) / len(terminal_losses),
                 "mean_return": sum(returns) / len(returns),
-                "mean_nodes": sum(env.total_nodes for env in envs) / len(envs),
+                "mean_nodes": sum(node_counts) / len(node_counts),
+                "update_seconds": update_seconds,
+                "episodes_per_second": len(envs) / update_seconds,
                 "all_rewards_telescope": all(
                     math.isclose(return_, initial_loss - env.loss)
                     for env, initial_loss, return_ in zip(envs, initial_losses, returns, strict=True)
@@ -333,6 +400,15 @@ def main() -> None:
                 **metrics,
             }
             history.append(row)
+            if writer is not None:
+                write_tensorboard_update(
+                    writer,
+                    row,
+                    initial_losses,
+                    terminal_losses,
+                    returns,
+                    node_counts,
+                )
             print(json.dumps(row), flush=True)
         finally:
             for env in envs:
@@ -362,6 +438,7 @@ def main() -> None:
                     "engine": str(args.engine),
                     "checkpoint": str(args.checkpoint),
                     "device": str(device),
+                    "tensorboard_dir": None if args.no_tensorboard else str(args.tensorboard_dir),
                     "parameters": sum(parameter.numel() for parameter in model.parameters()),
                     "completed_updates": update,
                     "target_updates": args.updates,
@@ -378,6 +455,7 @@ def main() -> None:
         "engine": str(args.engine),
         "checkpoint": str(args.checkpoint),
         "device": str(device),
+        "tensorboard_dir": None if args.no_tensorboard else str(args.tensorboard_dir),
         "parameters": sum(parameter.numel() for parameter in model.parameters()),
         "configuration": {
             "updates": args.updates,
@@ -405,6 +483,9 @@ def main() -> None:
     }
     args.summary.parent.mkdir(parents=True, exist_ok=True)
     args.summary.write_text(json.dumps(summary, indent=2) + "\n")
+    if close_writer is not None:
+        close_writer()
+        atexit.unregister(close_writer)
     print(json.dumps({"checkpoint": str(args.checkpoint), "summary": str(args.summary)}, indent=2))
 
 

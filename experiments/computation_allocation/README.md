@@ -187,6 +187,19 @@ The launcher's large-scale defaults match the documented experiment. They can
 be changed through environment variables, for example
 `WORKERS=16 REFERENCE_DEPTH=10 ./experiments/computation_allocation/train_nvidia.sh`.
 
+TensorBoard events are written to `outputs/cs_online/tensorboard`. They include
+PPO losses and entropy, initial and terminal reference regret, regret reduction,
+node use, temperatures, throughput, reward-identity checks, and per-episode
+histograms. View them from the repository root with:
+
+```sh
+.venv/bin/tensorboard --logdir outputs/cs_online/tensorboard --port 6006
+```
+
+On a remote trainer, forward port 6006 over SSH rather than exposing it
+publicly. Set `TENSORBOARD_DIR` to relocate the logs, or pass
+`--no-tensorboard` to disable them.
+
 ## Current boundary
 
 The 1,000-root run demonstrates that the complete RL path works and that a

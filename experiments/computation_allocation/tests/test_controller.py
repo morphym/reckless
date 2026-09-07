@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 if torch is not None:
     from controller_model import ControllerConfig, MaskedActorCritic, batch_observations
     from controller_state import BranchView, make_observation
-    from online_train import anneal, boltzmann_choice
+    from online_train import anneal, boltzmann_choice, write_tensorboard_update
 
 
 @unittest.skipIf(torch is None, "PyTorch is not installed in this interpreter")
@@ -47,6 +47,47 @@ class ControllerModelTests(unittest.TestCase):
         rng = __import__("random").Random(91)
         choices = [boltzmann_choice(("a", "b"), [0, 100], 200.0, rng) for _ in range(100)]
         self.assertGreater(choices.count("b"), choices.count("a"))
+
+    def test_tensorboard_update_logs_scalars_histograms_and_flushes(self):
+        class RecordingWriter:
+            def __init__(self):
+                self.scalars = []
+                self.histograms = []
+                self.flushes = 0
+
+            def add_scalar(self, tag, value, step):
+                self.scalars.append((tag, value, step))
+
+            def add_histogram(self, tag, value, step):
+                self.histograms.append((tag, value, step))
+
+            def flush(self):
+                self.flushes += 1
+
+        writer = RecordingWriter()
+        row = {
+            "update": 7,
+            "policy_loss": 0.1,
+            "value_loss": 0.2,
+            "entropy": 0.3,
+            "mean_initial_loss": 12.0,
+            "mean_terminal_loss": 7.0,
+            "mean_return": 5.0,
+            "mean_nodes": 100.0,
+            "episodes": 2,
+            "transitions": 6,
+            "root_temperature_cp": 300.0,
+            "controller_temperature": 2.0,
+            "update_seconds": 4.0,
+            "episodes_per_second": 0.5,
+            "all_rewards_telescope": True,
+        }
+        write_tensorboard_update(writer, row, [10, 14], [5, 9], [5.0, 5.0], [80, 120])
+
+        self.assertEqual(len(writer.scalars), 14)
+        self.assertEqual(len(writer.histograms), 4)
+        self.assertTrue(all(item[2] == 7 for item in writer.scalars + writer.histograms))
+        self.assertEqual(writer.flushes, 1)
 
 
 if __name__ == "__main__":

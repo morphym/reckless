@@ -35,4 +35,5 @@ exec "$VENV_DIR/bin/python" "$SCRIPT_DIR/online_train.py" \
     --device cuda \
     --checkpoint "$REPO_ROOT/outputs/cs_online/controller.pt" \
     --summary "$REPO_ROOT/outputs/cs_online/training.json" \
+    --tensorboard-dir "${TENSORBOARD_DIR:-$REPO_ROOT/outputs/cs_online/tensorboard}" \
     "$@"
