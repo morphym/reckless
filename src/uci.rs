@@ -182,7 +182,7 @@ fn uci() {
     #[cfg(feature = "cs-search")]
     {
         println!("option name CSBudget type spin default 32 min 1 max 64");
-        println!("option name CSMaxDepth type spin default 5 min 1 max 5");
+        println!("option name CSMaxDepth type spin default 64 min 1 max 240");
     }
 
     #[cfg(feature = "syzygy")]

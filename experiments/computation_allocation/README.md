@@ -286,11 +286,28 @@ with its existing board, move generator, MovePicker, alpha-beta, TT, and history
 The actor can also choose `STOP`. It never supplies a score, bound, PV move, or
 cutoff to alpha-beta.
 
-Two UCI options control the trained envelope:
+Two UCI options control the rolling controller:
 
-- `CSBudget`, default 32, selects 1–64 allocation actions.
-- `CSMaxDepth`, default 5, caps native child searches at the model's trained
-  depth limit.
+- `CSBudget`, default 32, is the receding-horizon length. Reaching it refreshes
+  the budget features instead of ending an externally bounded UCI search. One
+  incumbent branch refresh is enforced at each boundary so the displayed
+  principal move cannot remain indefinitely at a static-evaluation depth.
+- `CSMaxDepth`, default 64 and maximum 240, is the safety ceiling. Explicit
+  `go depth N` uses `N` up to this ceiling.
+
+`go depth`, `go nodes`, clock/movetime limits, and `go infinite` now own search
+termination as normal UCI commands. While a UCI command is still active, the
+engine conditions an episodic `STOP` proposal on continuing and takes the best
+legal computation logit.
+Depth features saturate at the training cap of five so deeper UCI analysis does
+not numerically extrapolate those inputs. The engine emits updated `info` lines
+when the selected move, score, or depth changes and at least every 250 ms during
+otherwise stable work, allowing analysis GUIs such as Nibbler to update
+continuously. `go infinite` runs until `stop` (or the engine-wide depth safety
+ceiling), and an external stop is retained across child-search boundaries.
+Reported `depth` and native `seldepth` are monotonic high-water marks, so a
+controller change to a less-explored root move does not make a GUI's analysis
+depth run backward.
 
 For one-command setup, `ENABLE_CS_SEARCH=1` makes `install.sh` test and build
 the CS-enabled engine. Without that variable, installation builds ordinary
