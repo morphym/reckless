@@ -1,4 +1,5 @@
 from pathlib import Path
+import random
 import sys
 import unittest
 
@@ -15,6 +16,7 @@ if torch is not None:
     from controller_model import ControllerConfig, MaskedActorCritic, batch_observations
     from controller_state import BranchView, make_observation
     from online_train import anneal, boltzmann_choice, write_tensorboard_update
+    from ppo import PpoConfig, Transition, assign_gae, ppo_update
 
 
 @unittest.skipIf(torch is None, "PyTorch is not installed in this interpreter")
@@ -48,6 +50,28 @@ class ControllerModelTests(unittest.TestCase):
         choices = [boltzmann_choice(("a", "b"), [0, 100], 200.0, rng) for _ in range(100)]
         self.assertGreater(choices.count("b"), choices.count("a"))
 
+    def test_critic_gae_scales_values_but_preserves_raw_reward(self):
+        observation = self.observation(2)
+        trajectory = [Transition(observation, -1, 0.0, 100_000.0, 0.0)]
+        assign_gae(trajectory, gae_lambda=0.95, value_scale_cp=1_000.0)
+
+        self.assertEqual(trajectory[0].reward, 100_000.0)
+        self.assertEqual(trajectory[0].advantage, 100.0)
+        self.assertEqual(trajectory[0].return_, 100.0)
+
+    def test_mate_scale_target_has_bounded_critic_loss(self):
+        observation = self.observation(2)
+        transition = Transition(observation, -1, 0.0, 100_000.0, 0.0)
+        config = PpoConfig(epochs=1, minibatch_size=1)
+        assign_gae([transition], config.gae_lambda, config.value_scale_cp)
+        model = MaskedActorCritic(ControllerConfig())
+        optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate)
+
+        metrics = ppo_update(model, optimizer, [transition], config, torch.device("cpu"), random.Random(91))
+
+        self.assertLess(metrics["value_loss"], 101.0)
+        self.assertGreater(metrics["value_mae_cp"], 90_000.0)
+
     def test_tensorboard_update_logs_scalars_histograms_and_flushes(self):
         class RecordingWriter:
             def __init__(self):
@@ -69,6 +93,8 @@ class ControllerModelTests(unittest.TestCase):
             "update": 7,
             "policy_loss": 0.1,
             "value_loss": 0.2,
+            "value_mae_cp": 250.0,
+            "value_target_rms_cp": 400.0,
             "entropy": 0.3,
             "mean_initial_loss": 12.0,
             "mean_terminal_loss": 7.0,
@@ -89,7 +115,7 @@ class ControllerModelTests(unittest.TestCase):
         }
         write_tensorboard_update(writer, row, [10, 14], [5, 9], [5.0, 5.0], [80, 120])
 
-        self.assertEqual(len(writer.scalars), 19)
+        self.assertEqual(len(writer.scalars), 21)
         self.assertEqual(len(writer.histograms), 4)
         self.assertTrue(all(item[2] == 7 for item in writer.scalars + writer.histograms))
         self.assertEqual(writer.flushes, 1)

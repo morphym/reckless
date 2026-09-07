@@ -32,6 +32,14 @@ at runtime:
    entropy bonus provide early exploration, then anneal toward concentrated
    allocation.
 
+The reward remains in exact raw centipawns for reporting and for the telescoping
+identity. Internally, GAE divides rewards by 1,000 and the critic predicts in
+those scaled units. Its loss is Huber rather than squared error. Constant
+scaling leaves normalized policy advantages unchanged, while Huber's bounded
+outlier gradient prevents mate-scale targets from overwhelming the shared
+actor. TensorBoard reports robust value loss plus MAE and target RMS converted
+back to centipawns.
+
 The NNUE itself has no temperature and remains deterministic. Temperature is
 applied only to sampling from its move-evaluation numbers and to the controller
 logits. High-depth reference search remains deterministic. Reference and CS use
@@ -48,8 +56,9 @@ lower-cap search.
 - `controller_state.py`: leak-free candidate/global features and legal masks.
 - `controller_model.py`: variable-frontier actor plus `STOP`, and a global
   critic. The default network has 179,683 parameters.
-- `ppo.py`: masked PPO with `gamma=1`; raw rewards are retained and advantages
-  alone are normalized. Rollouts are batched across environments for GPU use.
+- `ppo.py`: masked PPO with `gamma=1`; raw rewards are retained for reporting,
+  critic/GAE units use a constant scale, and policy advantages are normalized.
+  Rollouts are batched across environments for GPU use.
 - `build_controller_corpus.py`: converts the existing native depth-6 Reckless
   labels into branch-local depth trajectories.
 - `train_controller.py`: mixed-budget PPO training on cached trajectories.

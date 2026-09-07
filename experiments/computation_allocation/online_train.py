@@ -31,6 +31,7 @@ from train_controller import choose_device
 
 START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 REPO_ROOT = Path(__file__).resolve().parents[2]
+CRITIC_VERSION = 2
 
 
 def emit_event(event: str, **fields: object) -> None:
@@ -230,6 +231,8 @@ def write_tensorboard_update(
     scalar_fields = {
         "ppo/policy_loss": "policy_loss",
         "ppo/value_loss": "value_loss",
+        "ppo/value_mae_cp": "value_mae_cp",
+        "ppo/value_target_rms_cp": "value_target_rms_cp",
         "ppo/entropy": "entropy",
         "quality/mean_initial_regret_cp": "mean_initial_loss",
         "quality/mean_terminal_regret_cp": "mean_terminal_loss",
@@ -320,6 +323,10 @@ def main() -> None:
         if not args.checkpoint.exists():
             raise FileNotFoundError(args.checkpoint)
         saved = torch.load(args.checkpoint, map_location=device, weights_only=True)
+        if saved.get("critic_version") != CRITIC_VERSION:
+            raise ValueError(
+                "checkpoint predates scaled Huber critic training; start a fresh run without --resume"
+            )
         if "run_signature" in saved and saved["run_signature"] != run_signature(args):
             raise ValueError("resume configuration does not match the checkpoint run signature")
         model.load_state_dict(saved["model_state_dict"])
@@ -349,7 +356,12 @@ def main() -> None:
         if start_update == 0:
             writer.add_text(
                 "run/configuration",
-                "```json\n" + json.dumps(run_signature(args), indent=2) + "\n```",
+                "```json\n"
+                + json.dumps(
+                    {"run": run_signature(args), "ppo": asdict(ppo_config), "critic_version": CRITIC_VERSION},
+                    indent=2,
+                )
+                + "\n```",
                 global_step=0,
             )
             writer.flush()
@@ -368,6 +380,9 @@ def main() -> None:
         reference_attempts=args.reference_attempts,
         cs_depths=list(args.cs_depths),
         parameters=sum(parameter.numel() for parameter in model.parameters()),
+        critic="scaled_huber",
+        critic_value_scale_cp=ppo_config.value_scale_cp,
+        critic_huber_delta=ppo_config.value_huber_delta,
         starting_update=start_update + 1,
         target_updates=args.updates,
         note="Reckless reference generation is CPU-bound; CUDA runs after roots are ready.",
@@ -522,7 +537,7 @@ def main() -> None:
             rollout_seconds = time.perf_counter() - rollout_started
             transitions = []
             for trajectory in trajectories:
-                assign_gae(trajectory, ppo_config.gae_lambda)
+                assign_gae(trajectory, ppo_config.gae_lambda, ppo_config.value_scale_cp)
                 transitions.extend(trajectory)
             emit_event(
                 "phase_completed",
@@ -583,6 +598,8 @@ def main() -> None:
             "model_config": model.config.to_dict(),
             "completed_updates": update,
             "online_rl": True,
+            "critic_version": CRITIC_VERSION,
+            "ppo_config": asdict(ppo_config),
             "run_signature": run_signature(args),
             "python_rng_state": rng.getstate(),
             "torch_rng_state": torch.get_rng_state(),

@@ -140,7 +140,7 @@ def main() -> None:
             budget = rng.randint(args.min_budget, args.max_budget)
             envs.append(make_env(position, depths, budget))
         for env, trajectory in zip(envs, collect_episodes(model, envs, device), strict=True):
-            assign_gae(trajectory, ppo_config.gae_lambda)
+            assign_gae(trajectory, ppo_config.gae_lambda, ppo_config.value_scale_cp)
             transitions.extend(trajectory)
             episode_returns.append(sum(item.reward for item in trajectory))
             episode_losses.append(env.loss)

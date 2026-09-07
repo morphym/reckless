@@ -34,6 +34,8 @@ class PpoConfig:
     epochs: int = 4
     minibatch_size: int = 128
     max_grad_norm: float = 1.0
+    value_scale_cp: float = 1_000.0
+    value_huber_delta: float = 1.0
 
 
 def collect_episode(
@@ -132,11 +134,15 @@ def collect_episodes(
     return trajectories
 
 
-def assign_gae(trajectory: list[Transition], gae_lambda: float) -> None:
+def assign_gae(trajectory: list[Transition], gae_lambda: float, value_scale_cp: float = 1_000.0) -> None:
+    """Compute GAE in scaled critic units while retaining raw rewards."""
+    if value_scale_cp <= 0:
+        raise ValueError("value_scale_cp must be positive")
     next_value = 0.0
     next_advantage = 0.0
     for transition in reversed(trajectory):
-        delta = transition.reward + next_value - transition.value
+        scaled_reward = transition.reward / value_scale_cp
+        delta = scaled_reward + next_value - transition.value
         transition.advantage = delta + gae_lambda * next_advantage
         transition.return_ = transition.advantage + transition.value
         next_value = transition.value
@@ -153,12 +159,21 @@ def ppo_update(
 ) -> dict[str, float]:
     if not transitions:
         raise ValueError("PPO update needs at least one transition")
+    if config.value_scale_cp <= 0 or config.value_huber_delta <= 0:
+        raise ValueError("critic scale and Huber delta must be positive")
     advantages_all = torch.tensor([item.advantage for item in transitions], dtype=torch.float32)
     advantage_mean = advantages_all.mean()
     advantage_std = advantages_all.std(unbiased=False).clamp_min(1.0e-8)
     normalized = ((advantages_all - advantage_mean) / advantage_std).tolist()
 
-    totals = {"policy_loss": 0.0, "value_loss": 0.0, "entropy": 0.0, "updates": 0.0}
+    totals = {
+        "policy_loss": 0.0,
+        "value_loss": 0.0,
+        "value_mae_cp": 0.0,
+        "value_target_rms_cp": 0.0,
+        "entropy": 0.0,
+        "updates": 0.0,
+    }
     indices = list(range(len(transitions)))
     model.train()
     for _ in range(config.epochs):
@@ -189,7 +204,13 @@ def ppo_update(
             unclipped = ratios * advantages
             clipped = ratios.clamp(1.0 - config.clip_ratio, 1.0 + config.clip_ratio) * advantages
             policy_loss = -torch.minimum(unclipped, clipped).mean()
-            value_loss = torch.nn.functional.mse_loss(values, returns)
+            value_loss = torch.nn.functional.smooth_l1_loss(
+                values,
+                returns,
+                beta=config.value_huber_delta,
+            )
+            value_mae_cp = (values.detach() - returns).abs().mean() * config.value_scale_cp
+            value_target_rms_cp = returns.square().mean().sqrt() * config.value_scale_cp
             entropy = distribution.entropy().mean()
             loss = policy_loss + config.value_coefficient * value_loss - config.entropy_coefficient * entropy
 
@@ -200,6 +221,8 @@ def ppo_update(
 
             totals["policy_loss"] += float(policy_loss.detach())
             totals["value_loss"] += float(value_loss.detach())
+            totals["value_mae_cp"] += float(value_mae_cp)
+            totals["value_target_rms_cp"] += float(value_target_rms_cp)
             totals["entropy"] += float(entropy.detach())
             totals["updates"] += 1.0
 
