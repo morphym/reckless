@@ -320,10 +320,66 @@ terminated and that batch slot is regenerated from a new deterministic seed,
 up to three attempts. Retry counts are printed and recorded in TensorBoard.
 Tune this with `--reference-timeout` and `--reference-attempts`.
 
+## Physarum branch-flow pivot
+
+The learned computation allocator above is retained only as an archived
+experiment. It exposed a reward/cost mismatch: every depth increment consumed
+one abstract action even when real node cost differed by orders of magnitude,
+and deployment extended a depth-1–5 episodic policy into an unbounded rolling
+loop.
+
+The replacement is a fixed Physarum-style search feature:
+
+```sh
+cargo build --release --features physarum-search
+```
+
+`cs-search` and `physarum-search` are intentionally mutually exclusive. The
+pre-RL Physarum build uses a uniform move prior. A future ordinary policy head
+may initialize new edge conductivities, but it will not choose computation
+actions, scores, bounds, stopping, or the played move.
+
+Each round solves fixed-current traffic over every represented
+root-to-frontier route, selects a weighted-fair batch of frontiers, evaluates
+them with Reckless NNUE, backs values up by alternating minimax, and applies one
+simultaneous update:
+
+```text
+D(edge) <- retention * D(edge)
+           + learning_rate * sum(abs(branch_flow) * fixed_usefulness / branch_cost)
+```
+
+The exploration floor prevents permanent starvation. Usefulness is bounded and
+auditable; decision-change credit is restricted to branches belonging to the
+old or new root decision. Conductivity determines traffic only. The UCI score,
+PV, and `bestmove` are all taken from backed-up values.
+
+The following regression injects 99% root prior into the poisoned queen move
+`Qxd4`. The search must transport the refuting `Nxd4` evidence, reject `Qxd4`,
+return a move from native Reckless's depth-8 safe set, and emit a PV whose first
+move equals `bestmove`:
+
+```sh
+./experiments/computation_allocation/test_physarum_misleading_prior.sh
+```
+
+The diagnostic UCI options `PhysarumDiagnosticPriorMove` and
+`PhysarumDiagnosticPriorMass` exist solely for adversarial-prior tests. Normal
+search leaves the move at `none` and therefore starts from a uniform prior.
+`PhysarumBatch` controls simultaneous frontier width and `PhysarumMaxDepth` is
+the safety ceiling. Nodes count actual frontier NNUE evaluations; time limits
+use measured wall time.
+
+This is a pre-RL falsification implementation, not a strength claim. It is a
+tree-flow solver rather than the final transposition-aware graph Laplacian, and
+the current frontier evaluations are sequential inside each simultaneous flow
+batch. The next gate is matched-cost comparison against native alpha-beta and
+the prescribed decay/floor/whole-branch ablations before any policy training.
+
 ## Current boundary
 
-The 1,000-root run demonstrates that the complete RL path works and that a
-controller can reach current-best-like regret with fewer cached search nodes.
-It is not yet a strength claim. The next training run needs substantially more
-roots, hard-case mining, repeated random seeds, inference cost charged in the
-time budget, and match-level evaluation against conventional Reckless search.
+The earlier 1,000-root allocator run demonstrated plumbing, not a valid search
+objective, and its checkpoint must not seed the Physarum policy. The current
+boundary is the policy-free Physarum falsification build and its adversarial
+prior regression. No new RL run should begin until matched-cost comparisons,
+synthetic delayed-refutation tests, and the flow ablations above pass.

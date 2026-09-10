@@ -5,6 +5,8 @@
 #![cfg_attr(target_arch = "wasm32", allow(dead_code, unused_imports))]
 
 mod board;
+#[cfg(all(feature = "physarum-search", not(target_arch = "wasm32")))]
+mod branch_flow;
 #[cfg(all(feature = "cs-search", not(target_arch = "wasm32")))]
 mod cs_search;
 mod evaluation;
@@ -15,6 +17,8 @@ mod movepick;
 mod nnue;
 mod numa;
 mod parameters;
+#[cfg(all(feature = "physarum-search", not(target_arch = "wasm32")))]
+mod physarum_search;
 mod search;
 mod setwise;
 mod stack;
@@ -23,6 +27,9 @@ mod threadpool;
 mod time;
 mod transposition;
 mod types;
+
+#[cfg(all(feature = "cs-search", feature = "physarum-search"))]
+compile_error!("features `cs-search` and `physarum-search` are mutually exclusive");
 
 mod tools;
 

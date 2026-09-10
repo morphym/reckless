@@ -13,6 +13,7 @@ default = ["syzygy"]
 syzygy = []
 spsa = []
 cs-search = ["dep:reckless-cs-burn"]
+physarum-search = []
 
 [profile.dev]
 opt-level = 3

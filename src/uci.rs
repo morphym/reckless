@@ -1,4 +1,4 @@
-#[cfg(not(feature = "cs-search"))]
+#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
 use std::collections::HashMap;
 use std::collections::VecDeque;
 use std::sync::Arc;
@@ -15,7 +15,7 @@ use crate::{
     types::{Color, MAX_MOVES, Piece, Square},
 };
 
-#[cfg(not(feature = "cs-search"))]
+#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
 use crate::{
     time::TimeManager,
     types::{Move, Score, is_decisive, is_loss, is_win},
@@ -34,6 +34,8 @@ struct Settings {
     report: Report,
     #[cfg(feature = "cs-search")]
     cs: crate::cs_search::Runtime,
+    #[cfg(feature = "physarum-search")]
+    physarum: crate::physarum_search::Runtime,
 }
 
 impl Default for Settings {
@@ -45,6 +47,8 @@ impl Default for Settings {
             report: Report::Full,
             #[cfg(feature = "cs-search")]
             cs: crate::cs_search::Runtime::default(),
+            #[cfg(feature = "physarum-search")]
+            physarum: crate::physarum_search::Runtime::default(),
         }
     }
 }
@@ -185,6 +189,14 @@ fn uci() {
         println!("option name CSMaxDepth type spin default 64 min 1 max 240");
     }
 
+    #[cfg(feature = "physarum-search")]
+    {
+        println!("option name PhysarumBatch type spin default 8 min 1 max 64");
+        println!("option name PhysarumMaxDepth type spin default 64 min 1 max 240");
+        println!("option name PhysarumDiagnosticPriorMove type string default none");
+        println!("option name PhysarumDiagnosticPriorMass type spin default 990 min 1 max 999");
+    }
+
     #[cfg(feature = "syzygy")]
     println!("option name SyzygyPath type string default");
 
@@ -220,11 +232,16 @@ fn go(threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc
         crate::cs_search::go(&settings.cs, threads, board, shared, limits, settings.move_overhead);
     }
 
-    #[cfg(not(feature = "cs-search"))]
+    #[cfg(feature = "physarum-search")]
+    {
+        crate::physarum_search::go(&settings.physarum, threads, board, shared, limits, settings.move_overhead);
+    }
+
+    #[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
     native_go(threads, settings, board, shared, limits);
 }
 
-#[cfg(not(feature = "cs-search"))]
+#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
 fn native_go(
     threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
 ) {
@@ -369,6 +386,29 @@ fn set_option(threads: &mut ThreadPool, settings: &mut Settings, shared: &Arc<Sh
         ["name", "CSMaxDepth", "value", v] => {
             settings.cs.set_maximum_depth(v);
             println!("info string set CSMaxDepth to {}", settings.cs.maximum_depth);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumBatch", "value", v] => {
+            settings.physarum.set_batch_size(v);
+            println!("info string set PhysarumBatch to {}", settings.physarum.batch_size);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumMaxDepth", "value", v] => {
+            settings.physarum.set_maximum_depth(v);
+            println!("info string set PhysarumMaxDepth to {}", settings.physarum.maximum_depth);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumDiagnosticPriorMove", "value", v] => {
+            settings.physarum.set_diagnostic_prior_move(v);
+            println!("info string set PhysarumDiagnosticPriorMove to {v}");
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumDiagnosticPriorMass", "value", v] => {
+            settings.physarum.set_diagnostic_prior_mass(v);
+            println!(
+                "info string set PhysarumDiagnosticPriorMass to {}",
+                settings.physarum.diagnostic_prior_mass_permille
+            );
         }
         #[cfg(feature = "spsa")]
         ["name", name, "value", v] => {

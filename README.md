@@ -107,10 +107,26 @@ Reckless is not a standalone chess program but a chess engine designed for use w
 such as [Cute Chess](https://github.com/cutechess/cutechess), [En Croissant](https://encroissant.org),
 or [Nibbler](https://github.com/rooklift/nibbler).
 
-### CS computation-allocation experiment
+### Physarum branch-flow experiment
+
+The current experimental search replaces the learned budget allocator with a
+fixed-current, self-organizing branch-flow network. Build and run its
+misleading-prior regression with:
+
+```bash
+cargo build --release --features physarum-search
+./experiments/computation_allocation/test_physarum_misleading_prior.sh
+```
+
+The policy-free pre-RL build starts new edges uniformly. Conductivity controls
+frontier traffic, while backed-up minimax values exclusively control the UCI
+score, PV, and `bestmove`.
+
+### Archived CS computation-allocation experiment
 
 The corpus-free PPO experiment that learns where to allocate bounded search is
-kept in [`experiments/computation_allocation`](experiments/computation_allocation/README.md).
+kept for comparison in
+[`experiments/computation_allocation`](experiments/computation_allocation/README.md).
 On an NVIDIA Linux host, install all training dependencies and compile the
 engine with:
 
