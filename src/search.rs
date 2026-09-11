@@ -13,6 +13,9 @@ use crate::{
     },
 };
 
+#[cfg(feature = "physarum-search")]
+use crate::board::Board;
+
 #[cfg(feature = "syzygy")]
 use crate::{
     tb,
@@ -50,6 +53,24 @@ struct NonPV;
 impl NodeType for NonPV {
     const PV: bool = false;
     const ROOT: bool = false;
+}
+
+/// Evaluate a Physarum frontier with Reckless's native quiescence search.
+///
+/// The flow search owns its explicit quiet-move tree, while this stabilizes a
+/// frontier against captures and checks using the same move picker, SEE,
+/// histories, correction terms, and NNUE as native alpha-beta.
+#[cfg(feature = "physarum-search")]
+pub(crate) fn quiescence_evaluate(td: &mut ThreadData, board: &Board) -> i32 {
+    td.board = board.clone();
+    td.stack = Stack::new();
+    td.cutoff_count = PlyArray::default();
+    td.excluded = PlyArray::default();
+    td.completed_depth = 0;
+    td.sel_depth = 0;
+    td.pv_table.clear(0);
+    td.nnue.full_refresh(&td.board);
+    qsearch::<PV>(td, -Score::INFINITE, Score::INFINITE, 0)
 }
 
 pub fn start(td: &mut ThreadData, report: Report, thread_count: usize) {

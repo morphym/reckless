@@ -10,10 +10,11 @@ use std::{sync::Arc, sync::atomic::Ordering, time::Instant};
 use crate::{
     board::{Board, NullBoardObserver},
     branch_flow::{Network, NodeId, Parameters},
+    search::quiescence_evaluate,
     thread::{SharedContext, Status, ThreadData},
     threadpool::ThreadPool,
     time::{Limits, TimeManager},
-    types::{Color, MAX_PLY, Move},
+    types::{Color, MAX_PLY, Move, normalize_to_cp},
 };
 
 const DEFAULT_MAX_DEPTH: usize = 64;
@@ -81,6 +82,7 @@ struct PositionNode {
     board: Board,
     incoming_move: Option<Move>,
     depth: usize,
+    evaluation: i32,
     value: i32,
     evaluated: bool,
     terminal: bool,
@@ -104,8 +106,7 @@ struct SearchResult {
 }
 
 fn root_relative_eval(td: &mut ThreadData, board: &Board, root_color: Color) -> i32 {
-    td.nnue.full_refresh(board);
-    let score = td.nnue.evaluate(board);
+    let score = quiescence_evaluate(td, board);
     if board.side_to_move() == root_color { score } else { -score }
 }
 
@@ -127,6 +128,7 @@ fn add_children(
             board,
             incoming_move: Some(mv),
             depth,
+            evaluation: parent_value,
             value: parent_value,
             evaluated: false,
             terminal: false,
@@ -187,7 +189,7 @@ fn preferred_child(flow: &Network, positions: &[PositionNode], node: NodeId, roo
     })
 }
 
-fn best_root_child(flow: &Network, positions: &[PositionNode], root_color: Color) -> NodeId {
+fn partial_best_root_child(flow: &Network, positions: &[PositionNode], root_color: Color) -> NodeId {
     let evaluated = flow.children(0).filter(|child| positions[*child].evaluated).collect::<Vec<_>>();
     if evaluated.is_empty() {
         preferred_child(flow, positions, 0, root_color).unwrap()
@@ -209,34 +211,104 @@ fn best_root_child(flow: &Network, positions: &[PositionNode], root_color: Color
     }
 }
 
-fn principal_variation(flow: &Network, positions: &[PositionNode], root_color: Color) -> Vec<String> {
+/// Number of fully evaluated plies below `node` represented by the tree.
+///
+/// A node's own static evaluation is a valid depth-zero result.  A deeper
+/// result becomes publishable only after every legal child has a result at the
+/// preceding depth.  This is the asynchronous equivalent of publishing only
+/// completed iterative-deepening iterations.
+fn completed_depth(flow: &Network, positions: &[PositionNode], node: NodeId) -> usize {
+    if !positions[node].evaluated {
+        return 0;
+    }
+    if positions[node].terminal {
+        return MAX_PLY;
+    }
+    let children = flow.children(node).collect::<Vec<_>>();
+    if children.is_empty() || children.iter().any(|child| !positions[*child].evaluated) {
+        return 0;
+    }
+    1 + children.into_iter().map(|child| completed_depth(flow, positions, child)).min().unwrap_or(0)
+}
+
+fn value_at_depth(flow: &Network, positions: &[PositionNode], node: NodeId, depth: usize, root_color: Color) -> i32 {
+    if depth == 0 || positions[node].terminal {
+        return positions[node].evaluation;
+    }
+    let maximizing = positions[node].board.side_to_move() == root_color;
+    let values = flow.children(node).map(|child| value_at_depth(flow, positions, child, depth - 1, root_color));
+    if maximizing { values.max().unwrap() } else { values.min().unwrap() }
+}
+
+fn published_root(flow: &Network, positions: &[PositionNode], root_color: Color) -> (NodeId, i32, usize) {
+    let depth = completed_depth(flow, positions, 0);
+    if depth == 0 {
+        let best = partial_best_root_child(flow, positions, root_color);
+        return (best, positions[best].value, 0);
+    }
+    let child_depth = depth - 1;
+    let best = flow
+        .children(0)
+        .max_by(|left, right| {
+            value_at_depth(flow, positions, *left, child_depth, root_color)
+                .cmp(&value_at_depth(flow, positions, *right, child_depth, root_color))
+                .then_with(|| right.cmp(left))
+        })
+        .unwrap();
+    (best, value_at_depth(flow, positions, best, child_depth, root_color), depth)
+}
+
+fn principal_variation(
+    flow: &Network, positions: &[PositionNode], root_color: Color, mut remaining_depth: usize,
+) -> Vec<String> {
     let mut pv = Vec::new();
     let mut node = 0;
-    let mut next = Some(best_root_child(flow, positions, root_color));
+    let mut next = Some(published_root(flow, positions, root_color).0);
     while let Some(child) = next {
         if let Some(mv) = positions[child].incoming_move {
             pv.push(mv.to_uci(&positions[node].board));
         }
-        if !positions[child].evaluated {
+        if !positions[child].evaluated || remaining_depth <= 1 {
             break;
         }
+        remaining_depth -= 1;
         node = child;
-        next = preferred_child(flow, positions, node, root_color);
+        let maximizing = positions[node].board.side_to_move() == root_color;
+        next = flow.children(node).max_by(|left, right| {
+            let ordering = if maximizing {
+                value_at_depth(flow, positions, *left, remaining_depth - 1, root_color).cmp(&value_at_depth(
+                    flow,
+                    positions,
+                    *right,
+                    remaining_depth - 1,
+                    root_color,
+                ))
+            } else {
+                value_at_depth(flow, positions, *right, remaining_depth - 1, root_color).cmp(&value_at_depth(
+                    flow,
+                    positions,
+                    *left,
+                    remaining_depth - 1,
+                    root_color,
+                ))
+            };
+            ordering.then_with(|| right.cmp(left))
+        });
     }
     pv
 }
 
 fn print_info(
-    flow: &Network, positions: &[PositionNode], root_color: Color, depth: usize, nodes: u64, rounds: u64,
-    elapsed_ms: u128,
+    flow: &Network, positions: &[PositionNode], root_color: Color, nodes: u64, rounds: u64, elapsed_ms: u128,
 ) {
-    let best = best_root_child(flow, positions, root_color);
+    let (_, score, depth) = published_root(flow, positions, root_color);
+    let display_score = normalize_to_cp(score, &positions[0].board);
     let nps = nodes as u128 * 1_000 / elapsed_ms.max(1);
     print!(
         "info depth {depth} seldepth {depth} multipv 1 score cp {} nodes {nodes} time {elapsed_ms} nps {nps} string physarum-rounds {rounds} pv",
-        positions[best].value
+        display_score
     );
-    for mv in principal_variation(flow, positions, root_color) {
+    for mv in principal_variation(flow, positions, root_color, depth) {
         print!(" {mv}");
     }
     println!();
@@ -267,11 +339,15 @@ fn run_search(
     };
     let maximum_depth = requested_depth.unwrap_or(runtime.maximum_depth).min(runtime.maximum_depth);
     let manager = TimeManager::new(limits, board.fullmove_number(), move_overhead);
+    shared.nodes.reset();
+    shared.status.set(Status::RUNNING);
     let root_value = root_relative_eval(threads.main_thread(), board, root_color);
+    let root_nodes = 1 + shared.nodes.aggregate();
     let mut positions = vec![PositionNode {
         board: board.clone(),
         incoming_move: None,
         depth: 0,
+        evaluation: root_value,
         value: root_value,
         evaluated: true,
         terminal: false,
@@ -280,19 +356,17 @@ fn run_search(
     let root_priors = runtime.root_priors(board, &moves);
     add_children(&mut flow, &mut positions, 0, moves, boards, root_priors);
 
-    let mut nodes = 0_u64;
+    let mut nodes = root_nodes;
     let mut rounds = 0_u64;
-    let mut reported_depth = 0_usize;
     let mut last_info = Instant::now();
-    let mut previous_best = best_root_child(&flow, &positions, root_color);
-    shared.status.set(Status::RUNNING);
+    let mut previous_best = partial_best_root_child(&flow, &positions, root_color);
     if report {
         let prior = runtime.diagnostic_prior_move.as_deref().unwrap_or("uniform");
         println!("info string Physarum search enabled prior {prior} flow fixed-current batch {}", runtime.batch_size);
     }
 
     loop {
-        if requested_depth.is_some_and(|_| reported_depth >= maximum_depth)
+        if requested_depth.is_some_and(|_| completed_depth(&flow, &positions, 0) >= maximum_depth)
             || manager.hard_limit_reached(nodes)
             || shared.externally_stopped.load(Ordering::Acquire)
         {
@@ -304,7 +378,7 @@ fn run_search(
         }
 
         let old_root_value = positions[0].value;
-        let old_best = best_root_child(&flow, &positions, root_color);
+        let old_best = partial_best_root_child(&flow, &positions, root_color);
         let mut expansions = Vec::with_capacity(batch.len());
         for node in &batch {
             if shared.externally_stopped.load(Ordering::Acquire) {
@@ -312,15 +386,19 @@ fn run_search(
             }
             let old_value = positions[*node].value;
             let depth = positions[*node].depth;
+            let qnodes_before = shared.nodes.aggregate();
             let value = if positions[*node].board.is_draw(depth as isize) {
                 0
             } else {
                 root_relative_eval(threads.main_thread(), &positions[*node].board, root_color)
             };
+            if shared.externally_stopped.load(Ordering::Acquire) {
+                break;
+            }
+            positions[*node].evaluation = value;
             positions[*node].value = value;
             positions[*node].evaluated = true;
-            nodes += 1;
-            reported_depth = reported_depth.max(depth);
+            nodes += 1 + shared.nodes.aggregate().saturating_sub(qnodes_before);
 
             let (moves, boards) = make_children(&positions[*node].board);
             let terminal = moves.is_empty() || positions[*node].board.is_draw(depth as isize);
@@ -335,9 +413,11 @@ fn run_search(
                 } else {
                     0
                 };
+                positions[*node].evaluation = positions[*node].value;
             } else if terminal {
                 positions[*node].terminal = true;
                 positions[*node].value = 0;
+                positions[*node].evaluation = 0;
             }
             let surprise = f64::from((positions[*node].value - old_value).abs()) / 400.0;
             expansions.push(Expansion {
@@ -352,7 +432,7 @@ fn run_search(
         for expansion in &expansions {
             backup(&flow, &mut positions, expansion.node, root_color);
         }
-        let new_best = best_root_child(&flow, &positions, root_color);
+        let new_best = partial_best_root_child(&flow, &positions, root_color);
         let root_effect = f64::from((positions[0].value - old_root_value).abs()) / 400.0;
         let decision_changed = new_best != old_best;
         let events = expansions
@@ -384,22 +464,22 @@ fn run_search(
         backup(&flow, &mut positions, 0, root_color);
         rounds += 1;
 
-        let current_best = best_root_child(&flow, &positions, root_color);
+        let current_best = published_root(&flow, &positions, root_color).0;
         if report && (current_best != previous_best || last_info.elapsed().as_millis() >= INFO_INTERVAL_MS) {
-            print_info(&flow, &positions, root_color, reported_depth, nodes, rounds, manager.elapsed().as_millis());
+            print_info(&flow, &positions, root_color, nodes, rounds, manager.elapsed().as_millis());
             previous_best = current_best;
             last_info = Instant::now();
         }
     }
 
-    let best = best_root_child(&flow, &positions, root_color);
+    let (best, score, depth) = published_root(&flow, &positions, root_color);
     if report {
-        print_info(&flow, &positions, root_color, reported_depth, nodes, rounds, manager.elapsed().as_millis());
+        print_info(&flow, &positions, root_color, nodes, rounds, manager.elapsed().as_millis());
     }
     Some(SearchResult {
         best_move: positions[best].incoming_move.unwrap(),
-        score: positions[best].value,
-        depth: reported_depth,
+        score,
+        depth,
         nodes,
         rounds,
         root_children: flow
@@ -417,7 +497,7 @@ pub fn go(
         Some(result) => {
             println!(
                 "info string Physarum summary score {} depth {} nodes {} rounds {} root-branches {}",
-                result.score,
+                normalize_to_cp(result.score, board),
                 result.depth,
                 result.nodes,
                 result.rounds,

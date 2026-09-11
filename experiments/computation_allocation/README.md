@@ -341,8 +341,8 @@ actions, scores, bounds, stopping, or the played move.
 
 Each round solves fixed-current traffic over every represented
 root-to-frontier route, selects a weighted-fair batch of frontiers, evaluates
-them with Reckless NNUE, backs values up by alternating minimax, and applies one
-simultaneous update:
+them with Reckless's native quiescence search and NNUE, backs values up by
+alternating minimax, and applies one simultaneous update:
 
 ```text
 D(edge) <- retention * D(edge)
@@ -352,7 +352,11 @@ D(edge) <- retention * D(edge)
 The exploration floor prevents permanent starvation. Usefulness is bounded and
 auditable; decision-change credit is restricted to branches belonging to the
 old or new root decision. Conductivity determines traffic only. The UCI score,
-PV, and `bestmove` are all taken from backed-up values.
+PV, and `bestmove` are all taken from backed-up values. Asynchronous partial
+values continue to guide traffic, but the public decision uses only the deepest
+ply completed across every legal root move. This avoids comparing a deeply
+refuted branch with an optimistic shallow branch. UCI scores are normalized to
+centipawns through the same Reckless conversion as native search.
 
 The following regression injects 99% root prior into the poisoned queen move
 `Qxd4`. The search must transport the refuting `Nxd4` evidence, reject `Qxd4`,
@@ -367,19 +371,64 @@ The diagnostic UCI options `PhysarumDiagnosticPriorMove` and
 `PhysarumDiagnosticPriorMass` exist solely for adversarial-prior tests. Normal
 search leaves the move at `none` and therefore starts from a uniform prior.
 `PhysarumBatch` controls simultaneous frontier width and `PhysarumMaxDepth` is
-the safety ceiling. Nodes count actual frontier NNUE evaluations; time limits
-use measured wall time.
+the safety ceiling. Nodes count frontier evaluations plus the native
+quiescence nodes used to stabilize them; time limits use measured wall time.
+
+### Matched-cost result
+
+`compare_physarum_native.py` measures both searches on eight deterministic
+opening, tactical, middlegame, and endgame positions. Each candidate receives
+a 500 ms warm-up, uses one thread and 32 MiB hash, and is repeated three times.
+Regret is the depth-16 native full-MultiPV value of the oracle's best move minus
+the value of the candidate's selected move. Equal wall time is the primary
+comparison; equal reported nodes is secondary because the engines perform
+different work per node.
+
+The measured Apple host result is:
+
+| Budget | Native mean regret | Physarum mean regret | Native agreement | Physarum agreement |
+| --- | ---: | ---: | ---: | ---: |
+| 100 ms | 7.1 cp | 95.5 cp | 75.0% | 12.5% |
+| 500 ms | 2.8 cp | 47.8 cp | 75.0% | 12.5% |
+| 512 reported nodes | 61.6 cp | 128.5 cp | 25.0% | 12.5% |
+| 2,048 reported nodes | 55.2 cp | 92.0 cp | 37.5% | 12.5% |
+
+The complete per-position record is in
+`artifacts/physarum-native-matched-cost.json`. To reproduce it, first preserve
+separate native and feature-gated release binaries, then run:
+
+```sh
+python3 experiments/computation_allocation/compare_physarum_native.py \
+  --native /path/to/reckless-native \
+  --physarum /path/to/reckless-physarum \
+  --reference-depth 16 \
+  --movetimes 100,500 --node-budgets 512,2048 --repeats 3 \
+  --output experiments/computation_allocation/artifacts/physarum-native-matched-cost.json
+```
+
+The opening preference is not a conductivity override. At the starting
+position, completed two-ply quiescence-backed minimax selects `c4`; the
+depth-16 oracle scores `c4` only 6 cp below its tied `d4`/`e4` leaders. The
+genuinely bad `Qxd4` preference was a bare-NNUE horizon effect: adding native
+quiescence makes the 99%-misleading-prior regression reject it at completed
+depth one.
 
 This is a pre-RL falsification implementation, not a strength claim. It is a
 tree-flow solver rather than the final transposition-aware graph Laplacian, and
 the current frontier evaluations are sequential inside each simultaneous flow
-batch. The next gate is matched-cost comparison against native alpha-beta and
-the prescribed decay/floor/whole-branch ablations before any policy training.
+batch. The present implementation fails the matched-time strength gate. A full
+O(E) flow solve and cloned board at every represented node limit it to roughly
+one or two completed plies in these time controls, while native alpha-beta
+searches hundreds of thousands of nodes. Graph/transposition compaction and an
+incremental flow solver are required before the prescribed
+decay/floor/whole-branch ablations or any policy training.
 
 ## Current boundary
 
 The earlier 1,000-root allocator run demonstrated plumbing, not a valid search
 objective, and its checkpoint must not seed the Physarum policy. The current
 boundary is the policy-free Physarum falsification build and its adversarial
-prior regression. No new RL run should begin until matched-cost comparisons,
-synthetic delayed-refutation tests, and the flow ablations above pass.
+prior regression. The first matched-cost comparison is complete and currently
+fails; no new RL run should begin until the throughput deficit is corrected,
+the comparison passes, and the synthetic delayed-refutation and flow ablations
+also pass.

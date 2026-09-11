@@ -168,8 +168,8 @@ class RecklessUci:
         lines = self._read_until(lambda line: line.startswith("fen "))
         return lines[-1][4:]
 
-    def _search_current_position(self, depth: int) -> SearchResult:
-        self._send(f"go depth {depth}")
+    def _search_current_position(self, go_command: str) -> SearchResult:
+        self._send(go_command)
         lines = self._read_until(lambda line: line.startswith("bestmove "))
 
         bestmove = lines[-1].split(maxsplit=1)[1]
@@ -204,7 +204,25 @@ class RecklessUci:
         if moves:
             position += " moves " + " ".join(moves)
         self._send(position)
-        return self._search_current_position(depth)
+        return self._search_current_position(f"go depth {depth}")
+
+    def analyze_limited(
+        self,
+        fen: str,
+        limit_kind: str,
+        limit: int,
+        multipv: int = 1,
+    ) -> SearchResult:
+        """Run a fresh search with a UCI wall-time or node limit."""
+        if limit_kind not in {"movetime", "nodes"}:
+            raise ValueError("limit_kind must be 'movetime' or 'nodes'")
+        if limit <= 0:
+            raise ValueError("limit must be positive")
+        self.new_game()
+        self._send(f"setoption name MultiPV value {multipv}")
+        self._ready()
+        self._send(f"position fen {fen}")
+        return self._search_current_position(f"go {limit_kind} {limit}")
 
     def analyze_branch(self, fen: str, move: str, depth: int) -> SearchResult:
         """Search one root branch while preserving native TT/history state."""
@@ -212,7 +230,7 @@ class RecklessUci:
             raise ValueError("depth must be positive")
         self._send("setoption name MultiPV value 1")
         self._send(f"position fen {fen} moves {move}")
-        return self._search_current_position(depth)
+        return self._search_current_position(f"go depth {depth}")
 
     def static_evaluate(self, fens: list[str]) -> list[int]:
         """Return frozen NNUE scores from side-to-move, without running search."""

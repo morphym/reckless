@@ -120,7 +120,9 @@ cargo build --release --features physarum-search
 
 The policy-free pre-RL build starts new edges uniformly. Conductivity controls
 frontier traffic, while backed-up minimax values exclusively control the UCI
-score, PV, and `bestmove`.
+score, PV, and `bestmove`. Frontier values use Reckless's native quiescence
+search, and the engine publishes only a depth completed across every root
+move; this prevents tactical leaf noise and unequal-horizon move selection.
 
 ### Archived CS computation-allocation experiment
 
