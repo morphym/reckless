@@ -369,7 +369,18 @@ pub fn go(
             // overwhelm a supported line.
             let root_gain = (nodes[0].value - old_root).max(0.0);
             let branch_gain = (nodes[index].value - nodes[index].initial).max(0.0);
-            let utility = (0.01 + root_gain + branch_gain).min(1.0);
+            // A decisive positive leaf is stronger than an ordinary numeric
+            // improvement.  Do not let a high but misleading quiescence
+            // baseline dilute a discovered mate/tablebase win: once such
+            // evidence is present, route a full-strength deposit along the
+            // complete path.  Decisive losses deliberately receive no such
+            // bonus and remain available only through the weak prior.
+            let decisive_positive = nodes[index].value >= 0.999;
+            let utility = if decisive_positive {
+                1.0
+            } else {
+                (0.01 + root_gain + branch_gain).min(1.0)
+            };
             for node in &mut nodes {
                 node.deposit *= 0.97;
             }
