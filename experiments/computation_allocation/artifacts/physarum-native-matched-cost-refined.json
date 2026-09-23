@@ -1,0 +1,5450 @@
+{
+  "positions": [
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.26950000002398,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 16,
+        "reported_nodes": 118783,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 47,
+          "raw": 47
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.85404100026062,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 6231,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 91.79979200052912,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 16,
+        "reported_nodes": 102399,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 47,
+          "raw": 47
+        },
+        "reported_time_ms": 89
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.35933299896715,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 5994,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.61391699954402,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 16,
+        "reported_nodes": 122879,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 47,
+          "raw": 47
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 90.21620800012897,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 6134,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.4554999987595,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 20,
+        "reported_nodes": 677887,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 38,
+          "raw": 38
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 496.5627499987022,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 3,
+        "reported_nodes": 16020,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 24,
+          "raw": 24
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.9085419997864,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 20,
+        "reported_nodes": 708607,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 38,
+          "raw": 38
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 496.94854200060945,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 3,
+        "reported_nodes": 15001,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 24,
+          "raw": 24
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2e4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.70637499910663,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 20,
+        "reported_nodes": 700415,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 38,
+          "raw": 38
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 499.6185420004622,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 3,
+        "reported_nodes": 15376,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 24,
+          "raw": 24
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.6853750005102484,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 32,
+          "raw": 32
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 5.674208001437364,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 573,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 3
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.5663750002422603,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 32,
+          "raw": 32
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 5.856542000401532,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 573,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 3
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.5102910003624856,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 32,
+          "raw": 32
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 5.597790999672725,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 573,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 3
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.560375000233762,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 36,
+          "raw": 36
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 21.322083000995917,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 2080,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 18
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.690916999403271,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 36,
+          "raw": 36
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 22.149917000206187,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 2080,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 18
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d2d4",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.7080000001878943,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 32,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 36,
+          "raw": 36
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "start-position",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 21.149999998669955,
+        "reference_best_moves": [
+          "d2d4",
+          "e2e4"
+        ],
+        "reference_value_cp": 26,
+        "regret_cp": 6,
+        "reported_depth": 2,
+        "reported_nodes": 2080,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 28,
+          "raw": 28
+        },
+        "reported_time_ms": 17
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 88.17366699986451,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 13,
+        "reported_nodes": 114687,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -431,
+          "raw": -431
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 90.75241699974868,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 6063,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 87.75491699998383,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 13,
+        "reported_nodes": 112639,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -425,
+          "raw": -425
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 94.89708299952326,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 6758,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 88
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 88.03504199931922,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 13,
+        "reported_nodes": 116735,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -431,
+          "raw": -431
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 93.31037499941885,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 6231,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 87
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 488.04491699957,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 17,
+        "reported_nodes": 638975,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -416,
+          "raw": -416
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 502.1924169996055,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 19132,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 489
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 488.7267909998627,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 17,
+        "reported_nodes": 638975,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -416,
+          "raw": -416
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 504.0689170000405,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 18882,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 488.6698330010404,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 17,
+        "reported_nodes": 649215,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -416,
+          "raw": -416
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 501.922374998685,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 18882,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.500624999811407,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 2,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -374,
+          "raw": -374
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 4.726416000266909,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 1,
+        "reported_nodes": 547,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -445,
+          "raw": -445
+        },
+        "reported_time_ms": 2
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.3032909994071815,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 2,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -374,
+          "raw": -374
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 4.9472919999971054,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 1,
+        "reported_nodes": 547,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -445,
+          "raw": -445
+        },
+        "reported_time_ms": 2
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.2609580009884667,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 2,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -374,
+          "raw": -374
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e7e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 5.050208001193823,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -502,
+        "regret_cp": 45,
+        "reported_depth": 1,
+        "reported_nodes": 547,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -445,
+          "raw": -445
+        },
+        "reported_time_ms": 2
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.334875000291504,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -439,
+          "raw": -439
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 17.75741600067704,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 2187,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 14
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.369833000760991,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -439,
+          "raw": -439
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 19.50958399902447,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 2187,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 16
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.3562089993210975,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -439,
+          "raw": -439
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/8/2PP4/2P2N2/PPQ1PPPP/RNB1KB1R b KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "poisoned-queen",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c7c5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 18.911250001110602,
+        "reference_best_moves": [
+          "b8c6"
+        ],
+        "reference_value_cp": -474,
+        "regret_cp": 17,
+        "reported_depth": 2,
+        "reported_nodes": 2187,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -401,
+          "raw": -401
+        },
+        "reported_time_ms": 15
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.77145800013386,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 59391,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 275,
+          "raw": 275
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 99.92220899948734,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 14408,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 90
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.32841699950222,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 14,
+        "reported_nodes": 92159,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 286,
+          "raw": 286
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 90.44304199960607,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 14408,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.34554200075218,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 14,
+        "reported_nodes": 102399,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 286,
+          "raw": 286
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 91.89420799884829,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 16109,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.87699999977485,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 645119,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 306,
+          "raw": 306
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 499.9920000009297,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 49474,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.5567910005193,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 649215,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 306,
+          "raw": 306
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 501.26075000116543,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 53223,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.62924999957613,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 19,
+        "reported_nodes": 708607,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 290,
+          "raw": 290
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 499.39304100007575,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 2,
+        "reported_nodes": 51094,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.724333000514889,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 157,
+          "raw": 157
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.685375000713975,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 653,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.53612500091549,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 157,
+          "raw": 157
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.78633299987996,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 653,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 2.5205000001733424,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 157,
+          "raw": 157
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.913667000233545,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 653,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "h7f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.611083000578219,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 136,
+        "regret_cp": 121,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 204,
+          "raw": 204
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 8.542874998965999,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 2193,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 5
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "h7f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.6579580009856727,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 136,
+        "regret_cp": 121,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 204,
+          "raw": 204
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 8.751375000429107,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 2193,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 6
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "h7f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.678208000565064,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 136,
+        "regret_cp": 121,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 204,
+          "raw": 204
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "tactical-attack",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g5e7",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 9.213541999997688,
+        "reference_best_moves": [
+          "g5e7"
+        ],
+        "reference_value_cp": 257,
+        "regret_cp": 0,
+        "reported_depth": 1,
+        "reported_nodes": 2193,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 238,
+          "raw": 238
+        },
+        "reported_time_ms": 6
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.51587500046298,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 106495,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 49,
+          "raw": 49
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.97812499971769,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 15156,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.08858300108113,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 114687,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 49,
+          "raw": 49
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.91170799951942,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 18717,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.40029100044922,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 110591,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 49,
+          "raw": 49
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.78429100049834,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 15942,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c3e2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 488.5644580008375,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 34,
+        "regret_cp": 5,
+        "reported_depth": 18,
+        "reported_nodes": 608255,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 50,
+          "raw": 50
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 502.76800000028743,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 56284,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c3e2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 488.4664999990491,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 34,
+        "regret_cp": 5,
+        "reported_depth": 18,
+        "reported_nodes": 655359,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 44,
+          "raw": 44
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 503.36849999985134,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 53502,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c3e2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 487.80504199930874,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 34,
+        "regret_cp": 5,
+        "reported_depth": 18,
+        "reported_nodes": 681983,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 44,
+          "raw": 44
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 503.1580419999955,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 2,
+        "reported_nodes": 57926,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 108,
+          "raw": 108
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.717208000831306,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 93,
+          "raw": 93
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.9450000003853347,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 627,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.5752499986992916,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 93,
+          "raw": 93
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.9052499996614642,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 627,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "g3g4",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.5610409993532812,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -19,
+        "regret_cp": 58,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 93,
+          "raw": 93
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.8577909999730764,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 627,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.581875000236323,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 74,
+          "raw": 74
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 8.278375000372762,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 2075,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 5
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.5494170006131753,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 74,
+          "raw": 74
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 8.659791001264239,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 2075,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 6
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d1c2",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.5115419996145647,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": 39,
+        "regret_cp": 0,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 74,
+          "raw": 74
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r4rk1/1pp1qppp/pnnbp3/7b/3PP3/1PN1BNPP/P4PB1/R2Q1RK1 w - - 2 13",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "quiet-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e4e5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 9.1849580003327,
+        "reference_best_moves": [
+          "d1c2"
+        ],
+        "reference_value_cp": -7,
+        "regret_cp": 46,
+        "reported_depth": 1,
+        "reported_nodes": 2075,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 6
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 88.99724999901082,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 14,
+        "reported_nodes": 112639,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -197,
+          "raw": -197
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.14533300109906,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 32883,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 88.61166699898604,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 14,
+        "reported_nodes": 120831,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -197,
+          "raw": -197
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.08408399879409,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 34303,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 88.13579100024072,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 14,
+        "reported_nodes": 118783,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -197,
+          "raw": -197
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.36370899977919,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 34936,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d5e6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.5507499984669,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -270,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 645119,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -201,
+          "raw": -201
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 506.3205000005837,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 98959,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 490
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d5e6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.6828750004497,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -270,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 651263,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -201,
+          "raw": -201
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 503.8277499988908,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 100825,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d5e6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.3791250013019,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -270,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 645119,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -201,
+          "raw": -201
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 500.59191699983785,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 101389,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.644415999384364,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 599,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.1349170003522886,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 542,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.4929579994932283,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 599,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.0005000007804483,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 542,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.427999999781605,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 2,
+        "reported_nodes": 599,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.997666999362991,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 542,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.266290999818011,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -171,
+          "raw": -171
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.902791999891633,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 2712,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.197749998435029,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -171,
+          "raw": -171
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 7.0154159984667785,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 2712,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.148042000248097,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 5,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -171,
+          "raw": -171
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "kiwipete",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2a6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.95070900110295,
+        "reference_best_moves": [
+          "d5e6"
+        ],
+        "reference_value_cp": -310,
+        "regret_cp": 40,
+        "reported_depth": 1,
+        "reported_nodes": 2712,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -139,
+          "raw": -139
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.29112500097835,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 131071,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 38,
+          "raw": 38
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.96570799940673,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 27175,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.88491700033774,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 106495,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 22,
+          "raw": 22
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.62633400046616,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 25915,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.44312500150409,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 13,
+        "reported_nodes": 126975,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 22,
+          "raw": 22
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.29066599962243,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 28440,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.5719590001827,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 681983,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 15,
+          "raw": 15
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 502.72120899899164,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 80119,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.3763749985519,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 694271,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 15,
+          "raw": 15
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 502.7615830003924,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 81469,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c5d6",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.1976249998843,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 20,
+        "regret_cp": 0,
+        "reported_depth": 18,
+        "reported_nodes": 720895,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 15,
+          "raw": 15
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 501.0798339990288,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 2,
+        "reported_nodes": 83599,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 58,
+          "raw": 58
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.6884160015470115,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 81,
+          "raw": 81
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.74112499957846,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 805,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.533582999603823,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 81,
+          "raw": 81
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.9501659994130023,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 805,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "c2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.503416999388719,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 4,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 81,
+          "raw": 81
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.734500000064145,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 805,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d1d5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.772250000110944,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 115,
+          "raw": 115
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.9590000002790475,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 2397,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d1d5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.704332999404869,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 115,
+          "raw": 115
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.949957998585887,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 2397,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d1d5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.634208000221406,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": 10,
+        "regret_cp": 10,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 115,
+          "raw": 115
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "1r2qrk1/2p1bpp1/3p4/1pP2b1p/1P2N1nP/4P1P1/1BQ2PB1/3R2KR w - - 3 22",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "complex-middlegame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e4f6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.836040998678072,
+        "reference_best_moves": [
+          "c5d6"
+        ],
+        "reference_value_cp": -356,
+        "regret_cp": 376,
+        "reported_depth": 1,
+        "reported_nodes": 2397,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 120,
+          "raw": 120
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.14458300003025,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 145407,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 92.84670799934247,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 13215,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.15304200106766,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 163839,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 90.08729200104426,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 13598,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 87.6778750007361,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 163839,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.03066599891463,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 13772,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.2395419990644,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 32,
+        "reported_nodes": 892927,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 499.1132909999578,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 37765,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 488.53075000079116,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 32,
+        "reported_nodes": 917503,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 501.7985839986068,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 37379,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 487
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.9148330001044,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 32,
+        "reported_nodes": 827391,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 0,
+          "raw": 0
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 502.27758400069433,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 2,
+        "reported_nodes": 37539,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -28,
+          "raw": -28
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f6g5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.8462500013120007,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -165,
+        "regret_cp": 165,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -48,
+          "raw": -48
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.8665409992972855,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 524,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f6g5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.477250000083586,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -165,
+        "regret_cp": 165,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -48,
+          "raw": -48
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 4.257874999893829,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 524,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 2
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f6g5",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.5260000002162997,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -165,
+        "regret_cp": 165,
+        "reported_depth": 3,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -48,
+          "raw": -48
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.8653749998047715,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 524,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.418250000322587,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -14,
+          "raw": -14
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 11.04375000068103,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 2125,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 8
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.315124999062391,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -14,
+          "raw": -14
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 10.93849999961094,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 2125,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 8
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d6d8",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 3.3077080006478354,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": 0,
+        "regret_cp": 0,
+        "reported_depth": 7,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -14,
+          "raw": -14
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1R3pk1/3rpb1p/1P1p1p2/1P1P4/r4N1P/2R3PK/8 b - - 2 27",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "rook-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "a3b3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 11.751416999686626,
+        "reference_best_moves": [
+          "d6d8"
+        ],
+        "reference_value_cp": -76,
+        "regret_cp": 76,
+        "reported_depth": 1,
+        "reported_nodes": 2125,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": -7,
+          "raw": -7
+        },
+        "reported_time_ms": 8
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.16979199946218,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 19,
+        "reported_nodes": 202751,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 249,
+          "raw": 249
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 91.56975000041712,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 20077,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 86
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.16612500049814,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 19,
+        "reported_nodes": 204799,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 249,
+          "raw": 249
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 89.90320900011284,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 19853,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 88.14245800022036,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 19,
+        "reported_nodes": 208895,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 249,
+          "raw": 249
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 90.07133300110581,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 20214,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 85
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.5819999997475,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 1347583,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 310,
+          "raw": 310
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 553.7942499995552,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 55625,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.4245829996653,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 1353727,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 310,
+          "raw": 310
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 495.55858299936517,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 56624,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 488
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2e3",
+        "bestmove_agreement": true,
+        "observed_elapsed_ms": 487.4901669991232,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 260,
+        "regret_cp": 0,
+        "reported_depth": 23,
+        "reported_nodes": 1236991,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 310,
+          "raw": 310
+        },
+        "reported_time_ms": 485
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 494.37616700015496,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 3,
+        "reported_nodes": 55625,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 486
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.613041000586236,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 78,
+          "raw": 78
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "e2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.447082999628037,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": -179,
+        "regret_cp": 439,
+        "reported_depth": 1,
+        "reported_nodes": 731,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 227,
+          "raw": 227
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.456750000419561,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 78,
+          "raw": 78
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "e2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.0914170001778984,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": -179,
+        "regret_cp": 439,
+        "reported_depth": 1,
+        "reported_nodes": 731,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 227,
+          "raw": 227
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 2.405957999144448,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 5,
+        "reported_nodes": 513,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 78,
+          "raw": 78
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "e2c3",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.068833000725135,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": -179,
+        "regret_cp": 439,
+        "reported_depth": 1,
+        "reported_nodes": 731,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 227,
+          "raw": 227
+        },
+        "reported_time_ms": 0
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "d3c2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.3980000007431954,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 6,
+        "regret_cp": 254,
+        "reported_depth": 6,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 66,
+          "raw": 66
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 1,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.091750001360197,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 2,
+        "reported_nodes": 2054,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 3
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "d3c2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.3705829991959035,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 6,
+        "regret_cp": 254,
+        "reported_depth": 6,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 66,
+          "raw": 66
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 2,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.492167000033078,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 2,
+        "reported_nodes": 2054,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 4
+      }
+    },
+    {
+      "engine": "native",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "d3c2",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 3.2262080003420124,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 6,
+        "regret_cp": 254,
+        "reported_depth": 6,
+        "reported_nodes": 2049,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 66,
+          "raw": 66
+        },
+        "reported_time_ms": 1
+      }
+    },
+    {
+      "engine": "physarum",
+      "fen": "8/1p6/3p1k2/Pp1Pp1bn/1P2P2p/3K3P/4NB2/8 w - - 9 38",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "position": "minor-piece-endgame",
+      "repeat": 3,
+      "result": {
+        "bestmove": "f2b6",
+        "bestmove_agreement": false,
+        "observed_elapsed_ms": 6.163083000501501,
+        "reference_best_moves": [
+          "f2e3"
+        ],
+        "reference_value_cp": 85,
+        "regret_cp": 175,
+        "reported_depth": 2,
+        "reported_nodes": 2054,
+        "reported_score": {
+          "kind": "cp",
+          "normalized": 97,
+          "raw": 97
+        },
+        "reported_time_ms": 3
+      }
+    }
+  ],
+  "protocol": {
+    "generated_at": "2026-09-11T17:35:48.443320+00:00",
+    "hash_mb": 32,
+    "host": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "native_binary": "/private/tmp/reckless-native",
+    "physarum_binary": "/private/tmp/reckless-physarum-refined",
+    "positions": 8,
+    "primary_metric": "equal UCI movetime on one thread",
+    "python": "3.14.6",
+    "reference": "separate native Reckless MultiPV depth 16",
+    "repeats": 3,
+    "secondary_metric": "equal reported node limit; units differ by engine",
+    "threads": 1,
+    "warmup": "500 ms per candidate engine before measurement"
+  },
+  "references_cp": {
+    "complex-middlegame": {
+      "b2a1": -23,
+      "b2a3": -215,
+      "b2c1": -210,
+      "b2c3": -192,
+      "b2d4": -127,
+      "b2e5": -502,
+      "b2f6": -496,
+      "b2g7": -375,
+      "c2a4": -716,
+      "c2b1": -155,
+      "c2b3": -16,
+      "c2c1": -26,
+      "c2c3": 10,
+      "c2c4": -710,
+      "c2d2": -100,
+      "c2d3": -30,
+      "c2e2": -53,
+      "c5c6": -14,
+      "c5d6": 20,
+      "d1a1": -56,
+      "d1b1": -167,
+      "d1c1": -22,
+      "d1d2": -25,
+      "d1d3": -58,
+      "d1d4": -78,
+      "d1d5": 10,
+      "d1d6": -551,
+      "d1e1": -79,
+      "d1f1": -65,
+      "e4c3": -689,
+      "e4d2": -703,
+      "e4d6": -473,
+      "e4f6": -356,
+      "e4g5": -695,
+      "f2f3": -10,
+      "f2f4": -234,
+      "g1f1": -52,
+      "g2f1": -97,
+      "g2f3": 1,
+      "g2h3": -35,
+      "h1h2": -119,
+      "h1h3": -109
+    },
+    "kiwipete": {
+      "a1b1": -708,
+      "a1c1": -720,
+      "a1d1": -683,
+      "a2a3": -701,
+      "a2a4": -690,
+      "b2b3": -715,
+      "c3a4": -674,
+      "c3b1": -651,
+      "c3b5": -651,
+      "c3d1": -560,
+      "d2c1": -699,
+      "d2e3": -690,
+      "d2f4": -697,
+      "d2g5": -616,
+      "d2h6": -721,
+      "d5d6": -589,
+      "d5e6": -270,
+      "e1c1": -671,
+      "e1d1": -728,
+      "e1f1": -698,
+      "e1g1": -630,
+      "e2a6": -310,
+      "e2b5": -712,
+      "e2c4": -741,
+      "e2d1": -740,
+      "e2d3": -634,
+      "e2f1": -652,
+      "e5c4": -748,
+      "e5c6": -670,
+      "e5d3": -658,
+      "e5d7": -604,
+      "e5f7": -704,
+      "e5g4": -647,
+      "e5g6": -571,
+      "f3d3": -789,
+      "f3e3": -728,
+      "f3f4": -767,
+      "f3f5": -815,
+      "f3f6": -763,
+      "f3g3": -765,
+      "f3g4": -803,
+      "f3h3": -737,
+      "f3h5": -820,
+      "g2g3": -609,
+      "g2g4": -709,
+      "g2h3": -650,
+      "h1f1": -723,
+      "h1g1": -659
+    },
+    "minor-piece-endgame": {
+      "a5a6": -40,
+      "d3c2": 6,
+      "d3c3": 5,
+      "e2c1": -471,
+      "e2c3": -179,
+      "e2d4": -539,
+      "e2f4": -577,
+      "e2g1": 6,
+      "e2g3": -561,
+      "f2a7": 0,
+      "f2b6": 85,
+      "f2c5": -82,
+      "f2d4": -507,
+      "f2e1": 7,
+      "f2e3": 260,
+      "f2g1": 0,
+      "f2g3": -561,
+      "f2h4": -255
+    },
+    "poisoned-queen": {
+      "a7a5": -519,
+      "a7a6": -531,
+      "b7b5": -541,
+      "b7b6": -484,
+      "b8a6": -517,
+      "b8c6": -457,
+      "b8d7": -489,
+      "c7c5": -474,
+      "c7c6": -509,
+      "c8d7": -555,
+      "c8e6": -523,
+      "c8f5": -615,
+      "c8g4": -475,
+      "c8h3": -615,
+      "d8d4": -668,
+      "d8d5": -682,
+      "d8d6": -555,
+      "d8d7": -557,
+      "e7e5": -502,
+      "e7e6": -478,
+      "e8d7": -558,
+      "f6d5": -594,
+      "f6d7": -466,
+      "f6e4": -593,
+      "f6g4": -534,
+      "f6g8": -521,
+      "f6h5": -498,
+      "g7g5": -584,
+      "g7g6": -491,
+      "h7h5": -530,
+      "h7h6": -514,
+      "h8g8": -572
+    },
+    "quiet-middlegame": {
+      "a1b1": -17,
+      "a1c1": 12,
+      "a2a3": -82,
+      "a2a4": 12,
+      "b3b4": -99,
+      "c3a4": 13,
+      "c3b1": -52,
+      "c3b5": -459,
+      "c3d5": -454,
+      "c3e2": 34,
+      "d1b1": 3,
+      "d1c1": 0,
+      "d1c2": 39,
+      "d1d2": 12,
+      "d1d3": 5,
+      "d1e1": -22,
+      "d1e2": 11,
+      "d4d5": 21,
+      "e3c1": -63,
+      "e3d2": -128,
+      "e3f4": -153,
+      "e3g5": 7,
+      "e3h6": -418,
+      "e4e5": -7,
+      "f1e1": -76,
+      "f3d2": -563,
+      "f3e1": -555,
+      "f3e5": -573,
+      "f3g5": -573,
+      "f3h2": -579,
+      "f3h4": -574,
+      "g1h1": 0,
+      "g1h2": -29,
+      "g2h1": -68,
+      "g3g4": -19,
+      "h3h4": -54
+    },
+    "rook-endgame": {
+      "a3a1": -274,
+      "a3a2": -613,
+      "a3a4": -122,
+      "a3a5": -596,
+      "a3a6": -584,
+      "a3a7": -610,
+      "a3a8": -186,
+      "a3b3": -76,
+      "a3c3": -614,
+      "a3d3": -58,
+      "a3e3": -132,
+      "a3f3": -242,
+      "d6a6": -588,
+      "d6b6": -569,
+      "d6c6": -606,
+      "d6d7": -616,
+      "d6d8": 0,
+      "e6e5": -574,
+      "f5f4": -183,
+      "f6d4": -532,
+      "f6d8": -248,
+      "f6e5": -685,
+      "f6e7": -598,
+      "f6g5": -165,
+      "f6h4": -598,
+      "g7f8": -339,
+      "g7g6": -76,
+      "g7g8": -475,
+      "g7h7": -416,
+      "g7h8": -508,
+      "h6h5": -228
+    },
+    "start-position": {
+      "a2a3": -12,
+      "a2a4": -34,
+      "b1a3": -62,
+      "b1c3": -5,
+      "b2b3": -31,
+      "b2b4": -35,
+      "c2c3": 5,
+      "c2c4": 26,
+      "d2d3": -17,
+      "d2d4": 32,
+      "e2e3": 15,
+      "e2e4": 32,
+      "f2f3": -72,
+      "f2f4": -35,
+      "g1f3": 31,
+      "g1h3": -66,
+      "g2g3": 25,
+      "g2g4": -118,
+      "h2h3": -13,
+      "h2h4": -40
+    },
+    "tactical-attack": {
+      "a1b1": -33,
+      "a1c1": 58,
+      "a1d1": 116,
+      "a2a3": -60,
+      "a2a4": -60,
+      "b2b3": -421,
+      "b2b4": -529,
+      "c2a4": -346,
+      "c2b1": -31,
+      "c2b3": -313,
+      "c2d1": -401,
+      "c2d3": -40,
+      "c2e4": 56,
+      "c2f5": -329,
+      "c2g6": -39,
+      "c3a4": -282,
+      "c3b1": -571,
+      "c3b5": -400,
+      "c3d1": -319,
+      "c3d5": -55,
+      "c3e4": -149,
+      "e1b1": -304,
+      "e1c1": -29,
+      "e1d1": -33,
+      "e1f1": -214,
+      "e2a6": -713,
+      "e2b5": -722,
+      "e2c4": 121,
+      "e2d1": -39,
+      "e2d2": -241,
+      "e2d3": -151,
+      "e2e3": -144,
+      "e2e4": 120,
+      "e2f1": -397,
+      "e2f3": 120,
+      "e2g4": 151,
+      "e2h5": -699,
+      "f2f3": -398,
+      "f2f4": -162,
+      "g1f1": -136,
+      "g1h1": -95,
+      "g2g3": -552,
+      "g2g4": -603,
+      "g5c1": -465,
+      "g5d2": -522,
+      "g5e3": -155,
+      "g5e7": 257,
+      "g5f4": -405,
+      "g5f6": 16,
+      "g5h4": -571,
+      "g5h6": -501,
+      "h2h3": -33,
+      "h2h4": -99,
+      "h7f6": 136,
+      "h7f8": -392
+    }
+  },
+  "summaries": [
+    {
+      "bestmove_agreement_rate": 0.75,
+      "engine": "native",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "maximum_regret_cp": 40.0,
+      "mean_observed_elapsed_ms": 88.24644795852994,
+      "mean_regret_cp": 7.125,
+      "mean_reported_nodes": 128340.33333333333,
+      "mean_reported_time_ms": 85.33333333333333,
+      "median_regret_cp": 0.0,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.125,
+      "engine": "physarum",
+      "limit": 100,
+      "limit_kind": "movetime",
+      "maximum_regret_cp": 175.0,
+      "mean_observed_elapsed_ms": 92.05449299982622,
+      "mean_regret_cp": 47.75,
+      "mean_reported_nodes": 17355.5,
+      "mean_reported_time_ms": 85.875,
+      "median_regret_cp": 28.5,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.75,
+      "engine": "native",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "maximum_regret_cp": 17.0,
+      "mean_observed_elapsed_ms": 488.2229826247719,
+      "mean_regret_cp": 2.75,
+      "mean_reported_nodes": 774057.6666666666,
+      "mean_reported_time_ms": 485.4583333333333,
+      "median_regret_cp": 0.0,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.125,
+      "engine": "physarum",
+      "limit": 500,
+      "limit_kind": "movetime",
+      "maximum_regret_cp": 175.0,
+      "mean_observed_elapsed_ms": 503.1447969998529,
+      "mean_regret_cp": 47.75,
+      "mean_reported_nodes": 52154.708333333336,
+      "mean_reported_time_ms": 486.8333333333333,
+      "median_regret_cp": 28.5,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.25,
+      "engine": "native",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "maximum_regret_cp": 175.0,
+      "mean_observed_elapsed_ms": 2.544892125115439,
+      "mean_regret_cp": 61.625,
+      "mean_reported_nodes": 523.75,
+      "mean_reported_time_ms": 0.0,
+      "median_regret_cp": 42.5,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.125,
+      "engine": "physarum",
+      "limit": 512,
+      "limit_kind": "nodes",
+      "maximum_regret_cp": 439.0,
+      "mean_observed_elapsed_ms": 4.0459113334539625,
+      "mean_regret_cp": 128.5,
+      "mean_reported_nodes": 625.25,
+      "mean_reported_time_ms": 1.2083333333333333,
+      "median_regret_cp": 45.5,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.375,
+      "engine": "native",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "maximum_regret_cp": 254.0,
+      "mean_observed_elapsed_ms": 3.4737100000559926,
+      "mean_regret_cp": 55.25,
+      "mean_reported_nodes": 2049.0,
+      "mean_reported_time_ms": 1.0,
+      "median_regret_cp": 13.5,
+      "positions": 8,
+      "samples": 24
+    },
+    {
+      "bestmove_agreement_rate": 0.125,
+      "engine": "physarum",
+      "limit": 2048,
+      "limit_kind": "nodes",
+      "maximum_regret_cp": 376.0,
+      "mean_observed_elapsed_ms": 11.14690620837185,
+      "mean_regret_cp": 92.0,
+      "mean_reported_nodes": 2227.875,
+      "mean_reported_time_ms": 7.916666666666667,
+      "median_regret_cp": 43.0,
+      "positions": 8,
+      "samples": 24
+    }
+  ]
+}

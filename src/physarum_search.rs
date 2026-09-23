@@ -18,7 +18,7 @@ use crate::{
 };
 
 const DEFAULT_MAX_DEPTH: usize = 64;
-const DEFAULT_BATCH_SIZE: usize = 8;
+const DEFAULT_BATCH_SIZE: usize = 64;
 const INFO_INTERVAL_MS: u128 = 250;
 const TERMINAL_SCORE: i32 = 30_000;
 
@@ -79,19 +79,25 @@ impl Runtime {
 }
 
 struct PositionNode {
-    board: Board,
+    board: Option<Board>,
     incoming_move: Option<Move>,
     depth: usize,
     evaluation: i32,
     value: i32,
+    completed_depth: usize,
     evaluated: bool,
     terminal: bool,
+}
+
+impl PositionNode {
+    fn board(&self) -> &Board {
+        self.board.as_ref().expect("evaluated Physarum node must have a board")
+    }
 }
 
 struct Expansion {
     node: NodeId,
     moves: Vec<Move>,
-    boards: Vec<Board>,
     surprise: f64,
     terminal: bool,
 }
@@ -99,6 +105,8 @@ struct Expansion {
 struct SearchResult {
     best_move: Move,
     score: i32,
+    partial_best_move: Move,
+    partial_score: i32,
     depth: usize,
     nodes: u64,
     rounds: u64,
@@ -115,63 +123,77 @@ fn uniform_priors(count: usize) -> Vec<f64> {
 }
 
 fn add_children(
-    flow: &mut Network, positions: &mut Vec<PositionNode>, parent: NodeId, moves: Vec<Move>, boards: Vec<Board>,
-    priors: Vec<f64>,
+    flow: &mut Network, positions: &mut Vec<PositionNode>, parent: NodeId, moves: Vec<Move>, priors: Vec<f64>,
 ) {
     debug_assert_eq!(flow.node_count(), positions.len());
     let children = flow.expand(parent, &priors, &vec![1.0; moves.len()]);
     let parent_value = positions[parent].value;
     let depth = positions[parent].depth + 1;
-    for ((child, mv), board) in children.into_iter().zip(moves).zip(boards) {
+    for (child, mv) in children.into_iter().zip(moves) {
         debug_assert_eq!(child, positions.len());
         positions.push(PositionNode {
-            board,
+            board: None,
             incoming_move: Some(mv),
             depth,
             evaluation: parent_value,
             value: parent_value,
+            completed_depth: 0,
             evaluated: false,
             terminal: false,
         });
     }
 }
 
-fn make_children(board: &Board) -> (Vec<Move>, Vec<Board>) {
-    let moves = board.generate_all_moves().iter().map(|entry| entry.mv).collect::<Vec<_>>();
-    let boards = moves
-        .iter()
-        .map(|mv| {
-            let mut child = board.clone();
-            child.make_move(*mv, &mut NullBoardObserver);
-            child
-        })
-        .collect();
-    (moves, boards)
+fn legal_moves(board: &Board) -> Vec<Move> {
+    board.generate_all_moves().iter().map(|entry| entry.mv).collect()
 }
 
-fn recompute_value(flow: &Network, positions: &mut [PositionNode], node: NodeId, root_color: Color) {
-    let children = flow.children(node).collect::<Vec<_>>();
-    if children.is_empty() {
+fn materialize_board(flow: &Network, positions: &mut [PositionNode], node: NodeId) {
+    if positions[node].board.is_some() {
         return;
     }
-    let maximizing = positions[node].board.side_to_move() == root_color;
+    let parent = flow.parent(node).expect("only the root lacks a parent");
+    let mut board = positions[parent].board().clone();
+    board.make_move(positions[node].incoming_move.unwrap(), &mut NullBoardObserver);
+    positions[node].board = Some(board);
+}
+
+fn recompute_node(flow: &Network, positions: &mut [PositionNode], node: NodeId, root_color: Color) {
+    if !positions[node].evaluated {
+        return;
+    }
+    if positions[node].terminal {
+        positions[node].completed_depth = MAX_PLY;
+        return;
+    }
+    let children = flow.children(node).collect::<Vec<_>>();
+    if children.is_empty() {
+        positions[node].completed_depth = 0;
+        return;
+    }
+    let maximizing = positions[node].board().side_to_move() == root_color;
     positions[node].value = if maximizing {
         children.iter().map(|child| positions[*child].value).max().unwrap()
     } else {
         children.iter().map(|child| positions[*child].value).min().unwrap()
+    };
+    positions[node].completed_depth = if children.iter().all(|child| positions[*child].evaluated) {
+        1 + children.iter().map(|child| positions[*child].completed_depth).min().unwrap()
+    } else {
+        0
     };
 }
 
 fn backup(flow: &Network, positions: &mut [PositionNode], start: NodeId, root_color: Color) {
     let mut current = Some(start);
     while let Some(node) = current {
-        recompute_value(flow, positions, node, root_color);
+        recompute_node(flow, positions, node, root_color);
         current = flow.parent(node);
     }
 }
 
 fn preferred_child(flow: &Network, positions: &[PositionNode], node: NodeId, root_color: Color) -> Option<NodeId> {
-    let maximizing = positions[node].board.side_to_move() == root_color;
+    let maximizing = positions[node].board().side_to_move() == root_color;
     flow.children(node).max_by(|left, right| {
         let ordering = if maximizing {
             positions[*left].value.cmp(&positions[*right].value)
@@ -211,37 +233,17 @@ fn partial_best_root_child(flow: &Network, positions: &[PositionNode], root_colo
     }
 }
 
-/// Number of fully evaluated plies below `node` represented by the tree.
-///
-/// A node's own static evaluation is a valid depth-zero result.  A deeper
-/// result becomes publishable only after every legal child has a result at the
-/// preceding depth.  This is the asynchronous equivalent of publishing only
-/// completed iterative-deepening iterations.
-fn completed_depth(flow: &Network, positions: &[PositionNode], node: NodeId) -> usize {
-    if !positions[node].evaluated {
-        return 0;
-    }
-    if positions[node].terminal {
-        return MAX_PLY;
-    }
-    let children = flow.children(node).collect::<Vec<_>>();
-    if children.is_empty() || children.iter().any(|child| !positions[*child].evaluated) {
-        return 0;
-    }
-    1 + children.into_iter().map(|child| completed_depth(flow, positions, child)).min().unwrap_or(0)
-}
-
 fn value_at_depth(flow: &Network, positions: &[PositionNode], node: NodeId, depth: usize, root_color: Color) -> i32 {
     if depth == 0 || positions[node].terminal {
         return positions[node].evaluation;
     }
-    let maximizing = positions[node].board.side_to_move() == root_color;
+    let maximizing = positions[node].board().side_to_move() == root_color;
     let values = flow.children(node).map(|child| value_at_depth(flow, positions, child, depth - 1, root_color));
     if maximizing { values.max().unwrap() } else { values.min().unwrap() }
 }
 
 fn published_root(flow: &Network, positions: &[PositionNode], root_color: Color) -> (NodeId, i32, usize) {
-    let depth = completed_depth(flow, positions, 0);
+    let depth = positions[0].completed_depth;
     if depth == 0 {
         let best = partial_best_root_child(flow, positions, root_color);
         return (best, positions[best].value, 0);
@@ -266,14 +268,14 @@ fn principal_variation(
     let mut next = Some(published_root(flow, positions, root_color).0);
     while let Some(child) = next {
         if let Some(mv) = positions[child].incoming_move {
-            pv.push(mv.to_uci(&positions[node].board));
+            pv.push(mv.to_uci(positions[node].board()));
         }
         if !positions[child].evaluated || remaining_depth <= 1 {
             break;
         }
         remaining_depth -= 1;
         node = child;
-        let maximizing = positions[node].board.side_to_move() == root_color;
+        let maximizing = positions[node].board().side_to_move() == root_color;
         next = flow.children(node).max_by(|left, right| {
             let ordering = if maximizing {
                 value_at_depth(flow, positions, *left, remaining_depth - 1, root_color).cmp(&value_at_depth(
@@ -302,7 +304,7 @@ fn print_info(
     flow: &Network, positions: &[PositionNode], root_color: Color, nodes: u64, rounds: u64, elapsed_ms: u128,
 ) {
     let (_, score, depth) = published_root(flow, positions, root_color);
-    let display_score = normalize_to_cp(score, &positions[0].board);
+    let display_score = normalize_to_cp(score, positions[0].board());
     let nps = nodes as u128 * 1_000 / elapsed_ms.max(1);
     print!(
         "info depth {depth} seldepth {depth} multipv 1 score cp {} nodes {nodes} time {elapsed_ms} nps {nps} string physarum-rounds {rounds} pv",
@@ -327,7 +329,7 @@ fn run_search(
     runtime: &Runtime, threads: &mut ThreadPool, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
     move_overhead: u64, report: bool,
 ) -> Option<SearchResult> {
-    let (moves, boards) = make_children(board);
+    let moves = legal_moves(board);
     if moves.is_empty() {
         return None;
     }
@@ -344,17 +346,18 @@ fn run_search(
     let root_value = root_relative_eval(threads.main_thread(), board, root_color);
     let root_nodes = 1 + shared.nodes.aggregate();
     let mut positions = vec![PositionNode {
-        board: board.clone(),
+        board: Some(board.clone()),
         incoming_move: None,
         depth: 0,
         evaluation: root_value,
         value: root_value,
+        completed_depth: 0,
         evaluated: true,
         terminal: false,
     }];
     let mut flow = Network::new(runtime.flow);
     let root_priors = runtime.root_priors(board, &moves);
-    add_children(&mut flow, &mut positions, 0, moves, boards, root_priors);
+    add_children(&mut flow, &mut positions, 0, moves, root_priors);
 
     let mut nodes = root_nodes;
     let mut rounds = 0_u64;
@@ -366,7 +369,7 @@ fn run_search(
     }
 
     loop {
-        if requested_depth.is_some_and(|_| completed_depth(&flow, &positions, 0) >= maximum_depth)
+        if requested_depth.is_some_and(|_| positions[0].completed_depth >= maximum_depth)
             || manager.hard_limit_reached(nodes)
             || shared.externally_stopped.load(Ordering::Acquire)
         {
@@ -386,11 +389,12 @@ fn run_search(
             }
             let old_value = positions[*node].value;
             let depth = positions[*node].depth;
+            materialize_board(&flow, &mut positions, *node);
             let qnodes_before = shared.nodes.aggregate();
-            let value = if positions[*node].board.is_draw(depth as isize) {
+            let value = if positions[*node].board().is_draw(depth as isize) {
                 0
             } else {
-                root_relative_eval(threads.main_thread(), &positions[*node].board, root_color)
+                root_relative_eval(threads.main_thread(), positions[*node].board(), root_color)
             };
             if shared.externally_stopped.load(Ordering::Acquire) {
                 break;
@@ -400,12 +404,12 @@ fn run_search(
             positions[*node].evaluated = true;
             nodes += 1 + shared.nodes.aggregate().saturating_sub(qnodes_before);
 
-            let (moves, boards) = make_children(&positions[*node].board);
-            let terminal = moves.is_empty() || positions[*node].board.is_draw(depth as isize);
+            let moves = legal_moves(positions[*node].board());
+            let terminal = moves.is_empty() || positions[*node].board().is_draw(depth as isize);
             if moves.is_empty() {
                 positions[*node].terminal = true;
-                positions[*node].value = if positions[*node].board.in_check() {
-                    if positions[*node].board.side_to_move() == root_color {
+                positions[*node].value = if positions[*node].board().in_check() {
+                    if positions[*node].board().side_to_move() == root_color {
                         -TERMINAL_SCORE + depth as i32
                     } else {
                         TERMINAL_SCORE - depth as i32
@@ -420,13 +424,7 @@ fn run_search(
                 positions[*node].evaluation = 0;
             }
             let surprise = f64::from((positions[*node].value - old_value).abs()) / 400.0;
-            expansions.push(Expansion {
-                node: *node,
-                moves,
-                boards,
-                surprise: surprise.min(1.0),
-                terminal,
-            });
+            expansions.push(Expansion { node: *node, moves, surprise: surprise.min(1.0), terminal });
         }
 
         for expansion in &expansions {
@@ -458,7 +456,7 @@ fn run_search(
                 flow.close_frontier(expansion.node);
             } else {
                 let priors = uniform_priors(expansion.moves.len());
-                add_children(&mut flow, &mut positions, expansion.node, expansion.moves, expansion.boards, priors);
+                add_children(&mut flow, &mut positions, expansion.node, expansion.moves, priors);
             }
         }
         backup(&flow, &mut positions, 0, root_color);
@@ -473,12 +471,15 @@ fn run_search(
     }
 
     let (best, score, depth) = published_root(&flow, &positions, root_color);
+    let partial_best = partial_best_root_child(&flow, &positions, root_color);
     if report {
         print_info(&flow, &positions, root_color, nodes, rounds, manager.elapsed().as_millis());
     }
     Some(SearchResult {
         best_move: positions[best].incoming_move.unwrap(),
         score,
+        partial_best_move: positions[partial_best].incoming_move.unwrap(),
+        partial_score: positions[partial_best].value,
         depth,
         nodes,
         rounds,
@@ -496,12 +497,14 @@ pub fn go(
     match run_search(runtime, threads, board, shared, limits, move_overhead, true) {
         Some(result) => {
             println!(
-                "info string Physarum summary score {} depth {} nodes {} rounds {} root-branches {}",
+                "info string Physarum summary score {} depth {} nodes {} rounds {} root-branches {} partial-best {} partial-score {}",
                 normalize_to_cp(result.score, board),
                 result.depth,
                 result.nodes,
                 result.rounds,
-                result.root_children.len()
+                result.root_children.len(),
+                result.partial_best_move.to_uci(board),
+                normalize_to_cp(result.partial_score, board),
             );
             println!("bestmove {}", result.best_move.to_uci(board));
         }

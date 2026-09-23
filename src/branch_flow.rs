@@ -46,6 +46,7 @@ struct FlowEdge {
     conductivity: f64,
     length: f64,
     last_flow: f64,
+    pending_deposit: f64,
 }
 
 #[derive(Debug)]
@@ -146,6 +147,7 @@ impl Network {
                 conductivity: self.parameters.exploration_floor + self.parameters.prior_strength * policy_mass,
                 length,
                 last_flow: 0.0,
+                pending_deposit: 0.0,
             });
             self.nodes[node].children.push(edge);
             children.push(child);
@@ -173,14 +175,19 @@ impl Network {
         for node in &frontiers {
             self.nodes[*node].traffic_credit += self.nodes[*node].last_flow;
         }
-        frontiers.sort_unstable_by(|left, right| {
-            self.nodes[*right]
+        let nodes = &self.nodes;
+        let priority = |left: &NodeId, right: &NodeId| {
+            nodes[*right]
                 .traffic_credit
-                .total_cmp(&self.nodes[*left].traffic_credit)
-                .then_with(|| self.nodes[*right].last_flow.total_cmp(&self.nodes[*left].last_flow))
+                .total_cmp(&nodes[*left].traffic_credit)
+                .then_with(|| nodes[*right].last_flow.total_cmp(&nodes[*left].last_flow))
                 .then_with(|| left.cmp(right))
-        });
-        frontiers.truncate(batch_size);
+        };
+        if frontiers.len() > batch_size {
+            frontiers.select_nth_unstable_by(batch_size, priority);
+            frontiers.truncate(batch_size);
+        }
+        frontiers.sort_unstable_by(priority);
         frontiers
     }
 
@@ -188,7 +195,6 @@ impl Network {
     /// `(frontier node, bounded usefulness)` and deposits its routed traffic
     /// along the complete root-to-frontier path.
     pub fn adapt(&mut self, events: &[(NodeId, f64)]) {
-        let mut deposits = vec![0.0; self.edges.len()];
         for &(node, usefulness) in events {
             let usefulness = if usefulness.is_finite() { usefulness.max(0.0) } else { 0.0 };
             let path = self.path_edges(node);
@@ -196,14 +202,15 @@ impl Network {
             let normalization = if self.parameters.normalize_deposit_by_cost { path_cost } else { 1.0 };
             let deposit = self.nodes[node].last_flow.abs() * usefulness / normalization;
             for edge in path {
-                deposits[edge] += deposit;
+                self.edges[edge].pending_deposit += deposit;
             }
         }
 
-        for (edge, deposit) in self.edges.iter_mut().zip(deposits) {
+        for edge in &mut self.edges {
             edge.conductivity = (self.parameters.retention * edge.conductivity
-                + self.parameters.learning_rate * deposit)
+                + self.parameters.learning_rate * edge.pending_deposit)
                 .max(self.parameters.exploration_floor);
+            edge.pending_deposit = 0.0;
         }
     }
 
@@ -251,36 +258,43 @@ impl Network {
             return;
         }
 
-        let branches = self.nodes[node]
-            .children
-            .iter()
-            .map(|edge_id| {
-                let edge = &self.edges[*edge_id];
-                let child = effective[edge.child];
-                let edge_conductance = edge.conductivity / edge.length;
-                if child.is_infinite() {
-                    edge_conductance
-                } else if child > 0.0 {
-                    edge_conductance * child / (edge_conductance + child)
-                } else {
-                    0.0
-                }
-            })
-            .collect::<Vec<_>>();
-        let total = branches.iter().sum::<f64>();
+        let child_count = self.nodes[node].children.len();
+        let mut total = 0.0;
+        for index in 0..child_count {
+            let edge = &self.edges[self.nodes[node].children[index]];
+            let child = effective[edge.child];
+            let edge_conductance = edge.conductivity / edge.length;
+            total += if child.is_infinite() {
+                edge_conductance
+            } else if child > 0.0 {
+                edge_conductance * child / (edge_conductance + child)
+            } else {
+                0.0
+            };
+        }
         if total <= 0.0 {
             return;
         }
 
-        let edge_ids = self.nodes[node].children.clone();
-        for (edge_id, branch) in edge_ids.into_iter().zip(branches) {
+        for index in 0..child_count {
+            let edge_id = self.nodes[node].children[index];
+            let edge = &self.edges[edge_id];
+            let child_node = edge.child;
+            let child = effective[child_node];
+            let edge_conductance = edge.conductivity / edge.length;
+            let branch = if child.is_infinite() {
+                edge_conductance
+            } else if child > 0.0 {
+                edge_conductance * child / (edge_conductance + child)
+            } else {
+                0.0
+            };
             if branch <= 0.0 {
                 continue;
             }
             let flow = incoming * branch / total;
             self.edges[edge_id].last_flow = flow;
-            let child = self.edges[edge_id].child;
-            self.route_flow(child, flow, effective, frontiers);
+            self.route_flow(child_node, flow, effective, frontiers);
         }
     }
 }

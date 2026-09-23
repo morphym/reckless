@@ -100,6 +100,10 @@ pub fn message_loop(mut buffer: VecDeque<String>) {
             ["compiler"] => compiler(),
             ["eval"] => eval(threads.main_thread(), &board),
             ["staticeval"] => static_eval(threads.main_thread(), &board),
+            ["qeval", nodes] => match nodes.parse::<u64>() {
+                Ok(limit) if limit > 0 => quiescence_eval(threads.main_thread(), &board, limit),
+                _ => println!("info string qeval requires a positive node cap"),
+            },
             ["legalmoves"] => legal_moves(&board),
             ["fen"] => println!("fen {}", board.to_fen()),
             ["d"] => println!("{board}"),
@@ -191,7 +195,7 @@ fn uci() {
 
     #[cfg(feature = "physarum-search")]
     {
-        println!("option name PhysarumBatch type spin default 8 min 1 max 64");
+        println!("option name PhysarumBatch type spin default 64 min 1 max 64");
         println!("option name PhysarumMaxDepth type spin default 64 min 1 max 240");
         println!("option name PhysarumDiagnosticPriorMove type string default none");
         println!("option name PhysarumDiagnosticPriorMass type spin default 990 min 1 max 999");
@@ -486,6 +490,30 @@ fn eval(td: &mut ThreadData, board: &Board) {
 fn static_eval(td: &mut ThreadData, board: &Board) {
     td.nnue.full_refresh(board);
     println!("staticeval {}", td.nnue.evaluate(board));
+}
+
+/// Experimental full-window quiescence, with the same score units as UCI search.
+fn quiescence_eval(td: &mut ThreadData, board: &Board, limit: u64) {
+    use crate::types::{Score, normalize_to_cp};
+    td.time_manager = crate::time::TimeManager::new(Limits::Infinite, 0, 0);
+    td.shared.nodes.reset();
+    td.shared.status.set(Status::RUNNING);
+    td.qeval_node_limit = Some(limit);
+    td.qeval_truncated = false;
+    let score = crate::search::quiescence_evaluate(td, board);
+    let truncated = u8::from(td.qeval_truncated);
+    td.qeval_node_limit = None;
+    td.shared.status.set(Status::STOPPED);
+    let nodes = 1 + td.shared.nodes.aggregate();
+    if score.abs() >= Score::MATE_IN_MAX {
+        let mate = (Score::MATE - score.abs() + score.is_positive() as i32) / 2;
+        println!("qeval mate {} nodes {nodes} truncated {truncated}", if score.is_positive() { mate } else { -mate });
+    } else if score.abs() >= Score::TB_WIN_IN_MAX {
+        let cp = 20_000 - Score::TB_WIN + score.abs();
+        println!("qeval cp {} nodes {nodes} truncated {truncated}", if score.is_positive() { cp } else { -cp });
+    } else {
+        println!("qeval cp {} nodes {nodes} truncated {truncated}", normalize_to_cp(score, board));
+    }
 }
 
 /// Enumerate legal moves with Reckless's native move generator.

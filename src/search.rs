@@ -13,7 +13,6 @@ use crate::{
     },
 };
 
-#[cfg(feature = "physarum-search")]
 use crate::board::Board;
 
 #[cfg(feature = "syzygy")]
@@ -60,7 +59,6 @@ impl NodeType for NonPV {
 /// The flow search owns its explicit quiet-move tree, while this stabilizes a
 /// frontier against captures and checks using the same move picker, SEE,
 /// histories, correction terms, and NNUE as native alpha-beta.
-#[cfg(feature = "physarum-search")]
 pub(crate) fn quiescence_evaluate(td: &mut ThreadData, board: &Board) -> i32 {
     td.board = board.clone();
     td.stack = Stack::new();
@@ -1257,6 +1255,13 @@ fn qsearch<NODE: NodeType>(td: &mut ThreadData, mut alpha: i32, beta: i32, ply: 
         return draw(td);
     }
 
+    if let Some(limit) = td.qeval_node_limit
+        && td.shared.nodes.aggregate() >= limit
+    {
+        td.qeval_truncated = true;
+        return if in_check { draw(td) } else { td.nnue.evaluate(&td.board) };
+    }
+
     if ply as usize >= MAX_PLY - 1 {
         return if in_check { draw(td) } else { td.nnue.evaluate(&td.board) };
     }
@@ -1368,6 +1373,12 @@ fn qsearch<NODE: NodeType>(td: &mut ThreadData, mut alpha: i32, beta: i32, ply: 
         let score = -qsearch::<NODE>(td, -beta, -alpha, ply + 1);
         undo_move(td, mv);
 
+        // Propagate a capped value immediately; further siblings would spend
+        // nodes without restoring the missing tactical proof.
+        if td.qeval_truncated {
+            return best_score.max(score);
+        }
+
         if td.shared.status.get() == Status::STOPPED {
             return Score::ZERO;
         }
@@ -1413,7 +1424,10 @@ fn qsearch<NODE: NodeType>(td: &mut ThreadData, mut alpha: i32, beta: i32, ply: 
 
     let bound = if best_score >= beta { Bound::Lower } else { Bound::Upper };
 
-    td.shared.tt.write(hash, TtDepth::SOME, raw_eval, best_score, bound, best_move, ply, tt_pv, false);
+    // A node-limited experimental q-evaluation is not an exact TT value.
+    if !td.qeval_truncated {
+        td.shared.tt.write(hash, TtDepth::SOME, raw_eval, best_score, bound, best_move, ply, tt_pv, false);
+    }
 
     debug_assert!(alpha < beta);
     debug_assert!(-Score::INFINITE < best_score && best_score < Score::INFINITE);

@@ -1,5 +1,9 @@
 # CS computation controller
 
+For the separate progressive Physarum conductivity head and regret-only training,
+see [CONDUCTIVITY_TRAINING.md](CONDUCTIVITY_TRAINING.md). It does not reuse this
+older CS allocation controller or change the production Rust search.
+
 This experiment now contains the first complete reinforcement-learning path
 for computation allocation.  It keeps three roles separate:
 

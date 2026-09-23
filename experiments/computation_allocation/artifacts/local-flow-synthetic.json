@@ -1,0 +1,296 @@
+{
+  "training_trees": 100,
+  "held_out_trees": 300,
+  "strength": 4.0,
+  "training_losses": {
+    "0.0": 0.156240141784599,
+    "0.5": 0.14704715349366032,
+    "1.0": 0.1233991136885278,
+    "2.0": 0.11427764570876611,
+    "4.0": 0.10448851498609497,
+    "8.0": 0.11032166867210631
+  },
+  "caveat": "Seeded synthetic falsification test; no chess or production-search changes.\n\nThe policy sees a noisy synthetic local signal, NOT exact minimax labels.\nThat signal is generated from the hidden value, so this tests a mechanism under\nan informative-prior assumption, not whether a chess policy can learn it.\nPolicy strength is fitted by black-box search reward on separate training trees.\n",
+  "results": [
+    {
+      "misleading": false,
+      "budget": 16,
+      "method": "uniform-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 16,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 16,
+      "method": "policy-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 16,
+      "method": "policy-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 16,
+      "method": "policy-endpoint",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 32,
+      "method": "uniform-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 32,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": false,
+      "budget": 32,
+      "method": "policy-static",
+      "mean_regret": 0.0982280440731521,
+      "optimal_fraction": 0.6433333333333333
+    },
+    {
+      "misleading": false,
+      "budget": 32,
+      "method": "policy-adaptive",
+      "mean_regret": 0.09776535006214504,
+      "optimal_fraction": 0.6433333333333333
+    },
+    {
+      "misleading": false,
+      "budget": 32,
+      "method": "policy-endpoint",
+      "mean_regret": 0.10114113611006517,
+      "optimal_fraction": 0.64
+    },
+    {
+      "misleading": false,
+      "budget": 48,
+      "method": "uniform-static",
+      "mean_regret": 0.05299615850523607,
+      "optimal_fraction": 0.7333333333333333
+    },
+    {
+      "misleading": false,
+      "budget": 48,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.05299615850523607,
+      "optimal_fraction": 0.7333333333333333
+    },
+    {
+      "misleading": false,
+      "budget": 48,
+      "method": "policy-static",
+      "mean_regret": 0.02635912385567565,
+      "optimal_fraction": 0.8466666666666667
+    },
+    {
+      "misleading": false,
+      "budget": 48,
+      "method": "policy-adaptive",
+      "mean_regret": 0.024631187081670967,
+      "optimal_fraction": 0.86
+    },
+    {
+      "misleading": false,
+      "budget": 48,
+      "method": "policy-endpoint",
+      "mean_regret": 0.028118276815807447,
+      "optimal_fraction": 0.84
+    },
+    {
+      "misleading": false,
+      "budget": 62,
+      "method": "uniform-static",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": false,
+      "budget": 62,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": false,
+      "budget": 62,
+      "method": "policy-static",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": false,
+      "budget": 62,
+      "method": "policy-adaptive",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": false,
+      "budget": 62,
+      "method": "policy-endpoint",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": true,
+      "budget": 16,
+      "method": "uniform-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 16,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 16,
+      "method": "policy-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 16,
+      "method": "policy-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 16,
+      "method": "policy-endpoint",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 32,
+      "method": "uniform-static",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 32,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.16476191089501074,
+      "optimal_fraction": 0.5366666666666666
+    },
+    {
+      "misleading": true,
+      "budget": 32,
+      "method": "policy-static",
+      "mean_regret": 0.09587350882576283,
+      "optimal_fraction": 0.57
+    },
+    {
+      "misleading": true,
+      "budget": 32,
+      "method": "policy-adaptive",
+      "mean_regret": 0.09420882141409649,
+      "optimal_fraction": 0.5733333333333334
+    },
+    {
+      "misleading": true,
+      "budget": 32,
+      "method": "policy-endpoint",
+      "mean_regret": 0.09587350882576283,
+      "optimal_fraction": 0.57
+    },
+    {
+      "misleading": true,
+      "budget": 48,
+      "method": "uniform-static",
+      "mean_regret": 0.05299615850523607,
+      "optimal_fraction": 0.7333333333333333
+    },
+    {
+      "misleading": true,
+      "budget": 48,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.05299615850523607,
+      "optimal_fraction": 0.7333333333333333
+    },
+    {
+      "misleading": true,
+      "budget": 48,
+      "method": "policy-static",
+      "mean_regret": 0.07765691652520838,
+      "optimal_fraction": 0.6366666666666667
+    },
+    {
+      "misleading": true,
+      "budget": 48,
+      "method": "policy-adaptive",
+      "mean_regret": 0.07669456166106367,
+      "optimal_fraction": 0.6433333333333333
+    },
+    {
+      "misleading": true,
+      "budget": 48,
+      "method": "policy-endpoint",
+      "mean_regret": 0.0767055145048022,
+      "optimal_fraction": 0.6433333333333333
+    },
+    {
+      "misleading": true,
+      "budget": 62,
+      "method": "uniform-static",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": true,
+      "budget": 62,
+      "method": "uniform-adaptive",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": true,
+      "budget": 62,
+      "method": "policy-static",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": true,
+      "budget": 62,
+      "method": "policy-adaptive",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    },
+    {
+      "misleading": true,
+      "budget": 62,
+      "method": "policy-endpoint",
+      "mean_regret": 0.0,
+      "optimal_fraction": 1.0
+    }
+  ]
+}

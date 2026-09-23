@@ -33,6 +33,14 @@ class SearchResult:
     history: tuple[SearchInfo, ...] = ()
 
 
+@dataclass(frozen=True)
+class QuiescenceInfo:
+    score_kind: str
+    score_raw: int
+    nodes: int
+    truncated: bool = False
+
+
 def normalize_score(kind: str, raw: int) -> int:
     if kind == "cp":
         return raw
@@ -243,6 +251,23 @@ class RecklessUci:
         for _ in fens:
             lines = self._read_until(lambda line: line.startswith("staticeval "))
             scores.append(int(lines[-1].split()[1]))
+        return scores
+
+    def quiescence_evaluate(self, positions: list[tuple[str, tuple[str, ...]]], max_nodes: int = 4096) -> list[QuiescenceInfo]:
+        """Native full-window qsearch; retain moves from the sampled root for draws."""
+        if max_nodes < 1:
+            raise ValueError('max_nodes must be positive')
+        commands = []
+        for fen, moves in positions:
+            commands.extend((f"position fen {fen}" + (" moves " + " ".join(moves) if moves else ""), f"qeval {max_nodes}"))
+        self._send_many(commands)
+        scores = []
+        for _ in positions:
+            lines = self._read_until(lambda line: line.startswith("qeval "))
+            tokens = lines[-1].split()
+            if len(tokens) != 7 or tokens[1] not in {"cp", "mate"} or tokens[3] != "nodes" or tokens[5] != "truncated":
+                raise RuntimeError(f"malformed quiescence response: {lines[-1]}")
+            scores.append(QuiescenceInfo(tokens[1], int(tokens[2]), int(tokens[4]), bool(int(tokens[6]))))
         return scores
 
     def static_evaluate_after_moves(self, fen: str, moves: tuple[str, ...]) -> list[int]:

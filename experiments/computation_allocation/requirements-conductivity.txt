@@ -1,0 +1,4 @@
+-r requirements-base.txt
+torch>=2.5
+python-chess>=1.999
+datasets>=3.0
