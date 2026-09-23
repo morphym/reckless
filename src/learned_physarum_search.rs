@@ -41,17 +41,32 @@ fn legal_moves(board: &Board) -> Vec<Move> {
 fn heuristic_conductivities(board: &Board, moves: &[Move]) -> Vec<f64> {
     let scores = moves
         .iter()
-        .enumerate()
-        .map(|(index, mv)| {
-            let mut score = 1.0 + 0.001 * (moves.len() - index) as f64;
+        .map(|mv| {
+            // Only use stable tactical facts as the non-learned prior.  The
+            // native picker also has TT/history/continuation scores, but
+            // those are statistical ordering hints, not evidence that a move
+            // is good.  In particular, do not bake its list order into the
+            // flow: that turns an arbitrary generator order into a false
+            // conductivity signal.
+            let mut score = 1.0;
             if mv.is_capture() {
-                score += 2.0;
+                // SEE is a useful gate, not a proof.  Reward a non-losing
+                // exchange modestly and suppress obviously losing captures;
+                // the quiescence-backed tree must still verify both.
+                if board.see(*mv, 0) {
+                    score += 1.0;
+                } else {
+                    score *= 0.35;
+                }
             }
             if mv.is_promotion() {
-                score += 4.0;
+                score += 1.5;
             }
+            // `is_direct_check` is deliberately only a tiny nudge: Reckless
+            // documents it as an approximate test and checking sacrifices are
+            // a classic source of misleading priors.
             if board.is_direct_check(*mv) {
-                score += 3.0;
+                score += 0.15;
             }
             score
         })
