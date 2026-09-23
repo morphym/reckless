@@ -73,8 +73,8 @@ def softmax_values(moves, values, temperature):
     return {move: value / total for move, value in zip(moves, exps)}
 
 
-def flow_examples(board, moves, values, lines, budget, temperature, teacher_line_count):
-    """Conserve teacher current down PVs and reset budget at split anchors."""
+def flow_examples(board, moves, values, lines, budget, temperature, teacher_line_count, max_depth):
+    """Conserve teacher current down PVs and split at budget/depth boundaries."""
     if len(moves) > budget:
         raise ValueError('budget cannot expand all legal root moves')
     mass = softmax_values(moves, values, temperature)
@@ -84,22 +84,26 @@ def flow_examples(board, moves, values, lines, budget, temperature, teacher_line
         position = board.copy(stack=True)
         spent = len(moves)
         segment = 0
+        segment_depth = 0
         for ply, move in enumerate(lines[root_move]):
             if ply == 0:
                 position.push_uci(move)
+                segment_depth = 1
                 continue
             legal = tuple(m.uci() for m in position.legal_moves)
             if move not in legal or len(legal) > budget:
                 break
-            if spent + len(legal) > budget:
+            if segment_depth >= max_depth or spent + len(legal) > budget:
                 spent = 0
                 segment += 1
                 splits += 1
+                segment_depth = 0
             spent += len(legal)
             examples.append(Example(position.copy(stack=True), legal,
                                     tuple(float(m == move) for m in legal),
                                     mass[root_move], segment, ply))
             position.push_uci(move)
+            segment_depth += 1
     return examples, splits, mass
 
 
@@ -128,14 +132,14 @@ def supervised_loss(head, examples, max_depth, device):
     return total / total_weight, correct / total_weight
 
 
-def save_checkpoint(path, head, optimizer, update, args, rng, consumed):
+def save_checkpoint(path, head, optimizer, update, args, rng, consumed, epoch=0):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix('.tmp')
     torch.save({'model': head.state_dict(), 'optimizer': optimizer.state_dict(),
                 'width': head.width, 'feature_version': FEATURE_VERSION,
                 'objective': 'supervised-conductivity-v1', 'update': update,
                 'config': vars(args), 'python_rng': rng.getstate(),
-                'torch_rng': torch.get_rng_state(), 'consumed': consumed}, temporary)
+                'torch_rng': torch.get_rng_state(), 'consumed': consumed, 'epoch': epoch}, temporary)
     temporary.replace(path)
 
 
@@ -144,6 +148,8 @@ def main():
     parser.add_argument('--engine', type=Path, required=True, help='native Reckless build')
     parser.add_argument('--output', type=Path, default=Path('outputs/conductivity_supervised'))
     parser.add_argument('--updates', type=int, default=1000)
+    parser.add_argument('--epochs', type=int, default=1,
+                        help='number of passes over a local --positions file; streaming sources remain single-pass')
     parser.add_argument('--budget', type=int, default=256)
     parser.add_argument('--max-depth', type=int, default=4)
     parser.add_argument('--teacher-depth', type=int, default=12)
@@ -163,7 +169,7 @@ def main():
     args = parser.parse_args()
     if args.teacher_depth <= args.max_depth or args.max_depth < 2:
         parser.error('require teacher-depth > max-depth >= 2')
-    if min(args.updates, args.budget, args.teacher_lines, args.width, args.shuffle_buffer) < 1:
+    if min(args.updates, args.epochs, args.budget, args.teacher_lines, args.width, args.shuffle_buffer) < 1:
         parser.error('all counts must be positive')
     if not math.isfinite(args.temperature) or args.temperature <= 0:
         parser.error('--temperature must be positive and finite')
@@ -172,7 +178,7 @@ def main():
     rng = random.Random(args.seed)
     head = ConductivityHead(args.width).to(args.device)
     optimizer = torch.optim.Adam(head.parameters(), lr=args.lr)
-    start, consumed = 0, 0
+    start, consumed, epoch = 0, 0, 0
     if args.resume:
         state = torch.load(args.resume, map_location='cpu', weights_only=False)
         if state.get('objective') != 'supervised-conductivity-v1':
@@ -181,12 +187,13 @@ def main():
             raise ValueError('checkpoint architecture mismatch')
         if not args.evaluate_only:
             for key in ('seed', 'dataset_split', 'dataset_revision', 'shuffle_buffer', 'positions',
-                        'budget', 'max_depth', 'teacher_depth', 'teacher_lines', 'temperature'):
+                        'epochs', 'budget', 'max_depth', 'teacher_depth', 'teacher_lines', 'temperature'):
                 if state['config'].get(key) != vars(args).get(key):
                     raise ValueError(f'resume changed {key}')
         head.load_state_dict(state['model'])
         optimizer.load_state_dict(state['optimizer'])
         start, consumed = state['update'], state['consumed']
+        epoch = state.get('epoch', 0)
         rng.setstate(state['python_rng'])
         torch.set_rng_state(state['torch_rng'])
     source = FenSource(args, consumed)
@@ -202,14 +209,22 @@ def main():
                 try:
                     board = source.next_board()
                 except StopIteration:
-                    print(json.dumps({'event': 'dataset_exhausted', 'consumed': source.consumed}), flush=True)
-                    break
+                    if args.positions is None or epoch + 1 >= args.epochs:
+                        print(json.dumps({'event': 'dataset_exhausted', 'consumed': source.consumed,
+                                          'epoch': epoch, 'epochs': args.epochs}), flush=True)
+                        break
+                    source.close()
+                    epoch += 1
+                    source = FenSource(args, 0)
+                    print(json.dumps({'event': 'epoch_restarted', 'epoch': epoch,
+                                      'epochs': args.epochs}), flush=True)
+                    board = source.next_board()
                 begun = time.monotonic()
                 reference_started = time.monotonic()
                 moves, values, lines = teacher_lines(teacher, board, args.teacher_depth)
                 reference_seconds = time.monotonic() - reference_started
                 examples, splits, mass = flow_examples(board, moves, values, lines, args.budget,
-                                                      args.temperature, args.teacher_lines)
+                                                      args.temperature, args.teacher_lines, args.max_depth)
                 started = time.monotonic()
                 with torch.set_grad_enabled(not args.evaluate_only):
                     loss, accuracy = supervised_loss(head, examples, args.max_depth, args.device)
@@ -237,12 +252,12 @@ def main():
                     writer.add_scalar(f'{prefix}/{field}', row[field], update)
                 writer.flush()
                 if not args.evaluate_only:
-                    save_checkpoint(args.output / 'latest.pt', head, optimizer, update, args, rng, source.consumed)
+                    save_checkpoint(args.output / 'latest.pt', head, optimizer, update, args, rng, source.consumed, epoch)
     except KeyboardInterrupt:
         print('Interrupted; saving last completed update.', flush=True)
     finally:
         if not args.evaluate_only:
-            save_checkpoint(args.output / 'latest.pt', head, optimizer, completed, args, rng, source.consumed)
+                save_checkpoint(args.output / 'latest.pt', head, optimizer, completed, args, rng, source.consumed, epoch)
         writer.close()
         source.close()
 

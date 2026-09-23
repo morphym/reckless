@@ -17,7 +17,7 @@ class SupervisedConductivityTests(unittest.TestCase):
         moves = tuple(move.uci() for move in board.legal_moves)
         values = {move: (1. if move == 'e2e4' else 0.) for move in moves}
         lines = {move: (move, 'e7e5') if move == 'e2e4' else (move,) for move in moves}
-        examples, splits, mass = flow_examples(board, moves, values, lines, 25, .15, 1)
+        examples, splits, mass = flow_examples(board, moves, values, lines, 25, .15, 1, 1)
         self.assertEqual(len(examples), 2)
         self.assertEqual(splits, 1)
         self.assertAlmostEqual(sum(mass.values()), 1.)
@@ -33,7 +33,7 @@ class SupervisedConductivityTests(unittest.TestCase):
         moves = tuple(move.uci() for move in board.legal_moves)
         values = {move: (1. if move == 'e2e4' else 0.) for move in moves}
         lines = {move: (move,) for move in moves}
-        examples, _, _ = flow_examples(board, moves, values, lines, 256, .15, 1)
+        examples, _, _ = flow_examples(board, moves, values, lines, 256, .15, 1, 4)
         head = ConductivityHead(8)
         loss, accuracy = supervised_loss(head, examples, 4, 'cpu')
         loss.backward()
