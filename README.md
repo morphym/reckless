@@ -109,20 +109,32 @@ or [Nibbler](https://github.com/rooklift/nibbler).
 
 ### Physarum branch-flow experiment
 
-The current experimental search replaces the learned budget allocator with a
-fixed-current, self-organizing branch-flow network. Build and run its
-misleading-prior regression with:
+The experimental `physarum-search` build now embeds the update-29 learned
+conductivity head and runs its explicit tree, native quiescence evaluations,
+conserved flow, and minimax backup in Rust:
 
 ```bash
 cargo build --release --features physarum-search
+./target/release/reckless
+```
+
+`PhysarumBudget` (default 256), `PhysarumMaxDepth` (4), `PhysarumQNodes`
+(4096), and `PhysarumSeed` control the learned search. The policy supplies
+only conductivities; backed-up values choose `bestmove`. The first neural
+layer's board/move contribution is cached per edge, and weights load once.
+Set `PhysarumLearned` to `false` to run the older uniform-prior flow search
+and its misleading-prior regression:
+
+```bash
 ./experiments/computation_allocation/test_physarum_misleading_prior.sh
 ```
 
-The policy-free pre-RL build starts new edges uniformly. Conductivity controls
-frontier traffic, while backed-up minimax values exclusively control the UCI
-score, PV, and `bestmove`. Frontier values use Reckless's native quiescence
-search, and the engine publishes only a depth completed across every root
-move; this prevents tactical leaf noise and unequal-horizon move selection.
+To regenerate the embedded model from the training checkpoint:
+
+```bash
+python3 experiments/computation_allocation/export_conductivity_rust.py \
+  local/latest.pt experiments/computation_allocation/artifacts/conductivity-u29.bin
+```
 
 ### Archived CS computation-allocation experiment
 

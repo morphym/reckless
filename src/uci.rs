@@ -196,7 +196,12 @@ fn uci() {
     #[cfg(feature = "physarum-search")]
     {
         println!("option name PhysarumBatch type spin default 64 min 1 max 64");
-        println!("option name PhysarumMaxDepth type spin default 64 min 1 max 240");
+        println!("option name PhysarumMaxDepth type spin default 4 min 1 max 240");
+        println!("option name PhysarumBudget type spin default 256 min 1 max 1000000");
+        println!("option name PhysarumQNodes type spin default 4096 min 1 max 1000000");
+        println!("option name PhysarumSeed type spin default 2026 min 0 max 2147483647");
+        println!("option name PhysarumLearned type check default true");
+        println!("option name PhysarumWeights type string default embedded-update-29");
         println!("option name PhysarumDiagnosticPriorMove type string default none");
         println!("option name PhysarumDiagnosticPriorMass type spin default 990 min 1 max 999");
     }
@@ -401,6 +406,31 @@ fn set_option(threads: &mut ThreadPool, settings: &mut Settings, shared: &Arc<Sh
             settings.physarum.set_maximum_depth(v);
             println!("info string set PhysarumMaxDepth to {}", settings.physarum.maximum_depth);
         }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumBudget", "value", v] => {
+            settings.physarum.set_budget(v);
+            println!("info string set PhysarumBudget to {}", settings.physarum.budget);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumQNodes", "value", v] => {
+            settings.physarum.set_qnodes(v);
+            println!("info string set PhysarumQNodes to {}", settings.physarum.qnodes);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumSeed", "value", v] => {
+            settings.physarum.set_seed(v);
+            println!("info string set PhysarumSeed to {}", settings.physarum.seed);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumLearned", "value", v] => {
+            settings.physarum.set_learned(v);
+            println!("info string set PhysarumLearned to {}", settings.physarum.learned);
+        }
+        #[cfg(feature = "physarum-search")]
+        ["name", "PhysarumWeights", "value", v] => match settings.physarum.load_weights(v) {
+            Ok(update) => println!("info string loaded conductivity weights update {update}"),
+            Err(error) => println!("info string {error}"),
+        },
         #[cfg(feature = "physarum-search")]
         ["name", "PhysarumDiagnosticPriorMove", "value", v] => {
             settings.physarum.set_diagnostic_prior_move(v);

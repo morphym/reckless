@@ -162,6 +162,11 @@ class RecklessUci:
         self._send("ucinewgame")
         self._ready()
 
+    def set_option(self, name: str, value: str | int) -> None:
+        """Set a UCI option and wait until the engine has applied it."""
+        self._send(f"setoption name {name} value {value}")
+        self._ready()
+
     def legal_moves(self, fen: str) -> tuple[str, ...]:
         """Return legal moves from Reckless's native move generator."""
         self._send(f"position fen {fen}")
@@ -257,13 +262,16 @@ class RecklessUci:
         """Native full-window qsearch; retain moves from the sampled root for draws."""
         if max_nodes < 1:
             raise ValueError('max_nodes must be positive')
-        commands = []
-        for fen, moves in positions:
-            commands.extend((f"position fen {fen}" + (" moves " + " ".join(moves) if moves else ""), f"qeval {max_nodes}"))
-        self._send_many(commands)
         scores = []
-        for _ in positions:
-            lines = self._read_until(lambda line: line.startswith("qeval "))
+        # Keep this request/response path strictly sequential. Some native
+        # builds do not return one qeval response for every pipelined command.
+        for index, (fen, moves) in enumerate(positions):
+            self._send(f"position fen {fen}" + (" moves " + " ".join(moves) if moves else ""))
+            self._send(f"qeval {max_nodes}")
+            try:
+                lines = self._read_until(lambda line: line.startswith("qeval "))
+            except TimeoutError as exc:
+                raise TimeoutError(f'qeval {index + 1}/{len(positions)} timed out at {fen}: {exc}') from exc
             tokens = lines[-1].split()
             if len(tokens) != 7 or tokens[1] not in {"cp", "mate"} or tokens[3] != "nodes" or tokens[5] != "truncated":
                 raise RuntimeError(f"malformed quiescence response: {lines[-1]}")

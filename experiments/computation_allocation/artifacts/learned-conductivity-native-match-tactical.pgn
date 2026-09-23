@@ -1,0 +1,24 @@
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "1"]
+[White "Learned Physarum"]
+[Black "Native Reckless"]
+[Result "0-1"]
+[FEN "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9"]
+[SetUp "1"]
+
+9. Bxe7 Nxe7 10. Ng5 Nf8 11. Rad1 Rd8 12. h4 Rxd1 13. Rxd1 Nd5 14. Rd3 Nf4 15. Qe3 Nxd3 16. Bxd3 Nd7 17. Be4 Bxe4 18. Qf4 Bf5 19. Nxf7 Kxf7 20. g4 Qxe5 21. Qxe5 Nxe5 22. Kf1 Bd3+ 23. Kg1 Nf3+ 24. Kg2 Ne1+ 25. Kh3 Rf8 26. Nd1 Kg8 27. Kg3 g5 28. f3 Rxf3+ 29. Kh2 gxh4 30. b4 Rg3 31. Nf2 Nf3+ 32. Kh1 Rg1# 0-1
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "2"]
+[White "Native Reckless"]
+[Black "Learned Physarum"]
+[Result "1-0"]
+[FEN "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9"]
+[SetUp "1"]
+
+9. Bxe7 Nxe7 10. Ng5 Qxe5 11. Qxe5 Nxe5 12. Rxe5 Nc6 13. Re3 Nd4 14. Be4 Bxe4 15. Rxe4 Rxc3 16. bxc3 Ne2+ 17. Rxe2 a5 18. Nxf7 Re8 19. h4 Kf8 20. Ne5 Kg7 21. f4 Rb8 22. Rd1 Ra8 23. Rf2 Kf6 24. Rd7 Re8 25. Rf7# 1-0
+

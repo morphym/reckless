@@ -339,9 +339,9 @@ cargo build --release --features physarum-search
 ```
 
 `cs-search` and `physarum-search` are intentionally mutually exclusive. The
-pre-RL Physarum build uses a uniform move prior. A future ordinary policy head
-may initialize new edge conductivities, but it will not choose computation
-actions, scores, bounds, stopping, or the played move.
+policy-free pre-RL mode described below remains available with UCI option
+`PhysarumLearned=false`. The current default uses the trained conductivity
+head described at the end of this file.
 
 Each round solves fixed-current traffic over every represented
 root-to-frontier route, selects a weighted-fair batch of frontiers, evaluates
@@ -436,3 +436,55 @@ prior regression. The first matched-cost comparison is complete and currently
 fails; no new RL run should begin until the throughput deficit is corrected,
 the comparison passes, and the synthetic delayed-refutation and flow ablations
 also pass.
+
+## Native learned-conductivity port (update 29)
+
+The `physarum-search` build now defaults to the trained update-29 head. It
+ports the Python explicit-tree flow: each expansion scores all children with
+native capped quiescence, the head infers positive sibling conductivities from
+observed branch statistics, conserved current samples the next frontier, and
+alternating minimax chooses `bestmove`. The head never scores a chess move.
+Weights are embedded once from `artifacts/conductivity-u29.bin`, and each
+edge caches its static board/move contribution to the first linear layer.
+
+```sh
+python3 experiments/computation_allocation/export_conductivity_rust.py \
+  local/latest.pt experiments/computation_allocation/artifacts/conductivity-u29.bin
+cargo build --release --features physarum-search
+```
+
+UCI options `PhysarumBudget=256`, `PhysarumMaxDepth=4`,
+`PhysarumQNodes=4096`, and `PhysarumSeed=2026` correspond to the training
+setting. `PhysarumLearned=false` selects the older uniform-prior search.
+
+The eight-position, three-seed matched-wall comparison is saved at
+`artifacts/rust-learned-conductivity-native-matched-wall-3x.json`. The Rust
+flow averaged 171 ms and 65.9 cp regret to a separate native depth-16
+MultiPV reference; native Reckless averaged 167 ms and 7.5 cp. This is a
+large execution-speed improvement over the Python prototype, but not a
+strength win. The eight distinct positions are a preliminary diagnostic.
+
+## Teacher-flow conductivity supervision
+
+`train_conductivity_supervised.py` implements the revised objective. A deeper
+native MultiPV search is the teacher. Its root scores produce a temperature-
+softmax current, and each teacher PV transports that current through its move
+edges. If the next expansion would exceed `--budget`, the position becomes a
+fresh anchor with a new unit budget. The policy is trained only against these
+pre-evidence conductivities. Later search evidence is represented as deposit
+on the route and cannot erase the policy prior before a branch is expanded.
+
+```sh
+python3 experiments/computation_allocation/train_conductivity_supervised.py \
+  --engine target/release/reckless \
+  --positions experiments/computation_allocation/positions.json \
+  --output outputs/conductivity-supervised \
+  --device cuda --updates 10000 --budget 256 --max-depth 4 \
+  --teacher-depth 12 --teacher-lines 4
+```
+
+Export a checkpoint with `export_conductivity_rust.py`, then set UCI option
+`PhysarumWeights` to the resulting binary. The controlled three-position smoke
+run completed with finite gradients. The older
+`matched_cost_positions.json` contains an intentionally illegal poisoned-queen
+FEN and should not be used as a training source.

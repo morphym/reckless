@@ -12,6 +12,7 @@ fi
 
 OUTPUT="$({
     printf '%s\n' \
+        'setoption name PhysarumLearned value false' \
         'setoption name PhysarumBatch value 8' \
         'setoption name PhysarumDiagnosticPriorMove value d8d4' \
         'setoption name PhysarumDiagnosticPriorMass value 990' \

@@ -7,10 +7,14 @@
 mod board;
 #[cfg(all(feature = "physarum-search", not(target_arch = "wasm32")))]
 mod branch_flow;
+#[cfg(all(feature = "physarum-search", not(target_arch = "wasm32")))]
+mod conductivity_head;
 #[cfg(all(feature = "cs-search", not(target_arch = "wasm32")))]
 mod cs_search;
 mod evaluation;
 mod history;
+#[cfg(all(feature = "physarum-search", not(target_arch = "wasm32")))]
+mod learned_physarum_search;
 mod lookup;
 mod misc;
 mod movepick;

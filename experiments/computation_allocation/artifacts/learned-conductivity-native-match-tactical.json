@@ -1,0 +1,1576 @@
+{
+  "protocol": {
+    "generated_at": "2026-09-23T02:53:39.223037+00:00",
+    "checkpoint": "/Users/pawit/Documents/Codex/2026-09-06/al/Reckless/local/latest.pt",
+    "checkpoint_update": 29,
+    "engine": "/Users/pawit/Documents/Codex/2026-09-06/al/Reckless/target/release/reckless",
+    "position": "tactical-attack",
+    "budget": 256,
+    "max_depth": 4,
+    "qnodes": 4096,
+    "max_plies": 100,
+    "seed": 2026,
+    "comparison": "both analyze each position; native movetime equals observed flow time"
+  },
+  "games": [
+    {
+      "game": 1,
+      "flow_color": "white",
+      "start_fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "result": "0-1",
+      "termination": "CHECKMATE",
+      "plies": [
+        {
+          "ply": 1,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g5e7",
+          "flow_move": "g5e7",
+          "native_move": "g5e7",
+          "flow_ms": 2487.777124999411,
+          "native_ms": 2477.433125000971,
+          "native_depth": 22,
+          "native_nodes": 3645439,
+          "flow_stats": {
+            "frontier_evaluations": 237,
+            "qsearch_nodes": 1433,
+            "qsearch_truncated": 0,
+            "flow_steps": 232,
+            "tree_nodes": 238
+          }
+        },
+        {
+          "ply": 2,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "c6e7",
+          "flow_move": "c6e7",
+          "native_move": "c6e7",
+          "flow_ms": 2716.9272499995714,
+          "native_ms": 2704.98575000056,
+          "native_depth": 22,
+          "native_nodes": 3971071,
+          "flow_stats": {
+            "frontier_evaluations": 248,
+            "qsearch_nodes": 738,
+            "qsearch_truncated": 0,
+            "flow_steps": 248,
+            "tree_nodes": 249
+          }
+        },
+        {
+          "ply": 3,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "h7g5",
+          "flow_move": "h7g5",
+          "native_move": "h7g5",
+          "flow_ms": 2337.0266670008277,
+          "native_ms": 2325.238666999212,
+          "native_depth": 21,
+          "native_nodes": 3418111,
+          "flow_stats": {
+            "frontier_evaluations": 227,
+            "qsearch_nodes": 804,
+            "qsearch_truncated": 0,
+            "flow_steps": 227,
+            "tree_nodes": 228
+          }
+        },
+        {
+          "ply": 4,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "d7f8",
+          "flow_move": "c7e5",
+          "native_move": "d7f8",
+          "flow_ms": 2523.923167000248,
+          "native_ms": 2512.0358750009473,
+          "native_depth": 20,
+          "native_nodes": 3733503,
+          "flow_stats": {
+            "frontier_evaluations": 237,
+            "qsearch_nodes": 665,
+            "qsearch_truncated": 0,
+            "flow_steps": 237,
+            "tree_nodes": 238
+          }
+        },
+        {
+          "ply": 5,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "a1d1",
+          "flow_move": "a1d1",
+          "native_move": "c2e4",
+          "flow_ms": 2777.369584000553,
+          "native_ms": 2765.6169999991107,
+          "native_depth": 23,
+          "native_nodes": 4063231,
+          "flow_stats": {
+            "frontier_evaluations": 249,
+            "qsearch_nodes": 569,
+            "qsearch_truncated": 0,
+            "flow_steps": 249,
+            "tree_nodes": 250
+          }
+        },
+        {
+          "ply": 6,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "c8d8",
+          "flow_move": "e7f5",
+          "native_move": "c8d8",
+          "flow_ms": 1670.0603340013913,
+          "native_ms": 1657.883124998989,
+          "native_depth": 20,
+          "native_nodes": 2426879,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 722,
+            "qsearch_truncated": 0,
+            "flow_steps": 163,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 7,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "h2h4",
+          "flow_move": "h2h4",
+          "native_move": "c2e4",
+          "flow_ms": 1240.9883750005974,
+          "native_ms": 1228.9139580007031,
+          "native_depth": 21,
+          "native_nodes": 1927167,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1124,
+            "qsearch_truncated": 0,
+            "flow_steps": 121,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 8,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "d8d1",
+          "flow_move": "d8d1",
+          "native_move": "d8d1",
+          "flow_ms": 2458.5595000007743,
+          "native_ms": 2447.6788749998377,
+          "native_depth": 22,
+          "native_nodes": 3680255,
+          "flow_stats": {
+            "frontier_evaluations": 234,
+            "qsearch_nodes": 1199,
+            "qsearch_truncated": 0,
+            "flow_steps": 234,
+            "tree_nodes": 235
+          }
+        },
+        {
+          "ply": 9,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "e1d1",
+          "flow_move": "e1d1",
+          "native_move": "e1d1",
+          "flow_ms": 2301.6231670007983,
+          "native_ms": 2290.001499999562,
+          "native_depth": 23,
+          "native_nodes": 3528703,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1086,
+            "qsearch_truncated": 0,
+            "flow_steps": 205,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 10,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "e7d5",
+          "flow_move": "e7f5",
+          "native_move": "e7d5",
+          "flow_ms": 2555.30408300001,
+          "native_ms": 2543.055207999714,
+          "native_depth": 22,
+          "native_nodes": 3946495,
+          "flow_stats": {
+            "frontier_evaluations": 241,
+            "qsearch_nodes": 824,
+            "qsearch_truncated": 0,
+            "flow_steps": 241,
+            "tree_nodes": 242
+          }
+        },
+        {
+          "ply": 11,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "d1d3",
+          "flow_move": "d1d3",
+          "native_move": "c3d5",
+          "flow_ms": 2782.180457999857,
+          "native_ms": 2770.6332910001947,
+          "native_depth": 23,
+          "native_nodes": 4251647,
+          "flow_stats": {
+            "frontier_evaluations": 251,
+            "qsearch_nodes": 1075,
+            "qsearch_truncated": 0,
+            "flow_steps": 251,
+            "tree_nodes": 252
+          }
+        },
+        {
+          "ply": 12,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "d5f4",
+          "flow_move": "d5f4",
+          "native_move": "d5f4",
+          "flow_ms": 2624.2820839997876,
+          "native_ms": 2611.8237919999956,
+          "native_depth": 24,
+          "native_nodes": 4261887,
+          "flow_stats": {
+            "frontier_evaluations": 243,
+            "qsearch_nodes": 1025,
+            "qsearch_truncated": 0,
+            "flow_steps": 243,
+            "tree_nodes": 244
+          }
+        },
+        {
+          "ply": 13,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "e2e3",
+          "flow_move": "e2e3",
+          "native_move": "e2e1",
+          "flow_ms": 325.53616699988197,
+          "native_ms": 313.51112500124145,
+          "native_depth": 14,
+          "native_nodes": 507903,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1286,
+            "qsearch_truncated": 0,
+            "flow_steps": 30,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 14,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f4d3",
+          "flow_move": "f4d3",
+          "native_move": "f4d3",
+          "flow_ms": 130.4790829999547,
+          "native_ms": 117.76554099924397,
+          "native_depth": 15,
+          "native_nodes": 196607,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1546,
+            "qsearch_truncated": 0,
+            "flow_steps": 13,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 15,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "c2d3",
+          "flow_move": "c2d3",
+          "native_move": "c2d3",
+          "flow_ms": 2445.481500000824,
+          "native_ms": 2433.350582999992,
+          "native_depth": 23,
+          "native_nodes": 3979263,
+          "flow_stats": {
+            "frontier_evaluations": 235,
+            "qsearch_nodes": 968,
+            "qsearch_truncated": 0,
+            "flow_steps": 235,
+            "tree_nodes": 236
+          }
+        },
+        {
+          "ply": 16,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f8d7",
+          "flow_move": "a8d8",
+          "native_move": "f8d7",
+          "flow_ms": 2695.2667080004176,
+          "native_ms": 2682.529292000254,
+          "native_depth": 25,
+          "native_nodes": 4401151,
+          "flow_stats": {
+            "frontier_evaluations": 249,
+            "qsearch_nodes": 510,
+            "qsearch_truncated": 0,
+            "flow_steps": 249,
+            "tree_nodes": 250
+          }
+        },
+        {
+          "ply": 17,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "d3e4",
+          "flow_move": "d3e4",
+          "native_move": "d3e4",
+          "flow_ms": 2859.828374999779,
+          "native_ms": 2848.30220799995,
+          "native_depth": 24,
+          "native_nodes": 4702207,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 851,
+            "qsearch_truncated": 0,
+            "flow_steps": 254,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 18,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "b7e4",
+          "flow_move": "b7e4",
+          "native_move": "b7e4",
+          "flow_ms": 2698.083917000986,
+          "native_ms": 2686.655083000005,
+          "native_depth": 26,
+          "native_nodes": 4298751,
+          "flow_stats": {
+            "frontier_evaluations": 252,
+            "qsearch_nodes": 1669,
+            "qsearch_truncated": 0,
+            "flow_steps": 249,
+            "tree_nodes": 253
+          }
+        },
+        {
+          "ply": 19,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "e3f4",
+          "flow_move": "e3f4",
+          "native_move": "e3e4",
+          "flow_ms": 71.45683300041128,
+          "native_ms": 59.25920799927553,
+          "native_depth": 14,
+          "native_nodes": 98303,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 922,
+            "qsearch_truncated": 0,
+            "flow_steps": 7,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 20,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "e4f5",
+          "flow_move": "e4f5",
+          "native_move": "e4f5",
+          "flow_ms": 91.50720899924636,
+          "native_ms": 80.24858300086635,
+          "native_depth": 13,
+          "native_nodes": 126975,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1081,
+            "qsearch_truncated": 0,
+            "flow_steps": 9,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 21,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g5f7",
+          "flow_move": "g5f7",
+          "native_move": "g5f3",
+          "flow_ms": 2454.7089579991734,
+          "native_ms": 2442.5588750000315,
+          "native_depth": 21,
+          "native_nodes": 3899391,
+          "flow_stats": {
+            "frontier_evaluations": 239,
+            "qsearch_nodes": 668,
+            "qsearch_truncated": 0,
+            "flow_steps": 236,
+            "tree_nodes": 240
+          }
+        },
+        {
+          "ply": 22,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "g8f7",
+          "flow_move": "g8f7",
+          "native_move": "g8f7",
+          "flow_ms": 487.2365830015042,
+          "native_ms": 475.50000000046566,
+          "native_depth": 17,
+          "native_nodes": 749567,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 660,
+            "qsearch_truncated": 0,
+            "flow_steps": 46,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 23,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g2g4",
+          "flow_move": "g2g4",
+          "native_move": "g2g4",
+          "flow_ms": 2533.6222909991193,
+          "native_ms": 2522.1856250009296,
+          "native_depth": 22,
+          "native_nodes": 4577279,
+          "flow_stats": {
+            "frontier_evaluations": 243,
+            "qsearch_nodes": 544,
+            "qsearch_truncated": 0,
+            "flow_steps": 243,
+            "tree_nodes": 244
+          }
+        },
+        {
+          "ply": 24,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "c7e5",
+          "flow_move": "f7g8",
+          "native_move": "c7e5",
+          "flow_ms": 2707.458625001891,
+          "native_ms": 2694.4859589966654,
+          "native_depth": 21,
+          "native_nodes": 4790271,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 790,
+            "qsearch_truncated": 0,
+            "flow_steps": 254,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 25,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "f4e5",
+          "flow_move": "f4e5",
+          "native_move": "f4e5",
+          "flow_ms": 210.50537500195787,
+          "native_ms": 198.8019999989774,
+          "native_depth": 14,
+          "native_nodes": 354303,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 973,
+            "qsearch_truncated": 0,
+            "flow_steps": 21,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 26,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "d7e5",
+          "flow_move": "d7e5",
+          "native_move": "d7e5",
+          "flow_ms": 720.8320839999942,
+          "native_ms": 708.5630420006055,
+          "native_depth": 20,
+          "native_nodes": 1337343,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 744,
+            "qsearch_truncated": 0,
+            "flow_steps": 70,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 27,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g1f1",
+          "flow_move": "g1f1",
+          "native_move": "g4f5",
+          "flow_ms": 180.7262920010544,
+          "native_ms": 169.24924999693758,
+          "native_depth": 16,
+          "native_nodes": 299007,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 630,
+            "qsearch_truncated": 0,
+            "flow_steps": 20,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 28,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f5d3",
+          "flow_move": "f5d3",
+          "native_move": "f5d3",
+          "flow_ms": 2655.4575829977694,
+          "native_ms": 2643.420291999064,
+          "native_depth": 27,
+          "native_nodes": 4530175,
+          "flow_stats": {
+            "frontier_evaluations": 253,
+            "qsearch_nodes": 709,
+            "qsearch_truncated": 0,
+            "flow_steps": 253,
+            "tree_nodes": 254
+          }
+        },
+        {
+          "ply": 29,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "f1g1",
+          "flow_move": "f1g1",
+          "native_move": "f1g2",
+          "flow_ms": 115.72616699777427,
+          "native_ms": 104.1941669973312,
+          "native_depth": 15,
+          "native_nodes": 169983,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 522,
+            "qsearch_truncated": 0,
+            "flow_steps": 12,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 30,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "e5f3",
+          "flow_move": "a8d8",
+          "native_move": "e5f3",
+          "flow_ms": 104.70283399990876,
+          "native_ms": 92.65120800046134,
+          "native_depth": 16,
+          "native_nodes": 157695,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 557,
+            "qsearch_truncated": 0,
+            "flow_steps": 13,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 31,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g1g2",
+          "flow_move": "g1g2",
+          "native_move": "g1g2",
+          "flow_ms": 2330.7316659993376,
+          "native_ms": 2318.923917002394,
+          "native_depth": 23,
+          "native_nodes": 3942399,
+          "flow_stats": {
+            "frontier_evaluations": 253,
+            "qsearch_nodes": 604,
+            "qsearch_truncated": 0,
+            "flow_steps": 218,
+            "tree_nodes": 254
+          }
+        },
+        {
+          "ply": 32,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f3e1",
+          "flow_move": "f3e5",
+          "native_move": "f3e1",
+          "flow_ms": 2509.354000001622,
+          "native_ms": 2496.4677909993043,
+          "native_depth": 23,
+          "native_nodes": 4233215,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 628,
+            "qsearch_truncated": 0,
+            "flow_steps": 245,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 33,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g2h3",
+          "flow_move": "g2h3",
+          "native_move": "g2g3",
+          "flow_ms": 2654.671500000404,
+          "native_ms": 2642.6802499991027,
+          "native_depth": 23,
+          "native_nodes": 4448255,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 368,
+            "qsearch_truncated": 0,
+            "flow_steps": 254,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 34,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "a8f8",
+          "flow_move": "g6g5",
+          "native_move": "a8f8",
+          "flow_ms": 2544.9138340009085,
+          "native_ms": 2532.816917002492,
+          "native_depth": 24,
+          "native_nodes": 4294655,
+          "flow_stats": {
+            "frontier_evaluations": 252,
+            "qsearch_nodes": 360,
+            "qsearch_truncated": 0,
+            "flow_steps": 247,
+            "tree_nodes": 253
+          }
+        },
+        {
+          "ply": 35,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "c3d1",
+          "flow_move": "c3d1",
+          "native_move": "h3g3",
+          "flow_ms": 1359.9255840017577,
+          "native_ms": 1348.3028340015153,
+          "native_depth": 22,
+          "native_nodes": 2275327,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 389,
+            "qsearch_truncated": 0,
+            "flow_steps": 132,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 36,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f7g8",
+          "flow_move": "e6e5",
+          "native_move": "f7g8",
+          "flow_ms": 97.62179099925561,
+          "native_ms": 86.12437500050873,
+          "native_depth": 13,
+          "native_nodes": 145407,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 336,
+            "qsearch_truncated": 0,
+            "flow_steps": 12,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 37,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "h3g3",
+          "flow_move": "h3g3",
+          "native_move": "h3g3",
+          "flow_ms": 1126.802624999982,
+          "native_ms": 1114.3732909986284,
+          "native_depth": 20,
+          "native_nodes": 2013183,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 435,
+            "qsearch_truncated": 0,
+            "flow_steps": 111,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 38,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "g6g5",
+          "flow_move": "g6g5",
+          "native_move": "g6g5",
+          "flow_ms": 2490.780915999494,
+          "native_ms": 2478.580499999225,
+          "native_depth": 23,
+          "native_nodes": 4507647,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 372,
+            "qsearch_truncated": 0,
+            "flow_steps": 235,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 39,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "f2f3",
+          "flow_move": "f2f3",
+          "native_move": "f2f4",
+          "flow_ms": 193.30249999984517,
+          "native_ms": 181.01533399749314,
+          "native_depth": 15,
+          "native_nodes": 311295,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 565,
+            "qsearch_truncated": 0,
+            "flow_steps": 20,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 40,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f8f3",
+          "flow_move": "g8h8",
+          "native_move": "f8f3",
+          "flow_ms": 2467.4779169981775,
+          "native_ms": 2454.8664999965695,
+          "native_depth": 59,
+          "native_nodes": 8781823,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1092,
+            "qsearch_truncated": 0,
+            "flow_steps": 236,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 41,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "g3h2",
+          "flow_move": "g3h2",
+          "native_move": "g3h2",
+          "flow_ms": 160.37029099970823,
+          "native_ms": 147.62166699802037,
+          "native_depth": 41,
+          "native_nodes": 590827,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 656,
+            "qsearch_truncated": 0,
+            "flow_steps": 21,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 42,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "g5h4",
+          "flow_move": "d3f5",
+          "native_move": "g5h4",
+          "flow_ms": 2570.3154580005503,
+          "native_ms": 2557.807999997749,
+          "native_depth": 99,
+          "native_nodes": 15624191,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 689,
+            "qsearch_truncated": 0,
+            "flow_steps": 242,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 43,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "b2b4",
+          "flow_move": "b2b4",
+          "native_move": "h2g1",
+          "flow_ms": 745.5240000017511,
+          "native_ms": 734.1849589975027,
+          "native_depth": 110,
+          "native_nodes": 5925265,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 365,
+            "qsearch_truncated": 0,
+            "flow_steps": 74,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 44,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "f3g3",
+          "flow_move": "f3f1",
+          "native_move": "f3g3",
+          "flow_ms": 2575.9478749969276,
+          "native_ms": 2563.7593749997905,
+          "native_depth": 129,
+          "native_nodes": 8419327,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 590,
+            "qsearch_truncated": 0,
+            "flow_steps": 250,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 45,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "d1f2",
+          "flow_move": "d1f2",
+          "native_move": "h2h1",
+          "flow_ms": 484.4258329976583,
+          "native_ms": 471.9738329986285,
+          "native_depth": 147,
+          "native_nodes": 817415,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 547,
+            "qsearch_truncated": 0,
+            "flow_steps": 49,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 46,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "e1f3",
+          "flow_move": "a6a5",
+          "native_move": "e1f3",
+          "flow_ms": 1830.464499998925,
+          "native_ms": 1817.6967920007883,
+          "native_depth": 133,
+          "native_nodes": 6234111,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 622,
+            "qsearch_truncated": 0,
+            "flow_steps": 177,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 47,
+          "side": "white",
+          "played_by": "flow",
+          "played_move": "h2h1",
+          "flow_move": "h2h1",
+          "native_move": "h2h1",
+          "flow_ms": 1052.29354200128,
+          "native_ms": 3.744166999240406,
+          "native_depth": 239,
+          "native_nodes": 491,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 491,
+            "qsearch_truncated": 0,
+            "flow_steps": 105,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 48,
+          "side": "black",
+          "played_by": "native",
+          "played_move": "g3g1",
+          "flow_move": "g3g1",
+          "native_move": "g3g1",
+          "flow_ms": 1138.008207999519,
+          "native_ms": 4.801958999451017,
+          "native_depth": 239,
+          "native_nodes": 7173,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 624,
+            "qsearch_truncated": 0,
+            "flow_steps": 113,
+            "tree_nodes": 257
+          }
+        }
+      ],
+      "final_fen": "6k1/8/pp2p3/8/1P4Pp/3b1n2/P4N2/6rK w - - 5 33"
+    },
+    {
+      "game": 2,
+      "flow_color": "black",
+      "start_fen": "r1r3k1/1bqnbp1N/ppn1p1p1/4P1B1/8/2N5/PPB1QPPP/R3R1K1 w - - 3 9",
+      "result": "1-0",
+      "termination": "CHECKMATE",
+      "plies": [
+        {
+          "ply": 1,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "g5e7",
+          "flow_move": "g5e7",
+          "native_move": "g5e7",
+          "flow_ms": 211.7958329981775,
+          "native_ms": 200.61204100056784,
+          "native_depth": 17,
+          "native_nodes": 294911,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1647,
+            "qsearch_truncated": 0,
+            "flow_steps": 21,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 2,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "c6e7",
+          "flow_move": "c6e7",
+          "native_move": "c6e7",
+          "flow_ms": 2592.429666001408,
+          "native_ms": 2580.44337499814,
+          "native_depth": 22,
+          "native_nodes": 3770367,
+          "flow_stats": {
+            "frontier_evaluations": 241,
+            "qsearch_nodes": 687,
+            "qsearch_truncated": 0,
+            "flow_steps": 241,
+            "tree_nodes": 242
+          }
+        },
+        {
+          "ply": 3,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "h7g5",
+          "flow_move": "h7g5",
+          "native_move": "h7g5",
+          "flow_ms": 2947.39195800139,
+          "native_ms": 2935.012916997948,
+          "native_depth": 23,
+          "native_nodes": 4259839,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 774,
+            "qsearch_truncated": 0,
+            "flow_steps": 255,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 4,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "c7e5",
+          "flow_move": "c7e5",
+          "native_move": "d7f8",
+          "flow_ms": 2562.1240829968883,
+          "native_ms": 2549.4724589989346,
+          "native_depth": 21,
+          "native_nodes": 3782655,
+          "flow_stats": {
+            "frontier_evaluations": 239,
+            "qsearch_nodes": 571,
+            "qsearch_truncated": 0,
+            "flow_steps": 239,
+            "tree_nodes": 240
+          }
+        },
+        {
+          "ply": 5,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e2e5",
+          "flow_move": "e2e5",
+          "native_move": "e2e5",
+          "flow_ms": 2278.07091700015,
+          "native_ms": 2265.82770800087,
+          "native_depth": 21,
+          "native_nodes": 3645439,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 1322,
+            "qsearch_truncated": 0,
+            "flow_steps": 202,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 6,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "d7e5",
+          "flow_move": "d7e5",
+          "native_move": "d7e5",
+          "flow_ms": 2598.582875001739,
+          "native_ms": 2587.442292002379,
+          "native_depth": 20,
+          "native_nodes": 4118527,
+          "flow_stats": {
+            "frontier_evaluations": 242,
+            "qsearch_nodes": 916,
+            "qsearch_truncated": 0,
+            "flow_steps": 242,
+            "tree_nodes": 243
+          }
+        },
+        {
+          "ply": 7,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e1e5",
+          "flow_move": "e1e5",
+          "native_move": "e1e5",
+          "flow_ms": 2764.2867089998617,
+          "native_ms": 2752.0816670003114,
+          "native_depth": 22,
+          "native_nodes": 4358143,
+          "flow_stats": {
+            "frontier_evaluations": 253,
+            "qsearch_nodes": 728,
+            "qsearch_truncated": 0,
+            "flow_steps": 253,
+            "tree_nodes": 254
+          }
+        },
+        {
+          "ply": 8,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "e7c6",
+          "flow_move": "e7c6",
+          "native_move": "b6b5",
+          "flow_ms": 2591.960375000781,
+          "native_ms": 2580.533457999991,
+          "native_depth": 22,
+          "native_nodes": 4208639,
+          "flow_stats": {
+            "frontier_evaluations": 251,
+            "qsearch_nodes": 547,
+            "qsearch_truncated": 0,
+            "flow_steps": 242,
+            "tree_nodes": 252
+          }
+        },
+        {
+          "ply": 9,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e5e3",
+          "flow_move": "e5e3",
+          "native_move": "e5e3",
+          "flow_ms": 2555.950792000658,
+          "native_ms": 2543.9792910001415,
+          "native_depth": 23,
+          "native_nodes": 4100095,
+          "flow_stats": {
+            "frontier_evaluations": 242,
+            "qsearch_nodes": 439,
+            "qsearch_truncated": 0,
+            "flow_steps": 242,
+            "tree_nodes": 243
+          }
+        },
+        {
+          "ply": 10,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "c6d4",
+          "flow_move": "c6d4",
+          "native_move": "c6d4",
+          "flow_ms": 254.87237499692128,
+          "native_ms": 243.09691700182157,
+          "native_depth": 15,
+          "native_nodes": 393215,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 506,
+            "qsearch_truncated": 0,
+            "flow_steps": 26,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 11,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "c2e4",
+          "flow_move": "c2e4",
+          "native_move": "c2e4",
+          "flow_ms": 2296.6518749999523,
+          "native_ms": 2284.884874999989,
+          "native_depth": 22,
+          "native_nodes": 3790847,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 614,
+            "qsearch_truncated": 0,
+            "flow_steps": 210,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 12,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "b7e4",
+          "flow_move": "b7e4",
+          "native_move": "b7e4",
+          "flow_ms": 2843.915500001458,
+          "native_ms": 2832.11645800111,
+          "native_depth": 21,
+          "native_nodes": 4442111,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 1587,
+            "qsearch_truncated": 0,
+            "flow_steps": 255,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 13,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e3e4",
+          "flow_move": "e3e4",
+          "native_move": "e3e4",
+          "flow_ms": 2783.50170900012,
+          "native_ms": 2772.5075829985144,
+          "native_depth": 22,
+          "native_nodes": 4468735,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 896,
+            "qsearch_truncated": 0,
+            "flow_steps": 254,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 14,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "c8c3",
+          "flow_move": "c8c3",
+          "native_move": "c8d8",
+          "flow_ms": 2854.119958999945,
+          "native_ms": 2842.2342090016173,
+          "native_depth": 22,
+          "native_nodes": 4345855,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 522,
+            "qsearch_truncated": 0,
+            "flow_steps": 254,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 15,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "b2c3",
+          "flow_move": "b2c3",
+          "native_move": "b2c3",
+          "flow_ms": 2847.8992499985907,
+          "native_ms": 2835.4555839978275,
+          "native_depth": 22,
+          "native_nodes": 4491263,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 715,
+            "qsearch_truncated": 0,
+            "flow_steps": 255,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 16,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "d4e2",
+          "flow_move": "d4e2",
+          "native_move": "d4b5",
+          "flow_ms": 2781.696958001703,
+          "native_ms": 2769.974999999249,
+          "native_depth": 22,
+          "native_nodes": 4464639,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 456,
+            "qsearch_truncated": 0,
+            "flow_steps": 255,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 17,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e4e2",
+          "flow_move": "e4e2",
+          "native_move": "e4e2",
+          "flow_ms": 2615.132791997894,
+          "native_ms": 2602.886665998085,
+          "native_depth": 23,
+          "native_nodes": 4229119,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 616,
+            "qsearch_truncated": 0,
+            "flow_steps": 246,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 18,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "a6a5",
+          "flow_move": "a6a5",
+          "native_move": "a8c8",
+          "flow_ms": 2818.615291998867,
+          "native_ms": 2806.6397500006133,
+          "native_depth": 22,
+          "native_nodes": 4552703,
+          "flow_stats": {
+            "frontier_evaluations": 250,
+            "qsearch_nodes": 431,
+            "qsearch_truncated": 0,
+            "flow_steps": 250,
+            "tree_nodes": 251
+          }
+        },
+        {
+          "ply": 19,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "g5f7",
+          "flow_move": "g5f7",
+          "native_move": "g5f7",
+          "flow_ms": 112.42170900004567,
+          "native_ms": 99.94300000107614,
+          "native_depth": 14,
+          "native_nodes": 167935,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 420,
+            "qsearch_truncated": 0,
+            "flow_steps": 14,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 20,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "a8e8",
+          "flow_move": "a8e8",
+          "native_move": "g8f7",
+          "flow_ms": 891.0577500028012,
+          "native_ms": 878.8667080007144,
+          "native_depth": 20,
+          "native_nodes": 1587199,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 693,
+            "qsearch_truncated": 0,
+            "flow_steps": 85,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 21,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "h2h4",
+          "flow_move": "e2e3",
+          "native_move": "h2h4",
+          "flow_ms": 2463.8830830008374,
+          "native_ms": 2452.455208000174,
+          "native_depth": 22,
+          "native_nodes": 4329471,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 756,
+            "qsearch_truncated": 0,
+            "flow_steps": 233,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 22,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "g8f8",
+          "flow_move": "g8f8",
+          "native_move": "g8f7",
+          "flow_ms": 2672.7948339976138,
+          "native_ms": 2661.195749999024,
+          "native_depth": 22,
+          "native_nodes": 4892671,
+          "flow_stats": {
+            "frontier_evaluations": 253,
+            "qsearch_nodes": 781,
+            "qsearch_truncated": 0,
+            "flow_steps": 253,
+            "tree_nodes": 254
+          }
+        },
+        {
+          "ply": 23,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "f7e5",
+          "flow_move": "e2e3",
+          "native_move": "f7e5",
+          "flow_ms": 2527.576666998357,
+          "native_ms": 2515.8228750005946,
+          "native_depth": 22,
+          "native_nodes": 4474879,
+          "flow_stats": {
+            "frontier_evaluations": 254,
+            "qsearch_nodes": 772,
+            "qsearch_truncated": 0,
+            "flow_steps": 246,
+            "tree_nodes": 255
+          }
+        },
+        {
+          "ply": 24,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "f8g7",
+          "flow_move": "f8g7",
+          "native_move": "e8d8",
+          "flow_ms": 166.8190839991439,
+          "native_ms": 154.7534999990603,
+          "native_depth": 14,
+          "native_nodes": 264191,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 575,
+            "qsearch_truncated": 0,
+            "flow_steps": 19,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 25,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "f2f4",
+          "flow_move": "g2g4",
+          "native_move": "f2f4",
+          "flow_ms": 85.0302910002938,
+          "native_ms": 73.20641600017552,
+          "native_depth": 12,
+          "native_nodes": 124927,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 357,
+            "qsearch_truncated": 0,
+            "flow_steps": 11,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 26,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "e8b8",
+          "flow_move": "e8b8",
+          "native_move": "e8d8",
+          "flow_ms": 2635.3478330020152,
+          "native_ms": 2623.2529590015474,
+          "native_depth": 21,
+          "native_nodes": 4700159,
+          "flow_stats": {
+            "frontier_evaluations": 252,
+            "qsearch_nodes": 371,
+            "qsearch_truncated": 0,
+            "flow_steps": 252,
+            "tree_nodes": 253
+          }
+        },
+        {
+          "ply": 27,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "a1d1",
+          "flow_move": "e2e1",
+          "native_move": "a1d1",
+          "flow_ms": 1616.9405840009858,
+          "native_ms": 1604.5640419979463,
+          "native_depth": 28,
+          "native_nodes": 3524607,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 409,
+            "qsearch_truncated": 0,
+            "flow_steps": 161,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 28,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "b8a8",
+          "flow_move": "b8a8",
+          "native_move": "b8d8",
+          "flow_ms": 64.25241699980688,
+          "native_ms": 51.28704200251377,
+          "native_depth": 12,
+          "native_nodes": 88063,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 462,
+            "qsearch_truncated": 0,
+            "flow_steps": 7,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 29,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "e2f2",
+          "flow_move": "d1d2",
+          "native_move": "e2f2",
+          "flow_ms": 190.05524999738554,
+          "native_ms": 177.8561669998453,
+          "native_depth": 14,
+          "native_nodes": 323583,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 579,
+            "qsearch_truncated": 0,
+            "flow_steps": 21,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 30,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "g7f6",
+          "flow_move": "g7f6",
+          "native_move": "g7g8",
+          "flow_ms": 828.3251659995585,
+          "native_ms": 815.7112499975483,
+          "native_depth": 15,
+          "native_nodes": 1638399,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 505,
+            "qsearch_truncated": 0,
+            "flow_steps": 81,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 31,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "d1d7",
+          "flow_move": "d1e1",
+          "native_move": "d1d7",
+          "flow_ms": 2823.700375000044,
+          "native_ms": 2811.7798329985817,
+          "native_depth": 52,
+          "native_nodes": 10477567,
+          "flow_stats": {
+            "frontier_evaluations": 255,
+            "qsearch_nodes": 460,
+            "qsearch_truncated": 0,
+            "flow_steps": 255,
+            "tree_nodes": 256
+          }
+        },
+        {
+          "ply": 32,
+          "side": "black",
+          "played_by": "flow",
+          "played_move": "a8e8",
+          "flow_move": "a8e8",
+          "native_move": "a8a7",
+          "flow_ms": 1459.169165998901,
+          "native_ms": 1447.46799999848,
+          "native_depth": 111,
+          "native_nodes": 8762545,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 460,
+            "qsearch_truncated": 0,
+            "flow_steps": 132,
+            "tree_nodes": 257
+          }
+        },
+        {
+          "ply": 33,
+          "side": "white",
+          "played_by": "native",
+          "played_move": "d7f7",
+          "flow_move": "d7f7",
+          "native_move": "d7f7",
+          "flow_ms": 2085.44270800121,
+          "native_ms": 5.258667002635775,
+          "native_depth": 239,
+          "native_nodes": 8846,
+          "flow_stats": {
+            "frontier_evaluations": 256,
+            "qsearch_nodes": 586,
+            "qsearch_truncated": 0,
+            "flow_steps": 188,
+            "tree_nodes": 257
+          }
+        }
+      ],
+      "final_fen": "4r3/5R2/1p2pkp1/p3N3/5P1P/2P5/P4RP1/6K1 b - - 8 25"
+    }
+  ]
+}

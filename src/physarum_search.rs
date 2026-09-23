@@ -10,6 +10,7 @@ use std::{sync::Arc, sync::atomic::Ordering, time::Instant};
 use crate::{
     board::{Board, NullBoardObserver},
     branch_flow::{Network, NodeId, Parameters},
+    conductivity_head::Head,
     search::quiescence_evaluate,
     thread::{SharedContext, Status, ThreadData},
     threadpool::ThreadPool,
@@ -17,7 +18,7 @@ use crate::{
     types::{Color, MAX_PLY, Move, normalize_to_cp},
 };
 
-const DEFAULT_MAX_DEPTH: usize = 64;
+const DEFAULT_MAX_DEPTH: usize = 4;
 const DEFAULT_BATCH_SIZE: usize = 64;
 const INFO_INTERVAL_MS: u128 = 250;
 const TERMINAL_SCORE: i32 = 30_000;
@@ -26,6 +27,11 @@ const TERMINAL_SCORE: i32 = 30_000;
 pub struct Runtime {
     pub maximum_depth: usize,
     pub batch_size: usize,
+    pub budget: usize,
+    pub qnodes: u64,
+    pub seed: u64,
+    pub learned: bool,
+    head: Arc<Head>,
     pub diagnostic_prior_move: Option<String>,
     pub diagnostic_prior_mass_permille: usize,
     flow: Parameters,
@@ -36,6 +42,16 @@ impl Default for Runtime {
         Self {
             maximum_depth: DEFAULT_MAX_DEPTH,
             batch_size: DEFAULT_BATCH_SIZE,
+            budget: 256,
+            qnodes: 4096,
+            seed: 2026,
+            learned: true,
+            head: Arc::new(
+                Head::from_bytes(include_bytes!(
+                    "../experiments/computation_allocation/artifacts/conductivity-u29.bin"
+                ))
+                .expect("embedded conductivity model must be valid"),
+            ),
             diagnostic_prior_move: None,
             diagnostic_prior_mass_permille: 990,
             flow: Parameters::default(),
@@ -44,6 +60,30 @@ impl Default for Runtime {
 }
 
 impl Runtime {
+    pub fn load_weights(&mut self, path: &str) -> Result<u32, String> {
+        let bytes = std::fs::read(path).map_err(|error| format!("failed to read conductivity weights: {error}"))?;
+        let head = Head::from_bytes(&bytes)?;
+        let update = head.update;
+        self.head = Arc::new(head);
+        Ok(update)
+    }
+
+    pub fn set_budget(&mut self, value: &str) {
+        self.budget = value.parse().unwrap_or(256).clamp(1, 1_000_000);
+    }
+
+    pub fn set_qnodes(&mut self, value: &str) {
+        self.qnodes = value.parse().unwrap_or(4096).clamp(1, 1_000_000);
+    }
+
+    pub fn set_seed(&mut self, value: &str) {
+        self.seed = value.parse().unwrap_or(2026);
+    }
+
+    pub fn set_learned(&mut self, value: &str) {
+        self.learned = value.parse().unwrap_or(true);
+    }
+
     pub fn set_maximum_depth(&mut self, value: &str) {
         self.maximum_depth = value.parse().unwrap_or(DEFAULT_MAX_DEPTH).clamp(1, MAX_PLY);
     }
@@ -494,6 +534,21 @@ pub fn go(
     runtime: &Runtime, threads: &mut ThreadPool, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
     move_overhead: u64,
 ) {
+    if runtime.learned {
+        crate::learned_physarum_search::go(
+            &runtime.head,
+            runtime.budget,
+            runtime.maximum_depth,
+            runtime.qnodes,
+            runtime.seed,
+            threads,
+            board,
+            shared,
+            limits,
+            move_overhead,
+        );
+        return;
+    }
     match run_search(runtime, threads, board, shared, limits, move_overhead, true) {
         Some(result) => {
             println!(
