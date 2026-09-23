@@ -101,7 +101,7 @@ impl TimeManager {
         matches!(self.limits, Limits::Fischer(..) | Limits::Cyclic(..) | Limits::Time(_))
     }
 
-    #[cfg(any(feature = "cs-search", feature = "physarum-search"))]
+    #[cfg(feature = "physarum-search")]
     pub fn hard_limit_reached(&self, nodes: u64) -> bool {
         match self.limits {
             Limits::Nodes(maximum) => nodes >= maximum,

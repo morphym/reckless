@@ -66,7 +66,7 @@ impl ThreadPool {
         self.vector.len()
     }
 
-    #[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
+    #[cfg(not(feature = "physarum-search"))]
     pub fn iter(&self) -> impl Iterator<Item = &ThreadData> {
         self.vector.iter()
     }

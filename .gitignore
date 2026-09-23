@@ -9,3 +9,5 @@ bindings.rs
 outputs/
 __pycache__/
 *.py[cod]
+experiments/computation_allocation/artifacts/
+.DS_Store

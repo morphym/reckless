@@ -1,4 +1,4 @@
-#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
+#[cfg(not(feature = "physarum-search"))]
 use std::collections::HashMap;
 use std::collections::VecDeque;
 use std::sync::Arc;
@@ -15,7 +15,7 @@ use crate::{
     types::{Color, MAX_MOVES, Piece, Square},
 };
 
-#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
+#[cfg(not(feature = "physarum-search"))]
 use crate::{
     time::TimeManager,
     types::{Move, Score, is_decisive, is_loss, is_win},
@@ -32,8 +32,6 @@ struct Settings {
     multi_pv: usize,
     move_overhead: u64,
     report: Report,
-    #[cfg(feature = "cs-search")]
-    cs: crate::cs_search::Runtime,
     #[cfg(feature = "physarum-search")]
     physarum: crate::physarum_search::Runtime,
 }
@@ -45,8 +43,6 @@ impl Default for Settings {
             multi_pv: 1,
             move_overhead: 100,
             report: Report::Full,
-            #[cfg(feature = "cs-search")]
-            cs: crate::cs_search::Runtime::default(),
             #[cfg(feature = "physarum-search")]
             physarum: crate::physarum_search::Runtime::default(),
         }
@@ -187,23 +183,11 @@ fn uci() {
     println!("option name UCI_Chess960 type check default false");
     println!("option name MultiPV type spin default 1 min 1 max {MAX_MOVES}");
 
-    #[cfg(feature = "cs-search")]
-    {
-        println!("option name CSBudget type spin default 32 min 1 max 64");
-        println!("option name CSMaxDepth type spin default 64 min 1 max 240");
-    }
-
     #[cfg(feature = "physarum-search")]
     {
-        println!("option name PhysarumBatch type spin default 64 min 1 max 64");
-        println!("option name PhysarumMaxDepth type spin default 240 min 1 max 240");
         println!("option name PhysarumBudget type spin default 4096 min 1 max 1000000");
         println!("option name PhysarumQNodes type spin default 4096 min 1 max 1000000");
         println!("option name PhysarumSeed type spin default 2026 min 0 max 2147483647");
-        println!("option name PhysarumLearned type check default true");
-        println!("option name PhysarumWeights type string default embedded-update-29");
-        println!("option name PhysarumDiagnosticPriorMove type string default none");
-        println!("option name PhysarumDiagnosticPriorMass type spin default 990 min 1 max 999");
     }
 
     #[cfg(feature = "syzygy")]
@@ -236,21 +220,25 @@ fn go(threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc
     shared.externally_stopped.store(false, Ordering::Release);
     let limits = parse_limits(board.side_to_move(), tokens);
 
-    #[cfg(feature = "cs-search")]
-    {
-        crate::cs_search::go(&settings.cs, threads, board, shared, limits, settings.move_overhead);
-    }
-
     #[cfg(feature = "physarum-search")]
     {
-        crate::physarum_search::go(&settings.physarum, threads, board, shared, limits, settings.move_overhead);
+        crate::physarum_search::go(
+            settings.physarum.budget,
+            settings.physarum.qnodes,
+            settings.physarum.seed,
+            threads,
+            board,
+            shared,
+            limits,
+            settings.move_overhead,
+        );
     }
 
-    #[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
+    #[cfg(not(feature = "physarum-search"))]
     native_go(threads, settings, board, shared, limits);
 }
 
-#[cfg(not(any(feature = "cs-search", feature = "physarum-search")))]
+#[cfg(not(feature = "physarum-search"))]
 fn native_go(
     threads: &mut ThreadPool, settings: &Settings, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
 ) {
@@ -386,26 +374,6 @@ fn set_option(threads: &mut ThreadPool, settings: &mut Settings, shared: &Arc<Sh
             settings.multi_pv = v.parse().unwrap_or_default();
             println!("info string set MultiPV to {v}");
         }
-        #[cfg(feature = "cs-search")]
-        ["name", "CSBudget", "value", v] => {
-            settings.cs.set_budget(v);
-            println!("info string set CSBudget to {}", settings.cs.budget);
-        }
-        #[cfg(feature = "cs-search")]
-        ["name", "CSMaxDepth", "value", v] => {
-            settings.cs.set_maximum_depth(v);
-            println!("info string set CSMaxDepth to {}", settings.cs.maximum_depth);
-        }
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumBatch", "value", v] => {
-            settings.physarum.set_batch_size(v);
-            println!("info string set PhysarumBatch to {}", settings.physarum.batch_size);
-        }
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumMaxDepth", "value", v] => {
-            settings.physarum.set_maximum_depth(v);
-            println!("info string set PhysarumMaxDepth to {}", settings.physarum.maximum_depth);
-        }
         #[cfg(feature = "physarum-search")]
         ["name", "PhysarumBudget", "value", v] => {
             settings.physarum.set_budget(v);
@@ -420,29 +388,6 @@ fn set_option(threads: &mut ThreadPool, settings: &mut Settings, shared: &Arc<Sh
         ["name", "PhysarumSeed", "value", v] => {
             settings.physarum.set_seed(v);
             println!("info string set PhysarumSeed to {}", settings.physarum.seed);
-        }
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumLearned", "value", v] => {
-            settings.physarum.set_learned(v);
-            println!("info string set PhysarumLearned to {}", settings.physarum.learned);
-        }
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumWeights", "value", v] => match settings.physarum.load_weights(v) {
-            Ok(update) => println!("info string loaded conductivity weights update {update}"),
-            Err(error) => println!("info string {error}"),
-        },
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumDiagnosticPriorMove", "value", v] => {
-            settings.physarum.set_diagnostic_prior_move(v);
-            println!("info string set PhysarumDiagnosticPriorMove to {v}");
-        }
-        #[cfg(feature = "physarum-search")]
-        ["name", "PhysarumDiagnosticPriorMass", "value", v] => {
-            settings.physarum.set_diagnostic_prior_mass(v);
-            println!(
-                "info string set PhysarumDiagnosticPriorMass to {}",
-                settings.physarum.diagnostic_prior_mass_permille
-            );
         }
         #[cfg(feature = "spsa")]
         ["name", name, "value", v] => {
