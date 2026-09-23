@@ -281,15 +281,45 @@ fn choose_frontier(nodes: &[Node], currents: &[f64], rng: &mut u64) -> Option<us
     last
 }
 
+fn principal_frontier(nodes: &[Node], root: Color) -> Option<usize> {
+    let mut current = 0;
+    loop {
+        if nodes[current].frontier {
+            return Some(current);
+        }
+        let maximizing = nodes[current].board.side_to_move() == root;
+        current = *nodes[current].children.iter().max_by(|a, b| {
+            let order = nodes[**a].value.total_cmp(&nodes[**b].value);
+            (if maximizing { order } else { order.reverse() }).then_with(|| b.cmp(a))
+        })?;
+    }
+}
+
 fn report(
     board: &Board, nodes: &[Node], max_depth: usize, started: Instant, evals: usize, qcount: u64, truncated: u64,
     steps: usize,
 ) {
+    let root = board.side_to_move();
+    let mut current = 0;
+    let mut pv = Vec::new();
+    while !nodes[current].children.is_empty() {
+        let maximizing = nodes[current].board.side_to_move() == root;
+        let best = *nodes[current]
+            .children
+            .iter()
+            .max_by(|a, b| {
+                let order = nodes[**a].value.total_cmp(&nodes[**b].value);
+                (if maximizing { order } else { order.reverse() }).then_with(|| b.cmp(a))
+            })
+            .unwrap();
+        pv.push(nodes[best].mv.unwrap().to_uci(&nodes[current].board));
+        current = best;
+    }
     let best = *nodes[0]
         .children
         .iter()
         .max_by(|a, b| nodes[**a].value.total_cmp(&nodes[**b].value).then_with(|| b.cmp(a)))
-        .expect("root must be expanded before reporting");
+        .unwrap();
     let cp = ((nodes[best].value.clamp(-0.999, 0.999).atanh() * 600.0) as i32).clamp(-20_000, 20_000);
     let elapsed = started.elapsed().as_millis();
     let seldepth = nodes.iter().map(|n| n.depth).max().unwrap_or(0);
@@ -303,13 +333,15 @@ fn report(
             0
         };
     }
-    let depth = completed[0].min(max_depth);
+    // Physarum has no full-width depth iteration. The explicit principal
+    // variation is the relevant searched depth for the move being reported;
+    // seldepth remains the deepest branch anywhere in the tree.
+    let pv_depth = pv.len();
+    let depth = pv_depth;
+    let covered_depth = completed[0].min(max_depth);
+    println!("info depth {depth} seldepth {seldepth} score cp {cp} nodes {qcount} time {elapsed} pv {}", pv.join(" "));
     println!(
-        "info depth {depth} seldepth {seldepth} score cp {cp} nodes {qcount} time {elapsed} pv {}",
-        nodes[best].mv.unwrap().to_uci(board)
-    );
-    println!(
-        "info string physarum heuristic-prior frontier-evaluations {evals} qsearch-nodes {qcount} qsearch-truncated {truncated} flow-steps {steps} tree-nodes {}",
+        "info string physarum heuristic-prior pv-depth {pv_depth} covered-depth {covered_depth} frontier-evaluations {evals} qsearch-nodes {qcount} qsearch-truncated {truncated} flow-steps {steps} tree-nodes {}",
         nodes.len()
     );
 }
@@ -382,8 +414,15 @@ pub fn go(
             report(board, &nodes, max_depth, started, evals, qcount, truncated, steps);
             target_budget = target_budget.saturating_add(budget);
         }
-        let currents = flow(&nodes);
-        let Some(index) = choose_frontier(&nodes, &currents, &mut rng) else {
+        // Periodically extend the line currently supported by minimax
+        // evidence. This prevents the wide, nearly uniform heuristic prior
+        // from keeping every branch shallow; the remaining steps still
+        // follow conductivity and explore alternatives.
+        let selected = if steps % 3 == 0 { principal_frontier(&nodes, root) } else { None };
+        let Some(index) = selected.or_else(|| {
+            let currents = flow(&nodes);
+            choose_frontier(&nodes, &currents, &mut rng)
+        }) else {
             if !infinite {
                 break;
             }
