@@ -196,8 +196,8 @@ fn uci() {
     #[cfg(feature = "physarum-search")]
     {
         println!("option name PhysarumBatch type spin default 64 min 1 max 64");
-        println!("option name PhysarumMaxDepth type spin default 4 min 1 max 240");
-        println!("option name PhysarumBudget type spin default 256 min 1 max 1000000");
+        println!("option name PhysarumMaxDepth type spin default 240 min 1 max 240");
+        println!("option name PhysarumBudget type spin default 4096 min 1 max 1000000");
         println!("option name PhysarumQNodes type spin default 4096 min 1 max 1000000");
         println!("option name PhysarumSeed type spin default 2026 min 0 max 2147483647");
         println!("option name PhysarumLearned type check default true");

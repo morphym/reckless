@@ -21,8 +21,9 @@ def main():
     parser.add_argument('--flow-weights', type=Path, required=True)
     parser.add_argument('--positions', type=Path, default=HERE / 'positions.json')
     parser.add_argument('--position', default='tactical-attack')
-    parser.add_argument('--budget', type=int, default=256)
-    parser.add_argument('--max-depth', type=int, default=4)
+    parser.add_argument('--budget', type=int, default=4096)
+    parser.add_argument('--max-depth', type=int, default=None,
+                        help='optional Physarum depth cap; omitted for normal iterative growth')
     parser.add_argument('--qnodes', type=int, default=4096)
     parser.add_argument('--learned', action='store_true', help='use policy conductivity; default is heuristic prior')
     parser.add_argument('--max-plies', type=int, default=100)
@@ -40,7 +41,8 @@ def main():
     with RecklessUci(args.flow_engine, args.timeout) as flow, RecklessUci(args.native_engine, args.timeout) as native:
         flow.set_option('PhysarumWeights', args.flow_weights.resolve())
         flow.set_option('PhysarumBudget', args.budget)
-        flow.set_option('PhysarumMaxDepth', args.max_depth)
+        if args.max_depth is not None:
+            flow.set_option('PhysarumMaxDepth', args.max_depth)
         flow.set_option('PhysarumQNodes', args.qnodes)
         flow.set_option('PhysarumLearned', str(args.learned).lower())
         for number, flow_color in enumerate((chess.WHITE, chess.BLACK), 1):

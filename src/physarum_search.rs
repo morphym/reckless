@@ -18,7 +18,10 @@ use crate::{
     types::{Color, MAX_PLY, Move, normalize_to_cp},
 };
 
-const DEFAULT_MAX_DEPTH: usize = 4;
+// Like native Reckless, depth is an emergent consequence of the active UCI
+// limit.  The option remains available for controlled experiments, but the
+// normal setting must not impose an artificial depth-4 ceiling.
+const DEFAULT_MAX_DEPTH: usize = MAX_PLY;
 const DEFAULT_BATCH_SIZE: usize = 64;
 const INFO_INTERVAL_MS: u128 = 250;
 const TERMINAL_SCORE: i32 = 30_000;
@@ -42,7 +45,7 @@ impl Default for Runtime {
         Self {
             maximum_depth: DEFAULT_MAX_DEPTH,
             batch_size: DEFAULT_BATCH_SIZE,
-            budget: 256,
+            budget: 4096,
             qnodes: 4096,
             seed: 2026,
             learned: true,
@@ -69,7 +72,7 @@ impl Runtime {
     }
 
     pub fn set_budget(&mut self, value: &str) {
-        self.budget = value.parse().unwrap_or(256).clamp(1, 1_000_000);
+        self.budget = value.parse().unwrap_or(4096).clamp(1, 1_000_000);
     }
 
     pub fn set_qnodes(&mut self, value: &str) {
