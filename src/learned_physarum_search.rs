@@ -38,6 +38,28 @@ fn legal_moves(board: &Board) -> Vec<Move> {
     board.generate_all_moves().iter().map(|entry| entry.mv).collect()
 }
 
+fn heuristic_conductivities(board: &Board, moves: &[Move]) -> Vec<f64> {
+    let scores = moves
+        .iter()
+        .enumerate()
+        .map(|(index, mv)| {
+            let mut score = 1.0 + 0.001 * (moves.len() - index) as f64;
+            if mv.is_capture() {
+                score += 2.0;
+            }
+            if mv.is_promotion() {
+                score += 4.0;
+            }
+            if board.is_direct_check(*mv) {
+                score += 3.0;
+            }
+            score
+        })
+        .collect::<Vec<_>>();
+    let total = scores.iter().sum::<f64>();
+    scores.into_iter().map(|score| 0.01 + 0.05 * score / total).collect()
+}
+
 fn terminal_value(board: &Board, root: Color) -> Option<f32> {
     let moves = legal_moves(board);
     if moves.is_empty() {
@@ -87,9 +109,9 @@ fn backup(nodes: &mut [Node], mut index: usize, root: Color) {
 }
 
 fn expand(
-    nodes: &mut Vec<Node>, index: usize, root: Color, head: &Head, budget: usize, max_depth: usize, qnodes: u64,
-    threads: &mut ThreadPool, shared: &Arc<SharedContext>, evals: &mut usize, qcount: &mut u64, truncated: &mut u64,
-    manager: &TimeManager,
+    nodes: &mut Vec<Node>, index: usize, root: Color, head: &Head, learned: bool, budget: usize, max_depth: usize,
+    qnodes: u64, threads: &mut ThreadPool, shared: &Arc<SharedContext>, evals: &mut usize, qcount: &mut u64,
+    truncated: &mut u64, manager: &TimeManager, force: bool,
 ) -> bool {
     let moves = legal_moves(&nodes[index].board);
     if moves.len() > budget.saturating_sub(*evals) {
@@ -101,7 +123,15 @@ fn expand(
     let depth = nodes[index].depth + 1;
     let mut bases = Vec::with_capacity(expected_children);
     for mv in moves {
-        if shared.externally_stopped.load(Ordering::Acquire) || manager.hard_limit_reached(*qcount) {
+        // The root expansion is the minimum useful unit of work.  A very
+        // short UCI movetime can trip the asynchronous stop flag before the
+        // first child is evaluated; honouring it here leaves an empty tree
+        // and the caller then plays the first legal move without searching.
+        // `force` is only used for this one root expansion, so it cannot make
+        // the subsequent tree growth ignore cancellation or time limits.
+        if (!force && shared.externally_stopped.load(Ordering::Acquire))
+            || (!force && manager.hard_limit_reached(*qcount))
+        {
             break;
         }
         let mut board = parent_board.clone();
@@ -136,7 +166,7 @@ fn expand(
         *evals += 1;
     }
     nodes[index].complete_expansion = nodes[index].children.len() == expected_children;
-    if !bases.is_empty() {
+    if !bases.is_empty() && learned {
         // The teacher supervises this pre-evidence state. An unexpanded child
         // never receives a fabricated value or a penalty for lacking evidence.
         let inputs = bases.iter().map(Vec::as_slice).collect::<Vec<_>>();
@@ -144,6 +174,16 @@ fn expand(
         let priors = head.conductivities(&inputs, &stats);
         let assigned = nodes[index].children.iter().copied().zip(priors).collect::<Vec<_>>();
         for (child, prior) in assigned {
+            // The policy is an initial hint, not a pre-existing proof.
+            nodes[child].prior_conductivity = 0.05 * prior;
+        }
+    } else if !learned {
+        let child_ids = nodes[index].children.clone();
+        let priors = heuristic_conductivities(
+            &parent_board,
+            &child_ids.iter().map(|child| nodes[*child].mv.unwrap()).collect::<Vec<_>>(),
+        );
+        for (child, prior) in child_ids.into_iter().zip(priors) {
             nodes[child].prior_conductivity = prior;
         }
     }
@@ -216,8 +256,8 @@ fn choose_frontier(nodes: &[Node], currents: &[f64], rng: &mut u64) -> Option<us
 }
 
 pub fn go(
-    head: &Head, budget: usize, max_depth: usize, qnodes: u64, seed: u64, threads: &mut ThreadPool, board: &Board,
-    shared: &Arc<SharedContext>, limits: Limits, move_overhead: u64,
+    head: &Head, learned: bool, budget: usize, max_depth: usize, qnodes: u64, seed: u64, threads: &mut ThreadPool,
+    board: &Board, shared: &Arc<SharedContext>, limits: Limits, move_overhead: u64,
 ) {
     let moves = legal_moves(board);
     if moves.is_empty() {
@@ -267,6 +307,7 @@ pub fn go(
         0,
         root,
         head,
+        learned,
         budget,
         max_depth,
         qnodes,
@@ -276,6 +317,7 @@ pub fn go(
         &mut qcount,
         &mut truncated,
         &manager,
+        true,
     );
     while evals < budget && !manager.hard_limit_reached(qcount) && !shared.externally_stopped.load(Ordering::Acquire) {
         let currents = flow(&nodes);
@@ -288,6 +330,7 @@ pub fn go(
             index,
             root,
             head,
+            learned,
             budget,
             max_depth,
             qnodes,
@@ -297,11 +340,21 @@ pub fn go(
             &mut qcount,
             &mut truncated,
             &manager,
+            false,
         ) {
             nodes[index].frontier = false;
         } else {
-            let utility =
-                (0.05 + (nodes[0].value - old_root).abs() + (nodes[index].value - nodes[index].initial).abs()).min(1.0);
+            // Deposit is evidence, not surprise.  The old absolute-delta
+            // rule reinforced a branch when its backed-up value got worse as
+            // well as when it got better; that lets a spectacular blunder
+            // (for example a queen sacrifice) attract all later flow.  Values
+            // are already expressed from the root player's perspective, so
+            // only positive improvements are admissible evidence.  The small
+            // floor preserves weak prior exploration without allowing it to
+            // overwhelm a supported line.
+            let root_gain = (nodes[0].value - old_root).max(0.0);
+            let branch_gain = (nodes[index].value - nodes[index].initial).max(0.0);
+            let utility = (0.01 + root_gain + branch_gain).min(1.0);
             for node in &mut nodes {
                 node.deposit *= 0.97;
             }

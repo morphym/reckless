@@ -534,39 +534,17 @@ pub fn go(
     runtime: &Runtime, threads: &mut ThreadPool, board: &Board, shared: &Arc<SharedContext>, limits: Limits,
     move_overhead: u64,
 ) {
-    if runtime.learned {
-        crate::learned_physarum_search::go(
-            &runtime.head,
-            runtime.budget,
-            runtime.maximum_depth,
-            runtime.qnodes,
-            runtime.seed,
-            threads,
-            board,
-            shared,
-            limits,
-            move_overhead,
-        );
-        return;
-    }
-    match run_search(runtime, threads, board, shared, limits, move_overhead, true) {
-        Some(result) => {
-            println!(
-                "info string Physarum summary score {} depth {} nodes {} rounds {} root-branches {} partial-best {} partial-score {}",
-                normalize_to_cp(result.score, board),
-                result.depth,
-                result.nodes,
-                result.rounds,
-                result.root_children.len(),
-                result.partial_best_move.to_uci(board),
-                normalize_to_cp(result.partial_score, board),
-            );
-            println!("bestmove {}", result.best_move.to_uci(board));
-        }
-        None => {
-            println!("info depth 0 score {} 0", if board.in_check() { "mate" } else { "cp" });
-            println!("bestmove (none)");
-        }
-    }
-    shared.status.set(Status::STOPPED);
+    crate::learned_physarum_search::go(
+        &runtime.head,
+        runtime.learned,
+        runtime.budget,
+        runtime.maximum_depth,
+        runtime.qnodes,
+        runtime.seed,
+        threads,
+        board,
+        shared,
+        limits,
+        move_overhead,
+    );
 }

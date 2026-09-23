@@ -26,6 +26,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--flow-engine', type=Path, required=True)
     parser.add_argument('--native-engine', type=Path, required=True)
+    parser.add_argument('--flow-weights', type=Path, help='optional exported conductivity model for the flow engine')
     parser.add_argument('--positions', type=Path, default=HERE / 'matched_cost_positions.json')
     parser.add_argument('--reference-cache', type=Path, default=HERE / 'artifacts/physarum-native-matched-cost-refined.json')
     parser.add_argument('--repeats', type=int, default=3)
@@ -38,6 +39,8 @@ def main():
     rows = []
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with RecklessUci(args.flow_engine, 120) as flow, RecklessUci(args.native_engine, 120) as native:
+        if args.flow_weights:
+            flow.set_option('PhysarumWeights', args.flow_weights.resolve())
         calibration_started = time.perf_counter()
         native.analyze_limited(positions[0]['fen'], 'movetime', 200)
         calibration_ms = (time.perf_counter() - calibration_started) * 1000
