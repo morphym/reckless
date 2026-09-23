@@ -130,7 +130,11 @@ fn generate_compiler_info() {
 }
 
 fn generate_engine_version() {
-    let version = env!("CARGO_PKG_VERSION");
+    let version = if env::var_os("CARGO_FEATURE_PHYSARUM_SEARCH").is_some() {
+        "Physarum 0.1.0-dev"
+    } else {
+        env!("CARGO_PKG_VERSION")
+    };
 
     let git_sha = Command::new("git")
         .args(["rev-parse", "--short=8", "HEAD"])
