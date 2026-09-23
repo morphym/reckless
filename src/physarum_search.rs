@@ -4,7 +4,7 @@
 
 use std::{
     sync::{Arc, atomic::Ordering},
-    time::Instant,
+    time::{Duration, Instant},
 };
 
 use crate::{
@@ -150,9 +150,9 @@ fn backup(nodes: &mut [Node], mut index: usize, root: Color) {
 }
 
 fn expand(
-    nodes: &mut Vec<Node>, index: usize, root: Color, budget: usize, max_depth: usize,
-    qnodes: u64, threads: &mut ThreadPool, shared: &Arc<SharedContext>, evals: &mut usize, qcount: &mut u64,
-    truncated: &mut u64, manager: &TimeManager, force: bool,
+    nodes: &mut Vec<Node>, index: usize, root: Color, budget: usize, max_depth: usize, qnodes: u64,
+    threads: &mut ThreadPool, shared: &Arc<SharedContext>, evals: &mut usize, qcount: &mut u64, truncated: &mut u64,
+    manager: &TimeManager, force: bool,
 ) -> bool {
     let moves = legal_moves(&nodes[index].board);
     if moves.len() > budget.saturating_sub(*evals) {
@@ -281,9 +281,42 @@ fn choose_frontier(nodes: &[Node], currents: &[f64], rng: &mut u64) -> Option<us
     last
 }
 
+fn report(
+    board: &Board, nodes: &[Node], max_depth: usize, started: Instant, evals: usize, qcount: u64, truncated: u64,
+    steps: usize,
+) {
+    let best = *nodes[0]
+        .children
+        .iter()
+        .max_by(|a, b| nodes[**a].value.total_cmp(&nodes[**b].value).then_with(|| b.cmp(a)))
+        .expect("root must be expanded before reporting");
+    let cp = ((nodes[best].value.clamp(-0.999, 0.999).atanh() * 600.0) as i32).clamp(-20_000, 20_000);
+    let elapsed = started.elapsed().as_millis();
+    let seldepth = nodes.iter().map(|n| n.depth).max().unwrap_or(0);
+    let mut completed = vec![0; nodes.len()];
+    for i in (0..nodes.len()).rev() {
+        completed[i] = if nodes[i].terminal {
+            max_depth
+        } else if nodes[i].complete_expansion && !nodes[i].children.is_empty() {
+            1 + nodes[i].children.iter().map(|child| completed[*child]).min().unwrap()
+        } else {
+            0
+        };
+    }
+    let depth = completed[0].min(max_depth);
+    println!(
+        "info depth {depth} seldepth {seldepth} score cp {cp} nodes {qcount} time {elapsed} pv {}",
+        nodes[best].mv.unwrap().to_uci(board)
+    );
+    println!(
+        "info string physarum heuristic-prior frontier-evaluations {evals} qsearch-nodes {qcount} qsearch-truncated {truncated} flow-steps {steps} tree-nodes {}",
+        nodes.len()
+    );
+}
+
 pub fn go(
-    budget: usize, qnodes: u64, seed: u64, threads: &mut ThreadPool,
-    board: &Board, shared: &Arc<SharedContext>, limits: Limits, move_overhead: u64,
+    budget: usize, qnodes: u64, seed: u64, threads: &mut ThreadPool, board: &Board, shared: &Arc<SharedContext>,
+    limits: Limits, move_overhead: u64,
 ) {
     let moves = legal_moves(board);
     if moves.is_empty() {
@@ -292,9 +325,13 @@ pub fn go(
         return;
     }
     let max_depth = match limits {
-        Limits::Depth(depth) => (depth.max(1) as usize).min(MAX_PLY),
-        _ => MAX_PLY,
+        Limits::Depth(depth) => (depth.max(1) as usize).min(MAX_PLY - 1),
+        _ => MAX_PLY - 1,
     };
+    let infinite = matches!(limits, Limits::Infinite);
+    // The budget sets the size of each progress interval. UCI limits, not
+    // this interval, decide when a search finishes.
+    let mut target_budget = budget.max(moves.len());
     let manager = TimeManager::new(limits, board.fullmove_number(), move_overhead);
     shared.status.set(Status::RUNNING);
     let started = Instant::now();
@@ -322,17 +359,11 @@ pub fn go(
     if rng == 0 {
         rng = 0x9e3779b97f4a7c15;
     }
-    if budget < moves.len() {
-        println!("info string PhysarumBudget {budget} below root branching {}; using first legal move", moves.len());
-        println!("bestmove {}", moves[0].to_uci(board));
-        shared.status.set(Status::STOPPED);
-        return;
-    }
     expand(
         &mut nodes,
         0,
         root,
-        budget,
+        target_budget,
         max_depth,
         qnodes,
         threads,
@@ -343,17 +374,30 @@ pub fn go(
         &manager,
         true,
     );
-    while evals < budget && !manager.hard_limit_reached(qcount) && !shared.externally_stopped.load(Ordering::Acquire) {
+    if !nodes[0].children.is_empty() {
+        report(board, &nodes, max_depth, started, evals, qcount, truncated, steps);
+    }
+    while !manager.hard_limit_reached(qcount) && !shared.externally_stopped.load(Ordering::Acquire) {
+        if evals >= target_budget {
+            report(board, &nodes, max_depth, started, evals, qcount, truncated, steps);
+            target_budget = target_budget.saturating_add(budget);
+        }
         let currents = flow(&nodes);
         let Some(index) = choose_frontier(&nodes, &currents, &mut rng) else {
-            break;
+            if !infinite {
+                break;
+            }
+            // A fully explored tree has no further work, but UCI infinite
+            // analysis must wait for stop before announcing a best move.
+            std::thread::sleep(Duration::from_millis(10));
+            continue;
         };
         let old_root = nodes[0].value;
         if !expand(
             &mut nodes,
             index,
             root,
-            budget,
+            target_budget,
             max_depth,
             qnodes,
             threads,
@@ -364,7 +408,10 @@ pub fn go(
             &manager,
             false,
         ) {
-            nodes[index].frontier = false;
+            // A branch can need more slots than remain in this interval.
+            // Preserve it and continue after the next progress report.
+            report(board, &nodes, max_depth, started, evals, qcount, truncated, steps);
+            target_budget = target_budget.saturating_add(budget.max(crate::types::MAX_MOVES));
         } else {
             // Deposit is evidence, not surprise.  The old absolute-delta
             // rule reinforced a branch when its backed-up value got worse as
@@ -383,11 +430,7 @@ pub fn go(
             // complete path.  Decisive losses deliberately receive no such
             // bonus and remain available only through the weak prior.
             let decisive_positive = nodes[index].value >= 0.999;
-            let utility = if decisive_positive {
-                1.0
-            } else {
-                (0.01 + root_gain + branch_gain).min(1.0)
-            };
+            let utility = if decisive_positive { 1.0 } else { (0.01 + root_gain + branch_gain).min(1.0) };
             for node in &mut nodes {
                 node.deposit *= 0.97;
             }
@@ -410,28 +453,9 @@ pub fn go(
         .max_by(|a, b| nodes[**a].value.total_cmp(&nodes[**b].value).then_with(|| b.cmp(a)))
         .unwrap_or(&0);
     let best_move = nodes[best].mv.unwrap_or(moves[0]);
-    let cp = ((nodes[best].value.clamp(-0.999, 0.999).atanh() * 600.0) as i32).clamp(-20_000, 20_000);
-    let elapsed = started.elapsed().as_millis();
-    let seldepth = nodes.iter().map(|n| n.depth).max().unwrap_or(0);
-    let mut completed = vec![0; nodes.len()];
-    for i in (0..nodes.len()).rev() {
-        completed[i] = if nodes[i].terminal {
-            max_depth
-        } else if nodes[i].complete_expansion && !nodes[i].children.is_empty() {
-            1 + nodes[i].children.iter().map(|child| completed[*child]).min().unwrap()
-        } else {
-            0
-        };
+    if evals > 0 {
+        report(board, &nodes, max_depth, started, evals, qcount, truncated, steps);
     }
-    let depth = completed[0].min(max_depth);
-    println!(
-        "info depth {depth} seldepth {seldepth} score cp {cp} nodes {qcount} time {elapsed} pv {}",
-        best_move.to_uci(board)
-    );
-    println!(
-        "info string physarum heuristic-prior frontier-evaluations {evals} qsearch-nodes {qcount} qsearch-truncated {truncated} flow-steps {steps} tree-nodes {}",
-        nodes.len()
-    );
     println!("bestmove {}", best_move.to_uci(board));
     shared.status.set(Status::STOPPED);
 }
