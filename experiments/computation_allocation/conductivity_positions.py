@@ -7,6 +7,16 @@ import chess
 
 
 DEFAULT_REVISION = '0040de16823530c90b5ab31ba187a268ed7f5396'
+DATASET_SPLITS = frozenset({'strong', 'mid', 'low', 'early'})
+
+
+def parse_dataset_splits(value):
+    splits = tuple(item.strip() for item in value.replace(',', '+').split('+'))
+    if not splits or any(item not in DATASET_SPLITS for item in splits):
+        raise ValueError(f'dataset splits must be drawn from {sorted(DATASET_SPLITS)}')
+    if len(set(splits)) != len(splits):
+        raise ValueError('duplicate dataset split')
+    return splits
 
 
 def board_position(board):
@@ -49,15 +59,20 @@ class FenSource:
             self.dataset = None
         else:
             import datasets
-            from datasets import load_dataset
+            from datasets import concatenate_datasets, load_dataset
             # This is a single-process iterator. Datasets 5 shares its epoch
             # scalar via Torch even without workers; restricted macOS runtimes
             # may deny the POSIX shared-memory allocation. An ordinary integer
             # is sufficient here because no DataLoader workers are launched.
             datasets.config.TORCH_AVAILABLE = False
-            dataset = load_dataset('Pawitt/zero-evaluator', 'lc0_selfplay',
-                                   split=args.dataset_split, revision=args.dataset_revision,
-                                   streaming=True, columns=['fen'])
+            # Split expressions such as "strong+mid" are rejected by some
+            # datasets versions for streaming configs. Load named splits one
+            # at a time, then concatenate their compatible FEN-only iterables.
+            streams = [load_dataset('Pawitt/zero-evaluator', 'lc0_selfplay',
+                                    split=split, revision=args.dataset_revision,
+                                    streaming=True, columns=['fen'])
+                       for split in parse_dataset_splits(args.dataset_split)]
+            dataset = streams[0] if len(streams) == 1 else concatenate_datasets(streams)
             self.dataset = dataset.shuffle(seed=args.seed, buffer_size=args.shuffle_buffer)
             self.rows = iter(self.dataset)
         # Deterministic stream replay restores shuffled order without silently

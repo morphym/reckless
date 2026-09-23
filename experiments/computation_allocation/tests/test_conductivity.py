@@ -10,7 +10,7 @@ import chess
 import torch
 from conductivity_policy import ConductivityHead, INPUT_DIM, conserved_flow, features, score_utility
 from train_conductivity import regret_loss, search, terminal_value, save_checkpoint, reference_values, write_tensorboard_update
-from conductivity_positions import board_state, restore_board, FenSource, held_out
+from conductivity_positions import board_state, restore_board, FenSource, held_out, parse_dataset_splits
 from reckless_uci import QuiescenceInfo
 
 
@@ -143,6 +143,15 @@ class ConductivityTests(unittest.TestCase):
 
     def test_holdout_ignores_clocks(self):
         self.assertEqual(held_out(chess.STARTING_FEN), held_out(chess.STARTING_FEN.rsplit(' ', 2)[0] + ' 9 80'))
+
+    def test_named_dataset_splits(self):
+        self.assertEqual(parse_dataset_splits('strong+mid+low+early'),
+                         ('strong', 'mid', 'low', 'early'))
+        self.assertEqual(parse_dataset_splits('strong,mid'), ('strong', 'mid'))
+        with self.assertRaises(ValueError):
+            parse_dataset_splits('strong+unknown')
+        with self.assertRaises(ValueError):
+            parse_dataset_splits('strong+strong')
 
     def test_tensorboard_metrics_and_terminal_game(self):
         class Writer:

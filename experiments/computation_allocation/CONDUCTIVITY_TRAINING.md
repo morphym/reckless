@@ -82,6 +82,9 @@ default; override it only to start a new run. A deterministic FEN hash reserves
 about 5% of roots for `--evaluate-only`. This is a position split, not a game
 identity split. For offline smoke tests, `--positions some.json` accepts a list
 of objects containing `fen` and ignores any other fields.
+The four named splits are loaded separately and concatenated before shuffling;
+the `--dataset-split strong+mid+low+early` setting is parsed by this trainer,
+not passed to Hugging Face as one split name.
 
 Each sampled nonterminal FEN begins a game. The first of the independent search
 rollouts chooses the played move, then both colors use the same policy at the
